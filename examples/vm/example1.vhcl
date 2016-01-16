@@ -1,0 +1,45 @@
+set m alloc.I
+set x alloc.I
+
+alloc.I
+alloc.B
+alloc.C
+alloc.R
+alloc._#45
+alloc._#45#45
+
+
+mov N 01010110101011
+mov x 00000000000000
+mov m N
+
+;; evaluate guards
+
+ser guard1 alloc.B
+mov guard1 00000000000000
+
+cmp m x
+neq:
+	mov guard1 00000000000001
+
+iter:
+	jnt guard1 eval ;; jif
+
+	push x
+	call f
+	neg ret
+	cmp ret 00000000000001
+
+	eq 
+	sel:
+		jp guard1 body11
+		jp guard1 body12
+
+	eval:
+
+free guard1
+
+free m
+free x
+free N
+
