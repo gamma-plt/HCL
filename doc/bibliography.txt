@@ -1,0 +1,12 @@
+Backhouse-Algorithmic problem solving 
+Backhouse-Program construction 
+Cohen-Programming in the 90s 
+Cunningham-Notes on program semantics and derivation 
+Dijkstra- A method pf programming 
+Dijsktra-A discipline of programming 
+Dromey-Program derivation 
+Gries-The science of programming 
+Kaldewaij-Programming, the derivation of algorithms 
+Kourie-The correctness by construction approach to programming 
+Morgan-Programming from specifications 
+
