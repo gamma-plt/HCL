@@ -11,6 +11,11 @@ lll {
 		-mov c 00000000000000
 }
 
+mov N 37 ;; 37 must be written in binary
+mov X[0] 0000001
+...
+mov X[36] 000100
+
 set g1 alloc.B
 
 cmp n N
