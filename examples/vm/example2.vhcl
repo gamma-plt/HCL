@@ -1,0 +1,59 @@
+set i alloc.I
+set j alloc.I
+set N alloc.I
+set present alloc.B
+set A alloc.I#N
+
+;; must detect swaps
+;; lll stands for parallel execution
+
+lll {
+	-mov i 0
+	mov r1 N
+	inc r1
+	-mov j r1
+}
+
+mov r1 j
+dec r1
+cmp i r1
+les:				;; les neq equ big
+	mov guard1 0000000000001
+
+do guard1:
+
+	guard1:
+
+		mov r1 i
+		add r1 j
+		div r1 2
+		mov m r1
+
+		cmp A[m] X
+		les:
+			mov g1
+
+		if g2 g3 g4:
+
+			g2:
+				mov i m
+
+			g3:
+				lll {
+					-mov i m
+					- mov j m
+				}
+
+			g4:
+				mov j m
+
+	mov guard1 0000000000000
+	mov r1 j
+	dec r1
+	cmp i r1
+	less:
+		mov guard1 0000000000001
+
+mov r1 i
+cmp i j
+mov present ;; the result of cmp
