@@ -1,0 +1,132 @@
+set n alloc.I
+set c alloc.I
+set N alloc.I
+set X alloc.I#N
+set s alloc.I
+set t alloc.I
+set r alloc.I
+
+lll {
+		-mov n 00000000000000
+		-mov c 00000000000000
+}
+
+set g1 alloc.B
+
+cmp n N
+neq:
+	mov g1 00000000000001
+cmp c 00000000000010
+neq:
+	and g1 00000000000001 
+
+do g1:
+	g1:
+		set g2 alloc.B
+		set g3 alloc.B
+		cmp X[n] 00000000000000
+		equ:
+			mov g2 00000000000001
+		neq:
+			mov g3 00000000000001  
+
+		if g2 g3:
+			g2:
+				inc c
+			g3:
+				skip
+		inc n
+
+	cmp n N
+	neq:
+		mov g1 00000000000001
+	cmp c 00000000000010
+	neq:
+		and g1 00000000000001 
+
+set g4 alloc.B
+set g5 alloc.B
+
+cmp c 00000000000010
+les:
+	mov g4 00000000000001
+equ:
+	mov g5 00000000000001
+
+if g4 g5:
+	g4:
+		mov r 11111111111111
+	g5:
+		mov s 00000000000000
+
+		set g6 alloc.B
+		cmp X[s] 0
+		neq:
+			g6 00000000000001
+
+		do g6:
+			g6:
+				inc s
+
+			cmp X[s] 0
+			neq:
+				g6 00000000000001
+
+		mov r1 s
+		inc r1
+		mov t r1
+
+		set g7 alloc.B
+		cmp X[t] 0
+		neq:
+			g7 00000000000001
+
+		do g7:
+			g7:
+				inc t
+
+			cmp X[t] 0
+			neq:
+				g7 00000000000001
+
+		mov r1 t
+		inc r1
+		mov n r1
+		mov r1 n
+		sub r1 s
+		mov r r1
+
+		set g8 alloc.B
+		cmp n N
+		neq:
+			mov g8 00000000000001
+
+		do g8:
+			g8:
+				set g9 alloc.B
+				set ga alloc.B
+				cmp X[n] 00000000000000
+				neq:
+					mov g9 00000000000001
+				equ:
+					mov ga 00000000000001
+				
+				if g9 ga:
+					g9:
+						skip
+					ga:
+						lll {
+							-mov s t
+							-mov t n
+						}
+
+				mov r1 n
+				inc r1
+				sub r1 s
+				min r r1
+				mov r ;; the result of min
+				inc n
+
+			cmp n N
+			neq:
+				mov g8 00000000000001
