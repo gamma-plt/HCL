@@ -2,7 +2,7 @@ set i alloc.I
 set j alloc.I
 set N alloc.I
 set present alloc.B
-set A alloc.I#N ;; N must be known
+set A alloc.I#N ;; N must be known at this point
 
 ;; must detect swaps
 ;; lll stands for parallel execution

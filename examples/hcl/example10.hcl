@@ -1,14 +1,15 @@
 begin
-	var n, c, N : int;
+	var n, c, i, N : int;
 	n, c ← 0, 0;
 
 	N ← 37
 
 	var X : array of int;
+	i ← 0;
 
-	X[0] ← 1;
-	...
-	X[36] ← 4;
+	do i ≠ N →
+	 ▯ X[i] ← i + 1; i ← i + 1
+	od
 
 	do n ≠ N ∧ c ≠ 2 → 
 		if X[n] = 0 → c ← c + 1
