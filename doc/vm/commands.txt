@@ -1,0 +1,137 @@
+Sea S = [I, R, B, C], el conjunto que denota los tipos atómicos de hclvm, respectivamente, estos denotan 
+los tipos Integer, Real, Boolean, Char. T es el tipo de todos los tipos compuestos a un nivel. Estos se 
+denotan A#N, donde A es un tipo en S, y N es un número entero. T es el conjunto [I#N, R#N, B#N, C#N]. El 
+conjunto TIPO, es el conjunto de los tipos admitidos por la máquina de manera nativa. Tipo está compuesto 
+por los tipos de datos atómicos, los compuestos a un nivel y a dos niveles.
+
+Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
+
+- La instrucción SET.
+	El propósito de esta instrucción, es el de reservar el espacio necesario para alojar una variable de 
+	un tipo admitido de manera nativa por la máquina virtual. La ejecución de tal instrucción, cambia el 
+	valor de la memoria de reserva dedicada o denotada por ADD. Ahora ADD toma el valor de una dirección 
+	de memoria, o 0000; en el último caso, no se encuentra memoria suficiente para alojar la variable. 
+	Luego de la efectiva ejecución de esta instrucción, se crea en la memoria asociativas de variables (
+	AMV), un registro que contiene el nombre de la variable, el tipo, y la dirección en memoria.
+
+	set varalloc.T ;; T pertence a Tipo (ver encabezado de éste archivo)
+
+	En caso de pasar un tipo inválido, o una variable inexistente, el sistema aborta la interpretación del 
+	programa, indicando la linea del error.
+
+- La instrucción MOV.
+	Ésta instrucción, cambia el valor de una variable alojada en memoria, por el valor o el valor de la 
+	variable dados como segundo operando de la instrucción. El valor a alojar, debe estar dado en binario. 
+	La máquina virtual se encarga de identificar el valor simbólico de cada cadena binaria según el tipo 
+	registrado en la AMV. 
+
+	mov var1 [var2 | valor]
+
+	La máquina virtual no revisa que el tipo de var2 sea igual al de var1, simplemente, en el caso de que 
+	sean distintos, la interpretación cambiará, es decir, se interpretará el valor de var2, 
+	independientemente de su tipo, y se tratará este valor como si perteneciera al tipo de la variable 
+	var1. En caso de que la interpretación bajo el nuevo tipo carezca de sentido, el sistema abortará la 
+	interpretaciñon del programa, indicando la linea del error.
+
+- La instrucción PUSH.
+	La instrucción PUSH, posee como operando únicamente una variable. Esta instrucción, empila sobre la 
+	pila de argumentos (ARGS), una referencia a la variable en la AMV. El propósito de esta instrucción, 
+	es proveer un mecanismo de comunicación entre un programa nativo de la máquina y la librería estándar 
+	de la máquina virtual (ATOMIC). Para una descripción de la librería estándar debe visitar el archi 
+	correspondiente. 
+
+	push var
+
+	Si el tipo de los argumentos no corresponde de manera debida con los de la interfaz 
+	de las funciones en ATOMIC, o la variable no existe, el sistema abortará la interpretación del 
+	programa, indicando la linea del error. La pila se vacia apenas termine la ejecución de la función. Si 
+	no se llama una función de manera adecuada, es decir, se empilan variables sin llamar la función, el 
+	comportamiento es no determinado.
+
+- La instrucción CALL.
+	CALL obedece la responsabilidad de comunicarse de manera directa con ATOMIC. Esta instrucción toma los 
+	valores de la pila y los pasa por parametro a la función llamada. Se desmpilan referencias de la pila 
+	hasta haber desempilado una cantidad igual al número de argumentos de la función llamada. 
+
+	Al llamar la función, aparte de desempilar la cantidad adecuada de referencias, la variable RET 
+	perteneciente al almacenamiento WORLD, ahora posee el valor retornado por la función.
+
+	Si even es una función que cumple el siguiente trato, entonces el proceso seguido es:
+
+	even : int -> bool
+	even(n) = true IFF n mod 2 == 0 ELSE false
+
+	stack = []
+	AMV = {('n', 'int', '0x23234')}
+	RET = 000
+
+	push n
+
+	stack = [ref n]
+	AMV = {('n', 'int', '0x23234')}
+	RET = 000
+
+	call even
+
+	stack = []
+	AMV = {('n', 'int', '0x23234')}
+	RET = 0001
+
+	call function
+
+	Si function no es una función incluida en ATOMIC, el sistema abortará la interpretaciñon del programa, 
+	indicando la linea del error.
+
+- La instrucción AND.
+	La instrucción AND, calcula el and (/\) bit por bit de sus operandos, y lo almacena en la dirección 
+	del primer operando. 
+
+	and var1 [val | var2]
+
+	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el tipo de var1, del and bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de control. No se determina con exactitud las consecuencias de esto.
+
+- La instrucción OR.
+	La instrucción OR, calcula el or (\/) bit por bit de sus operandos, y lo almacena en la dirección 
+	del primer operando. 
+
+	or var1 [val | var2]
+
+	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el tipo de var1, del or bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de control. No se determina con exactitud las consecuencias de esto.
+
+- La instrucción NOT.
+	La instrucción NOT, calcula el not bit por bit de su operandos, y lo almacena en la dirección 
+	del mismo. 
+
+	not var
+
+	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del error. De lo contrario, ahora el valor de var, será el valor de la interpretación bajo el tipo de var, del not bit a bit del valor anterior de var.
+
+- La instrucción INC.
+
+- La instrucción DEC.
+
+- La instrucción ADD.
+
+- La instrucción SUB.
+
+- La instrucción MUL.
+
+- La instrucción DIV.
+
+- La instrucción MOD.
+
+- La instrucción PRINT.
+
+- La instrucción SKIP.
+
+- La instrucción ABORT.
+
+- El bloque CMP.
+
+- El bloque GG.
+
+- El bloque LLL.
+
+- El bloque DO.
+
+- El bloque IF.
