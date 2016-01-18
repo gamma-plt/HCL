@@ -5,6 +5,7 @@ set X alloc.I#N
 set s alloc.I
 set t alloc.I
 set r alloc.I
+set i alloc.I
 
 lll {
 		-mov n 00000000000000
@@ -12,9 +13,22 @@ lll {
 }
 
 mov N 37 ;; 37 must be written in binary
-mov X[0] 0000001
-...
-mov X[36] 000100
+
+set g alloc.B
+cmp i N
+neq:
+	mov g true
+
+do g:
+	g:
+		mov r1 i
+		inc r1
+		mov X[i] r1
+		inc i
+
+	cmp i N
+	neq:
+		mov g true
 
 set g1 alloc.B
 
