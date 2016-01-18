@@ -1,0 +1,1 @@
+COMMENT_SEPARATOR = ';;'
