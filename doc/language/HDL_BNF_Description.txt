@@ -1,0 +1,29 @@
+<char> →  "Unicode Alphabetic" + "_"
+<in> → ∈ | ∉
+<sym> → + | - | / | * | ∪ | ∩
+<boolean_sym> →  ∧ | = | ≠ | ≥ | ≤ | < | > | ∨ | <in>
+<digit> → 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+<num> → <pos_num> | <neg_num> | ∞
+<pos_num> → <digit> | <digit><pos_num>
+<neg_num> → -<pos_num>
+<float> → <pos_num>.<pos_num> | <neg_num>.<pos_num>
+<name> → <char><name> | <char>
+<mat> → <name>[<index>] | <mat>[<index>]
+<index> → <num> | <name> | <mat> | <index>..<index>
+<var> → <index> | ∅
+<boolean_expr> → <boolean_expr> <boolean_sym> <boolean_expr>| (<boolean_expr>) | <var> <boolean_sym> <var> | ¬<name>
+<single_expr> → <single_expr> <sym> <single_expr>| (<single_expr>) | <var> <sym> <var> | <var> 
+<op> → <single_expr> | <boolean_expr> | (<op>)
+<assignment> → <name> ← <op> | <name>,<assignment>,<op>
+<if> → if <guard> fi
+<guard> → □ <boolean_expr> → <instruction> | <guard><guard>
+<do> → do <guard> od
+<for> → for <counting> → <instruction> rof
+<counting> → <name><in><name> | <num>..<num>
+<init> → var <var_list> : <type> 
+<var_list> →  <mat_init> | <name> | <name>,<var_list>
+<mat_init> → <name>[<range>] | <mat_init>[<range>]
+<range> → <var>..<var>
+<type> → <name>
+<instruction> → <instruction>;<instruction> | <init> | <assignment> | <if> | <do> | <for> | abort | skip | ϵ
+<program> → begin <instruction> end;
