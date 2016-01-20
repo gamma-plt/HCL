@@ -179,3 +179,25 @@ class Char(object):
 			power += 1
 
 		return chr(ans) if ans in range(32, 128) else None
+
+class List(object):
+	'''The List class, represents the internal VM representation of 
+	an array (a contiguous structured type). It can be of any type,
+	and the elements must be of the same type. Type checking must be
+	checked by the client. It just needs the size of the list and the
+	type of its elements.
+
+	Attributes:
+		size : The size of the array (measured by the number of atom
+			   	in it)
+
+		itm_type : The type of its elements
+	'''
+
+	def __init__(self, size, itm_type):
+		'''Initializes a List object with size number of elements, originally
+		they are by default 00000 .. 0000, independent of the gicen type'''
+
+		self.size = size
+		self.itm_type = itm_type
+		self.struct = ['0' * MEMORY_SIZE for _ in range(self.size)]
