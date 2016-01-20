@@ -1,3 +1,5 @@
+# RUN AS: python main.py ../../examples/vm/bubble_sort.vhcl
+
 import os
 import sys
 import info
@@ -45,7 +47,7 @@ def remove_comments(parsed_file):
 			element = element.lower()
 
 		ans.append((idx, element.strip(' ').strip('\n')))
-		
+
 	return ans
 
 def get_blocks(fileobject):
