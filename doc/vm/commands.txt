@@ -16,14 +16,14 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 	set varalloc.T ;; T pertence a Tipo (ver encabezado de éste archivo)
 
-	En caso de pasar un tipo inválido, o una variable inexistente, el sistema aborta la interpretación del 
-	programa, indicando la linea del error.
+	En caso de pasar un tipo inválido, o una variable inexistente, el sistema aborta la interpretación 
+	del programa, indicando la linea del error.
 
 - La instrucción MOV.
 	Ésta instrucción, cambia el valor de una variable alojada en memoria, por el valor o el valor de la 
-	variable dados como segundo operando de la instrucción. El valor a alojar, debe estar dado en binario. 
-	La máquina virtual se encarga de identificar el valor simbólico de cada cadena binaria según el tipo 
-	registrado en la AMV. 
+	variable dados como segundo operando de la instrucción. El valor a alojar, debe estar dado en 
+	binario. La máquina virtual se encarga de identificar el valor simbólico de cada cadena binaria según 
+	el tipo registrado en la AMV. 
 
 	mov var1 [var2 | valor]
 
@@ -31,7 +31,7 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 	sean distintos, la interpretación cambiará, es decir, se interpretará el valor de var2, 
 	independientemente de su tipo, y se tratará este valor como si perteneciera al tipo de la variable 
 	var1. En caso de que la interpretación bajo el nuevo tipo carezca de sentido, el sistema abortará la 
-	interpretaciñon del programa, indicando la linea del error.
+	interpretaciñon del programa, indicando la linea del error. Si el segundo operando dado en binario, es mayor en longitud al tamaño de la palabra, el sistema abortará, reportando la linea de error.
 
 - La instrucción PUSH.
 	La instrucción PUSH, posee como operando únicamente una variable. Esta instrucción, empila sobre la 
@@ -40,16 +40,18 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 	de la máquina virtual (ATOMIC). Para una descripción de la librería estándar debe visitar el archi 
 	correspondiente. 
 
-	push var
+	push [var | val]
 
 	Si el tipo de los argumentos no corresponde de manera debida con los de la interfaz 
 	de las funciones en ATOMIC, o la variable no existe, el sistema abortará la interpretación del 
-	programa, indicando la linea del error. La pila se vacia apenas termine la ejecución de la función. Si 
-	no se llama una función de manera adecuada, es decir, se empilan variables sin llamar la función, el 
-	comportamiento es no determinado.
+	programa, indicando la linea del error. La pila se vacia apenas termine la ejecución de la función. 
+	Si 	no se llama una función de manera adecuada, es decir, se empilan variables sin llamar la función, 
+	el comportamiento es no determinado. Si el operando dado en binario, es mayor en longitud al tamaño 
+	de la palabra, el sistema abortará, reportando la linea de error.
 
 - La instrucción CALL.
-	CALL obedece la responsabilidad de comunicarse de manera directa con ATOMIC. Esta instrucción toma los 
+	CALL obedece la responsabilidad de comunicarse de manera directa con ATOMIC. Esta instrucción toma 
+	los 
 	valores de la pila y los pasa por parametro a la función llamada. Se desmpilan referencias de la pila 
 	hasta haber desempilado una cantidad igual al número de argumentos de la función llamada. 
 
@@ -79,8 +81,8 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 	call function
 
-	Si function no es una función incluida en ATOMIC, el sistema abortará la interpretaciñon del programa, 
-	indicando la linea del error.
+	Si function no es una función incluida en ATOMIC, el sistema abortará la interpretaciñon del 
+	programa, indicando la linea del error.
 
 - La instrucción AND.
 	La instrucción AND, calcula el and (/\) bit por bit de sus operandos, y lo almacena en la dirección 
@@ -88,7 +90,13 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 	and var1 [val | var2]
 
-	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el tipo de var1, del and bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de control. No se determina con exactitud las consecuencias de esto.
+	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la 
+	linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el 
+	tipo de var1, del and bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la 
+	inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de 
+	control. No se determina con exactitud las consecuencias de esto. Si el segundo operando dado en 
+	binario, es mayor en longitud al tamaño de la palabra, el sistema abortará, reportando la linea de 
+	error.
 
 - La instrucción OR.
 	La instrucción OR, calcula el or (\/) bit por bit de sus operandos, y lo almacena en la dirección 
@@ -96,7 +104,13 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 	or var1 [val | var2]
 
-	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el tipo de var1, del or bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de control. No se determina con exactitud las consecuencias de esto.
+	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la 
+	linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el 
+	tipo de var1, del or bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la 
+	inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de 
+	control. No se determina con exactitud las consecuencias de esto. Si el segundo operando dado en 
+	binario, es mayor en longitud al tamaño de la palabra, el sistema abortará, reportando la linea de 
+	error.
 
 - La instrucción NOT.
 	La instrucción NOT, calcula el not bit por bit de su operandos, y lo almacena en la dirección 
@@ -104,11 +118,27 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 	not var
 
-	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del error. De lo contrario, ahora el valor de var, será el valor de la interpretación bajo el tipo de var, del not bit a bit del valor anterior de var.
+	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del 
+	error. De lo contrario, ahora el valor de var, será el valor de la interpretación bajo el tipo de 
+	var, del not bit a bit del valor anterior de var.
 
 - La instrucción INC.
+	El propósito de ésta instrucción, es incrementar el valor de la variable operada en una unidad. Puede 
+	aplicarse sobre todos los tipos de datos.
+
+	inc var
+
+	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del 
+	error.
 
 - La instrucción DEC.
+	El propósito de ésta instrucción, es decrementar el valor de la variable operada en una unidad. Puede 
+	aplicarse sobre todos los tipos de datos.
+
+	dec var
+
+	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del 
+	error.
 
 - La instrucción ADD.
 
@@ -129,8 +159,6 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 - El bloque CMP.
 
 - El bloque GG.
-
-- El bloque LLL.
 
 - El bloque DO.
 
