@@ -16,7 +16,7 @@
 <op> → <single_expr> | <boolean_expr> | (<op>)
 <assignment> → <name> ← <op> | <name>,<assignment>,<op>
 <if> → if <guard> fi
-<guard> → □ <boolean_expr> → <instruction> | <guard><guard>
+<guard> → <boolean_expr> → <instruction> | <guard>; ▯ <guard>
 <do> → do <guard> od
 <for> → for <counting> → <instruction> rof
 <counting> → <name><in><name> | <num>..<num>
