@@ -31,6 +31,7 @@ def execute(instruction):
 def execute_instructions(instructions):
 	for instruction in instructions:
 		execute(instruction)
+		print
 
 def remove_comments(parsed_file):
 	ans = []
@@ -41,9 +42,10 @@ def remove_comments(parsed_file):
 		if lang.COMMENT_SEPARATOR in itm:
 			index = itm.index(lang.COMMENT_SEPARATOR)
 			element = itm[:index]
+			element = element.lower()
 
 		ans.append((idx, element.strip(' ').strip('\n')))
-
+		
 	return ans
 
 def get_blocks(fileobject):
@@ -65,12 +67,15 @@ def get_blocks(fileobject):
 	a, b = lower_bounds[i], upper_bounds[i]
 	parsed_blocks.append(filter(lambda x : x[0] in range(a, b + 1), lines))
 
-	for instructions in parsed_blocks:
-		execute_instructions(instructions)
+	return parsed_blocks
 
 def process_file(filename):
 	fileobject = open(filename, 'r')
 	blocks = get_blocks(fileobject)
+	_, halt_ist = blocks[-1][0]
+
+	if halt_ist != lang.HALT_INSTRUCTION:
+		lang.report_syntax_error(_)
 
 def main():
 
