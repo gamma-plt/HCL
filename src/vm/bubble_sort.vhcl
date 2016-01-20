@@ -45,4 +45,5 @@ do guard1 guard2:
 			and guard2 r1
 
 print n
-print m ;; mandatory fields, if not print anything just type print
+print m 
+HALT ;; mandatory instruction at the end of a file
