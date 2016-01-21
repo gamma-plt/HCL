@@ -1,9 +1,19 @@
 import math
-from ..hardware import hardware
+import inspect # inspect.getargspec(someMethod)
+import hardware
 
 # HCLVM type interface
 
 MEMORY_SIZE = hardware.MEMORY_SIZE
+
+TYPE_SIZE = {
+
+	'INTEGER' : 1,
+	'REAL' : 2,
+	'BOOLEAN' : 1,
+	'CHAR' : 1
+
+}
 
 class Integer(object):
 	'''The Integer class, represents the internal representation
@@ -70,9 +80,10 @@ class Real(object):
 
 	Atributes:
 		binrep_int : The binary string of the integer part of the number
-					 to be represented
+		to be represented
+
 		binrep_dec : The binary string of the decimal part of the number
-					 to be represented
+		to be represented
 	'''
 
 	def __init__(self, binrep_int, binrep_dec):
@@ -189,7 +200,7 @@ class List(object):
 
 	Attributes:
 		size : The size of the array (measured by the number of atom
-			   	in it)
+		in it)
 
 		itm_type : The type of its elements
 	'''

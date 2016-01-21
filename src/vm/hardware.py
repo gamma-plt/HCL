@@ -15,10 +15,11 @@ WORD_SIZE = 16
 
 ATOMIC = {
 	'min' : atomic.atomic_min,
-	'max' : atomic.atomic_max	
+	'max' : atomic.atomic_max,
+	'abs' : atomic.atomic_abs	
 }
 
-def atomic_args():
+def atomic_args(name):
 	pass
 
 class Stack(object):
@@ -91,14 +92,14 @@ class HCLVirtualMachine(object):
 		behavior.
 
 		self.regs, defined an association between the registers of the self.world list
-		and their current values. The user of the VM, must not name a variable with the
+		and their current addresses. The user of the VM, must not name a variable with the
 		same name of any of the registers, doing so, leads to undefined behavior.
 		'''
 
 		self.memory = ['0' * (WORD_SIZE + 1) for i in range(MEMORY_SIZE)]
 		self.amv = {}
 		self.args = Stack()
-		self.regs = {_ : '0' * WORD_SIZE for _ in self.world}
+		self.regs = {_ : 'NULL' for _ in self.world}
 
 	def alloc(self, words):
 		pass
