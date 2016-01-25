@@ -101,11 +101,44 @@ class HCLVirtualMachine(object):
 		self.args = Stack()
 		self.regs = {_ : 'NULL' for _ in self.world}
 
+	def get_flagbit(self, word):
+		return word[0]
+
+	def push_argument(self):
+		pass
+
+	def call_function(self, name):
+		if name in ATOMIC:
+			fn_type = atomic.TYPES[ATOMIC[name]]
+			arg_arity = len(fn_type[0][0])
+
+			i = 0
+			arguments = []
+
+			while i < arg_arity:
+				arguments.append(self.args.pop())
+
+			print arg_arity
+
 	def alloc(self, words):
+		free_adresses = []
+		i = 0
+
+		while i < MEMORY_SIZE - 1:
+			current_word = self.memory[i]
+			next_word = self.memory[i + 1]
+
+			c_bit = self.get_flagbit(current_word)
+			n_bit = self.get_flagbit(next_word)
+
+			i = i + 1
+
+	def free(self, variable):
 		pass
 
 def debugging():
 	vm = HCLVirtualMachine()
+	vm.call_function('min')
 	db = debugger.Debugger(vm, MEMORY_SIZE)
 	db.run()
 
