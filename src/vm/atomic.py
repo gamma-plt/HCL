@@ -13,6 +13,20 @@ DEBUGGING = info.DEBUGGING
 '''Allowed atomic types by the VM'''
 ATOMIC_TYPES = ['INTEGER', 'REAL', 'BOOLEAN', 'CHAR']
 
+class FunctionType(object):
+
+	def __init__(self, argument_type, return_type):
+
+		for itm in argument_type:
+			if itm not in ATOMIC_TYPES:
+				raise Exception("NOT AN ATOMIC TYPE: " + str(itm))
+
+		if return_type not in ATOMIC_TYPES:
+			raise Exception("NOT AN ATOMIC TYPE: " + return_type)
+
+		self.argument_type = argument_type
+		self.return_type = return_type
+
 # FUNCTIONS
 
 def atomic_min(arg1, arg2):
