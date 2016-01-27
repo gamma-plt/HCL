@@ -5,45 +5,54 @@ for a function to be added to the standard, it has to receive and return
 just values of the type 'INTEGER', 'REAL', 'BOOLEAN', 'CHAR'. This is
 why it's called atomic. To specify a function, it has to have an 
 implementation in Python and a definition in TYPES, specifying the 
-posiible argument tuple type, and return type'''
+possible argument tuple type, and return type'''
 
 DEBUGGING = info.DEBUGGING
 
-
 '''Allowed atomic types by the VM'''
-ATOMIC_TYPES = ['INTEGER', 'REAL', 'BOOLEAN', 'CHAR']
-
-class FunctionType(object):
-
-	def __init__(self, argument_type, return_type):
-
-		for itm in argument_type:
-			if itm not in ATOMIC_TYPES:
-				raise Exception("NOT AN ATOMIC TYPE: " + str(itm))
-
-		if return_type not in ATOMIC_TYPES:
-			raise Exception("NOT AN ATOMIC TYPE: " + return_type)
-
-		self.argument_type = argument_type
-		self.return_type = return_type
+ATOMIC_TYPES = ['INTEGER', 'CHAR', 'BOOLEAN']
 
 # FUNCTIONS
+'''Functions are defined using a general argument, which is a dictionary
+associating the number of the variable, for example 'arg1', 'arg2' with
+the given value. Inside the functions, one should specify the specific
+behavior of the function'''
 
-def atomic_min(arg1, arg2):
-	return arg2 if agr2 < arg1 else agr1
+# The minimum of two numbers, or two characters
+def atomic_min(args):
+	arg1 = args['arg1']
+	arg2 = args['arg2']
 
-def atomic_max(arg1, arg2):
-	return arg1 if agr2 < arg1 else agr2
+	def innerfn(arg1, arg2):
+		return arg2 if arg2 < arg1 else arg1
 
-def atomic_abs(arg):
-	return 0 - arg if arg < 0 else arg
+	return innerfn(arg1, arg2)
+
+# The maximum of two numbers, or two characters
+def atomic_max(args):
+	arg1 = args['arg1']
+	arg2 = args['arg2']
+
+	def innerfn(arg1, arg2):
+		return arg1 if arg2 < arg1 else arg2
+
+	return innerfn(arg1, arg2)
+
+# Defines the absolute value of an integer
+def atomic_abs(args):
+	arg1 = args['arg1']
+
+	def innerfn(arg1):
+		return 0 - arg if arg < 0 else arg
+
+	return innerfn(arg1)	
 
 # TYPES
 '''The type must be specified as a association to the function, as a tuple
-of this form ((t1, [t2, ]), tn) where tn is the type of the returned value
+of this form ((t1, {t2, }*), tn) where tn is the type of the returned value
 by the function, and t1, t2, .., are the types of the arguments.
 
-For example, the function add3, defined un Python as:
+For example, the function and3, defined un Python as:
 
 def and3(a, b, c):
 	return a and b and c
@@ -56,14 +65,14 @@ possible combinations of types'''
 
 TYPES = {
 
-	atomic_min : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1], ATOMIC_TYPES[3]]],
-	atomic_max : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1], ATOMIC_TYPES[3]]],
-	atomic_abs : [((ATOMIC_TYPES[0], ), (ATOMIC_TYPES[0])), ((ATOMIC_TYPES[1], ), (ATOMIC_TYPES[1]))],
+	atomic_min : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1]]],
+	atomic_max : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1]]],
+	atomic_abs : [((ATOMIC_TYPES[0], ), (ATOMIC_TYPES[0])),],
 
 }
 
 def debugging():
-	print TYPES
+	pass
 
 if DEBUGGING:
 	debugging()
