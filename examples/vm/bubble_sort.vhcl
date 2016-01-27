@@ -1,4 +1,4 @@
-set n alloc.I
+set n INTEGER
 
 mov n 1010100110
 
@@ -43,6 +43,8 @@ do guard1 guard2:
 					mov r1 000000001
 			mov guard2 000000001
 			and guard2 r1
+
+free ...
 
 print n
 print m 
