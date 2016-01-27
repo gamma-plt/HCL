@@ -14,10 +14,11 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 	Luego de la efectiva ejecución de esta instrucción, se crea en la memoria asociativas de variables (
 	AMV), un registro que contiene el nombre de la variable, el tipo, y la dirección en memoria.
 
-	set varalloc.T ;; T pertence a Tipo (ver encabezado de éste archivo)
+	set var T ;; T pertence a Tipo (ver encabezado de éste archivo)
 
 	En caso de pasar un tipo inválido, o una variable inexistente, el sistema aborta la interpretación 
 	del programa, indicando la linea del error.
+
 
 - La instrucción MOV.
 	Ésta instrucción, cambia el valor de una variable alojada en memoria, por el valor o el valor de la 
@@ -152,9 +153,9 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 - La instrucción PRINT.
 
-- La instrucción SKIP.
+- La instrucción HALT.
 
-- La instrucción ABORT.
+- La instrucción FREE.
 
 - El bloque CMP.
 
@@ -163,3 +164,7 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 - El bloque DO.
 
 - El bloque IF.
+
+- La instrucción SKIP.
+
+- La instrucción ABORT.
