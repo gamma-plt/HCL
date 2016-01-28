@@ -2,3 +2,5 @@ Document every file in the vm project
 Add single execution interpretation
 Add block parsing, representation and execution
 Document the VM
+
+Array indexing
