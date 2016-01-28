@@ -86,7 +86,7 @@ class Debugger(object):
 
 		i = len(self.args.items) - 1
 		while i >= 0:
-			itm = self.args.items[i]
+			itm = self.args.items[i][1]
 			table.append([itm.zfill(globalenv.WORD_SIZE + 1)])
 			i -= 1
 
@@ -147,71 +147,75 @@ class Debugger(object):
 
 		self.vm._xor(variable, operator)
 
-	def _inc(sefl, variable):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose of incrementing in one the value of some binary_string,
-		which is the value of the given variable passed as argument'''
-		pass
-
-	def _dec(sefl, variable):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose of decrementing in one the value of some binary_string,
-		which is the value of the given variable passed as argument'''
-		pass
-
 	def _add(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of adding the the value of the variable and the 
 		operator's value'''
-		pass
+		
+		self.vm._add(variable, operator)
 
 	def _sub(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of substract the the value of the variable and the 
 		operator's value'''
-		pass
+		
+		self.vm._sub(variable, operator)
+
+	def _inc(self, variable):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of incrementing in one the value of some binary_string,
+		which is the value of the given variable passed as argument'''
+		
+		self.vm._inc(variable)
+
+	def _dec(self, variable):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of decrementing in one the value of some binary_string,
+		which is the value of the given variable passed as argument'''
+		
+		self.vm._dec(variable)
 
 	def _mul(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of multiply the the value of the variable and the 
 		operator's value'''
-		pass
+		
+		self.vm._mul(variable, operator)
 
 	def _div(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of divide the the value of the variable and the 
 		operator's value'''
-		pass
+		
+		self.vm._div(variable, operator)
 
 	def _mod(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose to get the module of the the value of the variable 
 		and the operator's value'''
-		pass
+		
+		self.vm._mod(variable, operator)
 
 	def _print(self, variable):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of printing the current value of some variable 
 		allocated in the vm's memory'''
-		pass
-
-	def _halt(self):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose to quit the execution of the program by the virtual 
-		machine'''
-		pass
+		
+		self.vm._print(variable)
 
 	def _push(self, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of pushin some value or a variable's value to the
 		vm arguments stack'''
-		pass
+		
+		self.vm._push(operator)
 
 	def _call(self, function):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of calling a function, as defined in atomic library
 		'''
-		pass
+		
+		self.vm._call(function)
 
 	def _free(self, variable):
 		'''Implements the logic for communicating between the debugger and the
@@ -306,7 +310,9 @@ class Debugger(object):
 
 		# Increment in place the logical value of some variable's value
 		elif command == self.COMMANDS[10]:
-			pass
+			variable = arguments[0].lower()
+
+			self._inc(variable)
 
 		# Decrease in place the logical value of some variable's value
 		elif command == self.COMMANDS[11]:
@@ -315,38 +321,57 @@ class Debugger(object):
 		# Add in place a variable's value and a value or another variable's value
 		# given as parameter
 		elif command == self.COMMANDS[12]:
-			pass
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._add(variable, operator)
 
 		# Substract in place a variable's value and a value or another variable's value
 		# given as parameter
 		elif command == self.COMMANDS[13]:
-			pass
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._sub(variable, operator)
 
 		# Divide in place a variable's value and a value or another variable's value
 		# given as parameter
 		elif command == self.COMMANDS[14]:
-			pass
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._div(variable, operator)
 
 		# Get in place the module of a variable's value and a value or another variable's value
 		# given as parameter
 		elif command == self.COMMANDS[15]:
-			pass
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._mod(variable, operator)
 
 		# Print a variable's value 
 		elif command == self.COMMANDS[16]:
-			pass
+			variable = arguments[0].lower()
+
+			self._print(variable)
 
 		# Push a variable to the stack
 		elif command == self.COMMANDS[17]:
-			pass
+			variable = arguments[0].lower()
+
+			self._push(variable)
 
 		# Call a function
 		elif command == self.COMMANDS[18]:
-			pass
+			variable = arguments[0].lower()
+
+			self._call(variable)
 
 		# Free a variable
 		elif command == self.COMMANDS[19]:
 			variable = arguments[0].lower()
+
 			self._free(variable)		
 
 		# Print wrong command
