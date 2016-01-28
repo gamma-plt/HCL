@@ -13,27 +13,6 @@ EMPTY_FLAG_BIT = '0'
 OCCUP_FLAG_BIT = '1'
 TYPES = ['INTEGER', 'BOOLEAN', 'CHAR']
 
-def fetch_atomic_value(type_name, value):
-	'''Returns the Python's value of some vm represented binary_string.
-	It provides a bridge between the (type, value) tuples in the vm and 
-	Python, is designed for operational facilities and compiler help'''
-
-	obj = None
-
-	# Does the type indicates, that value is an Integer?
-	if type_name == TYPES[0]:
-		obj = Integer(value)
-
-	# Does the type indicates, that value is an Boolean?
-	elif type_name == TYPES[1]:
-		obj = Boolean(value)
-
-	# Does the type indicates, that value is an Character?
-	elif type_name == TYPES[2]:
-		obj = Char(value)
-
-	return obj.convert()
-
 '''Defines the current functions in the enviroment, that is, the atomic
 standard library'''
 ATOMIC = {
@@ -50,6 +29,8 @@ TYPE_SIZE = {
 	'CHAR' : 1
 
 }
+
+MANAGER = utilities.TypeUtility(WORD_SIZE)
 
 class Integer(object):
 	'''The Integer class, represents the internal representation
@@ -191,7 +172,7 @@ class Boolean(object):
 			ans += (int(bit) * 2 ** power)
 			power += 1
 
-		return False if ans == 0 else True 
+		return False if ans == 0 else True
 
 class Char(object):
 	'''The Char class, represents the internal representation
@@ -226,6 +207,27 @@ class Char(object):
 			power += 1
 
 		return chr(ans) if ans in range(32, 128) else None
+
+def fetch_atomic_value(type_name, value):
+	'''Returns the Python's value of some vm represented binary_string.
+	It provides a bridge between the (type, value) tuples in the vm and 
+	Python, is designed for operational facilities and compiler help'''
+
+	obj = None
+
+	# Does the type indicates, that value is an Integer?
+	if type_name == TYPES[0]:
+		obj = Integer(value)
+
+	# Does the type indicates, that value is an Boolean?
+	elif type_name == TYPES[1]:
+		obj = Boolean(value)
+
+	# Does the type indicates, that value is an Character?
+	elif type_name == TYPES[2]:
+		obj = Char(value)
+
+	return obj.convert()
 
 class Stack(object):
 	'''Defines a linear data structure known as the stack, it usage
@@ -308,9 +310,9 @@ class HCLVirtualMachine(object):
 		self.regs = {_ : 'NULL' for _ in self.world}
 
 		for register in self.world[1:]:
-			self.set_variable('.' + register + 'bol', 'BOOLEAN')
-			self.set_variable('.' + register + 'int', 'INTEGER')
-			self.set_variable('.' + register + 'chr', 'CHAR')
+			self._set('.' + register + 'bol', 'BOOLEAN')
+			self._set('.' + register + 'int', 'INTEGER')
+			self._set('.' + register + 'chr', 'CHAR')
 
 	def _value_of(self, address):
 		address = int(address, 0)
@@ -485,11 +487,7 @@ class HCLVirtualMachine(object):
 		value = '1' + value.zfill(WORD_SIZE)		
 		self._set_value(mem_address, value)
 
-	def _and(self, variable, operator):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose of get the logical and of the variable's value and the
-		given operato value'''
-		
+	def _get_binary_pair(self, variable, operator):
 		isvalue = utilities.isbinarystring(operator)
 		_, mem_address1 = self.amv[variable]
 		val1 = self._value_of(mem_address1)
@@ -504,6 +502,15 @@ class HCLVirtualMachine(object):
 
 		val1 = val1.zfill(WORD_SIZE)
 		val2 = val2.zfill(WORD_SIZE)
+
+		return val1, val2, mem_address1
+
+	def _and(self, variable, operator):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of get the logical and of the variable's value and the
+		given operato value'''
+		
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
 		val = '1'
 		i = 0
@@ -519,20 +526,7 @@ class HCLVirtualMachine(object):
 		vm, for the purpose of get the logical or of the variable's value and the
 		given operato value'''
 		
-		isvalue = utilities.isbinarystring(operator)
-		_, mem_address1 = self.amv[variable]
-		val1 = self._value_of(mem_address1)
-		val2 = ''
-
-		if isvalue:
-			val2 = operator
-
-		else:			
-			_, mem_address2 = self.amv[operator]
-			val2 = self._value_of(mem_address2)
-
-		val1 = val1.zfill(WORD_SIZE)
-		val2 = val2.zfill(WORD_SIZE)
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
 		val = '1'
 		i = 0
@@ -548,20 +542,7 @@ class HCLVirtualMachine(object):
 		vm, for the purpose of get the logical xor of the variable's value and the
 		given operato value'''
 		
-		isvalue = utilities.isbinarystring(operator)
-		_, mem_address1 = self.amv[variable]
-		val1 = self._value_of(mem_address1)
-		val2 = ''
-
-		if isvalue:
-			val2 = operator
-
-		else:			
-			_, mem_address2 = self.amv[operator]
-			val2 = self._value_of(mem_address2)
-
-		val1 = val1.zfill(WORD_SIZE)
-		val2 = val2.zfill(WORD_SIZE)
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
 		val = '1'
 		i = 0
@@ -572,71 +553,113 @@ class HCLVirtualMachine(object):
 			
 		self._set_value(mem_address1, val)
 
-	def _inc(sefl, variable):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose of incrementing in one the value of some binary_string,
-		which is the value of the given variable passed as argument'''
-		pass
-
-	def _dec(sefl, variable):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose of decrementing in one the value of some binary_string,
-		which is the value of the given variable passed as argument'''
-		pass
-
 	def _add(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of adding the the value of the variable and the 
 		operator's value'''
+		
 		pass
 
 	def _sub(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of substract the the value of the variable and the 
 		operator's value'''
+		
 		pass
+
+	def _inc(self, variable):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of incrementing in one the value of some binary_string,
+		which is the value of the given variable passed as argument'''
+		
+		self._add(variable, ('0' * (WORD_SIZE - 1)) + '1')
+
+	def _dec(self, variable):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of decrementing in one the value of some binary_string,
+		which is the value of the given variable passed as argument'''
+		
+		self._sub(variable, ('0' * (WORD_SIZE - 1)) + '1')
 
 	def _mul(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of multiply the the value of the variable and the 
 		operator's value'''
+		
 		pass
 
 	def _div(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of divide the the value of the variable and the 
 		operator's value'''
+		
 		pass
 
 	def _mod(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose to get the module of the the value of the variable 
 		and the operator's value'''
+		
 		pass
 
 	def _print(self, variable):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of printing the current value of some variable 
 		allocated in the vm's memory'''
-		pass
 
-	def _halt(self):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose to quit the execution of the program by the virtual 
-		machine'''
-		pass
+		type_name, mem_address = self.amv[variable]
+		value = self._value_of(mem_address)
 
-	def _push(self, operator):
+		print fetch_atomic_value(type_name, value)
+
+	def _push(self, argument):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of pushin some value or a variable's value to the
 		vm arguments stack'''
-		pass
+		
+		isvalue = utilities.isbinarystring(argument)
+		isvariable = not isvalue
 
-	def _call(self, function):
+		if isvalue:
+			print 'Trying to push a value'
+			return
+
+		else:
+
+			if argument in self.amv:
+				type_name, address = self.amv[argument] 
+				value = self.memory[int(address, 0)]
+				self.args.push((type_name, address))
+
+			else:
+				return False
+
+		return True
+
+	def _call(self, name):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of calling a function, as defined in atomic library
 		'''
-		pass
+		
+		if name in ATOMIC:
+			fn_type = atomic.TYPES[ATOMIC[name]]
+			arg_arity = len(fn_type[0][0])
+
+			i = 0
+			arguments = []
+
+			while i < arg_arity:
+				arguments.append(self.args.pop())
+				i += 1
+
+			arguments = self._fn_handler(arguments)
+			fn_result = ATOMIC[name]
+			result = fn_result(arguments)
+
+			return result
+
+		else:
+			return False
 
 	def _free(self, variable):
 		'''Sets to unocuppied the memory location of variable, the variable
@@ -660,66 +683,7 @@ class HCLVirtualMachine(object):
 			i += 1
 
 		self.amv.pop(variable)
-
-	def set_variable(self, var_name, var_type):
-		'''Adds a new entry (or modifies one if not properly used) to self.amv
-		associating var_name with its given type and the address found for it,
-		it returns the adress of the new variable if the memory has free memory
-		for it, otherwise, if returns -1
-		'''
-
-		sizeof_var = self._sizeof(var_type)
-		address = self._alloc(sizeof_var)
-
-		if address == -1:
-			self.regs['add'] = hex(0)
-			return -1
-		else:
-			self._allocate(address, sizeof_var)
-			self.amv[var_name] = (var_type, hex(address))
-			self.regs['add'] = hex(address)
-			return address
-
-	def push_argument(self, argument):
-		isvalue = utilities.isbinarystring(argument)
-		isvariable = not isvalue
-
-		if isvalue:
-			print 'Trying to push a value'
-			return
-
-		else:
-
-			if argument in self.amv:
-				type_name, address = self.amv[argument] 
-				value = self.memory[int(address, 0)]
-				self.args.push((type_name, address))
-
-			else:
-				return False
-
-		return True
-
-	def call_function(self, name):
-		if name in ATOMIC:
-			fn_type = atomic.TYPES[ATOMIC[name]]
-			arg_arity = len(fn_type[0][0])
-
-			i = 0
-			arguments = []
-
-			while i < arg_arity:
-				arguments.append(self.args.pop())
-				i += 1
-
-			arguments = self._fn_handler(arguments)
-			fn_result = ATOMIC[name]
-			result = fn_result(arguments)
-
-			return result
-
-		else:
-			return False
+		
 
 def debugging():
 
