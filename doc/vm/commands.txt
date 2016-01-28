@@ -157,6 +157,8 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 - La instrucción FREE.
 
+- La instrucción XOR.
+
 - El bloque CMP.
 
 - El bloque GG.
