@@ -1,19 +1,34 @@
 class TypeUtility(object):
 
-	def __init__(self):
-		pass
+	def __init__(self, word_size):
+		self.word_size = word_size
 
 	def int2vmbin(self, integer):
-		pass
+		sign = '1' if integer < 0 else '0'
+		bitstring = ''
+		integer = abs(integer)
+
+		while integer > 0:
+			bit = integer % 2
+			quotient = integer / 2
+			bitstring = str(bit) + bitstring
+			integer = quotient
+
+		return sign + bitstring.zfill(self.word_size - 1)
 
 	def real2vmbin(self, real):
 		pass
 
 	def boolean2vmbin(self, boolean):
-		pass
+		return self.int2vmbin(1) if boolean else self.int2vmbin(0)
 
 	def char2vmbin(self, char):
-		pass
+		vmascii = ord(char)
+
+		if vmascii in range(32, 128):
+			return self.int2vmbin(vmascii)
+		else:
+			return self.int2vmbin(0)
 
 def isbinarystring(string):
 	for ch in string:
