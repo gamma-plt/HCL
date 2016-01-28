@@ -21,9 +21,9 @@ class Debugger(object):
 	COMMANDS = ['pmem', 'pamv', 'pstk', 'prgs']
 
 	# Commands for vm manipulation
-	COMMANDS += ['set', 'mov', 'not', 'and', 'or', 'inc']
+	COMMANDS += ['set', 'mov', 'not', 'and', 'or', 'xor', 'inc']
 	COMMANDS += ['dec', 'add', 'sub', 'div', 'mod']
-	COMMANDS += ['print', 'push', 'call', 'halt']
+	COMMANDS += ['print', 'push', 'call', 'free', 'halt']
 
 	QUITTER = 'quit'
 
@@ -109,31 +109,43 @@ class Debugger(object):
 	def _set(self, name, name_type):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of variable allocation'''
+
 		self.vm._set(name, name_type)
 
 	def _mov(self, variable, value):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of moving some value of the value of some variable
 		to another variable'''
+
 		self.vm._mov(variable, value)
 
 	def _not(self, variable):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of negate a whole binary string, which is the value
 		of the given variable'''
-		pass
 
-	def _and(self, variable):
+		self.vm._not(variable)
+
+	def _and(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of get the logical and of a whole binary string, 
 		which is the value of the given variable'''
-		pass
 
-	def _or(self, variable):
+		self.vm._and(variable, operator)
+
+	def _or(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of get the logical or of a whole binary string, 
 		which is the value of the given variable'''
-		pass
+
+		self.vm._or(variable, operator)
+
+	def _xor(self, variable, operator):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of get the logical or of a whole binary string, 
+		which is the value of the given variable'''
+
+		self.vm._xor(variable, operator)
 
 	def _inc(sefl, variable):
 		'''Implements the logic for communicating between the debugger and the
@@ -201,10 +213,11 @@ class Debugger(object):
 		'''
 		pass
 
-	def _free(self, function):
+	def _free(self, variable):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of deallocating a variable'''
-		pass
+
+		self.vm._free(variable)
 
 	# User interface
 
@@ -266,55 +279,75 @@ class Debugger(object):
 
 		# Negate in place a whole variable's value
 		elif command == self.COMMANDS[6]:
-			pass
+			variable = arguments[0].lower()
+
+			self._not(variable)
 
 		# Get in place the logical and of some variable's value
 		elif command == self.COMMANDS[7]:
-			pass
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._and(variable, operator)
 
 		# Get in place the logical or of some variable's value
 		elif command == self.COMMANDS[8]:
-			pass
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._or(variable, operator)
+
+		# Get in place the logical xor of some variable's value
+		elif command == self.COMMANDS[9]:
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._xor(variable, operator)
 
 		# Increment in place the logical value of some variable's value
-		elif command == self.COMMANDS[9]:
+		elif command == self.COMMANDS[10]:
 			pass
 
 		# Decrease in place the logical value of some variable's value
-		elif command == self.COMMANDS[10]:
+		elif command == self.COMMANDS[11]:
 			pass
 
 		# Add in place a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[11]:
+		elif command == self.COMMANDS[12]:
 			pass
 
 		# Substract in place a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[12]:
+		elif command == self.COMMANDS[13]:
 			pass
 
 		# Divide in place a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[13]:
+		elif command == self.COMMANDS[14]:
 			pass
 
 		# Get in place the module of a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[14]:
-			pass
-
-		# Print a variable's value 
 		elif command == self.COMMANDS[15]:
 			pass
 
-		# Push a variable to the stack
+		# Print a variable's value 
 		elif command == self.COMMANDS[16]:
 			pass
 
-		# Call a function
+		# Push a variable to the stack
 		elif command == self.COMMANDS[17]:
-			pass		
+			pass
+
+		# Call a function
+		elif command == self.COMMANDS[18]:
+			pass
+
+		# Free a variable
+		elif command == self.COMMANDS[19]:
+			variable = arguments[0].lower()
+			self._free(variable)		
 
 		# Print wrong command
 		else:

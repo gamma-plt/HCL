@@ -320,6 +320,7 @@ class HCLVirtualMachine(object):
 
 	def _set_value(self, address, value):
 		address = int(address, 0)
+		value = value[:WORD_SIZE + 1]
 		self.memory[address] = value
 
 	def _occupation_bit(self, word):
@@ -476,19 +477,100 @@ class HCLVirtualMachine(object):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of negate a whole binary string, which is the value
 		of the given variable'''
-		pass
 
-	def _and(self, variable):
-		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose of get the logical and of a whole binary string, 
-		which is the value of the given variable'''
-		pass
+		_, mem_address = self.amv[variable]
+		value = self._value_of(mem_address)
+		value = ''.join(['0' if bit == '1' else '1' for bit in value])
 
-	def _or(self, variable):
+		value = '1' + value.zfill(WORD_SIZE)		
+		self._set_value(mem_address, value)
+
+	def _and(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
-		vm, for the purpose of get the logical or of a whole binary string, 
-		which is the value of the given variable'''
-		pass
+		vm, for the purpose of get the logical and of the variable's value and the
+		given operato value'''
+		
+		isvalue = utilities.isbinarystring(operator)
+		_, mem_address1 = self.amv[variable]
+		val1 = self._value_of(mem_address1)
+		val2 = ''
+
+		if isvalue:
+			val2 = operator
+
+		else:			
+			_, mem_address2 = self.amv[operator]
+			val2 = self._value_of(mem_address2)
+
+		val1 = val1.zfill(WORD_SIZE)
+		val2 = val2.zfill(WORD_SIZE)
+
+		val = '1'
+		i = 0
+
+		while i < WORD_SIZE:
+			val += '1' if val1[i] == val2[i] == '1' else '0'
+			i += 1
+
+		self._set_value(mem_address1, val)
+
+	def _or(self, variable, operator):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of get the logical or of the variable's value and the
+		given operato value'''
+		
+		isvalue = utilities.isbinarystring(operator)
+		_, mem_address1 = self.amv[variable]
+		val1 = self._value_of(mem_address1)
+		val2 = ''
+
+		if isvalue:
+			val2 = operator
+
+		else:			
+			_, mem_address2 = self.amv[operator]
+			val2 = self._value_of(mem_address2)
+
+		val1 = val1.zfill(WORD_SIZE)
+		val2 = val2.zfill(WORD_SIZE)
+
+		val = '1'
+		i = 0
+
+		while i < WORD_SIZE:
+			val += '1' if (val1[i] == '1' or val2[i] == '1') else '0'
+			i += 1
+			
+		self._set_value(mem_address1, val)
+
+	def _xor(self, variable, operator):
+		'''Implements the logic for communicating between the debugger and the
+		vm, for the purpose of get the logical xor of the variable's value and the
+		given operato value'''
+		
+		isvalue = utilities.isbinarystring(operator)
+		_, mem_address1 = self.amv[variable]
+		val1 = self._value_of(mem_address1)
+		val2 = ''
+
+		if isvalue:
+			val2 = operator
+
+		else:			
+			_, mem_address2 = self.amv[operator]
+			val2 = self._value_of(mem_address2)
+
+		val1 = val1.zfill(WORD_SIZE)
+		val2 = val2.zfill(WORD_SIZE)
+
+		val = '1'
+		i = 0
+
+		while i < WORD_SIZE:
+			val += '1' if (val1[i] != val2[i]) else '0'
+			i += 1
+			
+		self._set_value(mem_address1, val)
 
 	def _inc(sefl, variable):
 		'''Implements the logic for communicating between the debugger and the
@@ -556,7 +638,7 @@ class HCLVirtualMachine(object):
 		'''
 		pass
 
-	def free(self, variable):
+	def _free(self, variable):
 		'''Sets to unocuppied the memory location of variable, the variable
 		must be allocated, must be in amv. If not, the behavior is undefined.
 		Those checks are responsability of the client's code. After its execution,
