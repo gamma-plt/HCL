@@ -6,13 +6,15 @@ import sys
 
 regex = {'if':r'^if$', 'fi':'^fi$' 'begin':r'^begin$', 'end':r'^end$', 
          'do':'do', 'od':'od', 'for':'^for$', 'rof':'^rof$', 'abort':'^abort$', 'skip':'^skip$', 
-         'array':'^array$', 'of':'^of$', 'name':r'^[a-zA-Z_]\w*$',
+         'array':'^array$', 'of':'^of$', 'var':'^var$', 'int':'^int$', 'bool':'^bool$', 'real':'^real$',
+         'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]$', 'name':r'^[a-zA-Z_]\w*$',
          'number':r'-?\d+(.\d+)?', 'eq':r'^[=]$', 'leq':r'^≤$', 'geq':u'^≥$',
          'le':r'^[<]$', 'ge':r'^>$', 'plus':r'^[+]$', 'minus':'^[-]$', 'times':'^[*]$',
          'div':'^[/]$', 'neq':u'^≠$', 'not':u'^¬$' 'and':u'^∧$', 'or':u'^∨$', 'in':u'^∈$', 
          'not_in':u'^∉$', 'union':u'^∪$', 'intersection':u'∩', 'infty':u'^∞$',
          'empty':u'^∅$', 'guard_sep':u'^□$', 'left_rparen':r'^[(]$',
-         'right_rparen':r'^[)]$', 'left_rparen':r'^[[]$', 'right_rparen':r'^[]]$'}
+         'right_rparen':r'^[)]$', 'left_rparen':r'^[[]$', 'right_rparen':r'^[]]$',
+         'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'#.*'}
 
 keywords = ['begin', 'end', 'if', 'fi', 'do', 'od', 'in', 'for', 'rof']
 
