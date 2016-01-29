@@ -4,3 +4,9 @@ Add block parsing, representation and execution
 Document the VM
 
 Array indexing
+
+Compiler
+--------
+1. Finish Lexical Analysis and Parsing components (Frontend)
+2. Implement Semantic Analysis
+3. Intermediate and final Code Generation
