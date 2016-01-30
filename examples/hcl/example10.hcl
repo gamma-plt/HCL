@@ -8,18 +8,18 @@ begin
 	i ← 0;
 
 	do i ≠ N →
-	 ▯ X[i] ← i + 1; i ← i + 1
+	 □ X[i] ← i + 1; i ← i + 1
 	od
 
 	do n ≠ N ∧ c ≠ 2 → 
 		if X[n] = 0 → c ← c + 1
-	     ▯ X[n] ≠ 0 → skip
+	     □ X[n] ≠ 0 → skip
 	    fi;
 	    n ← n + 1
 	od;
 
 	if c < 2 → r ← ∞
-	 ▯ c = 2 → 
+	 □ c = 2 → 
 	 	begin
 	 		var s, t, r : int;
 	 		s ← 0;
@@ -29,8 +29,8 @@ begin
 	 		n ← t + 1;
 			r ← n - s;
 			do n ≠ N →
-				if X[n] ≠ 0 → skip
-				 ▯ X[n] = 0 → s, t ← t, n
+				if X[n] ≠ 0 → skip
+				 □ X[n] = 0 → s, t ← t, n
 				fi;
 				r ← r min (n + 1 - s);
 				n ← n + 1
