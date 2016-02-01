@@ -1,8 +1,8 @@
 x, y ← X, Y;
-do x < y → y ← y - x
+do x < y → y ← y - x #Test comment
  □ y < x → x ← x - y
 od
-
+#More comments
 q, r ← 0, X;
 do r ≥ D →
 	r ← r - D;

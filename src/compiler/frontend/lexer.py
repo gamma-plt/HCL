@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import re
 import os
 import sys
 import codecs
 
 regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]$', 'name':r'^[a-zA-Z_]\w*$',
-         'number':r'-?\d+', 'eq':r'^[=]$', 'leq':u'^≤$', 'geq':u'^≥$',
+         'number':r'^-?\d+$', 'eq':r'^[=]$', 'leq':u'^≤$', 'geq':u'^≥$',
          'le':r'^[<]$', 'ge':r'^>$', 'plus':r'^[+]$', 'minus':'^[-]$', 'times':'^[*]$',
          'div':'^[/]$', 'neq':u'^≠$', 'not':u'^¬$', 'and':u'^∧$', 'or':u'^∨$', 'in':u'^∈$',
          'not_in':u'^∉$', 'union':u'^∪$', 'intersection':u'^∩$', 'infty':u'^∞$',
@@ -74,6 +76,8 @@ def lex(filename):
                         last_id = keywords[word]
                      except KeyError:
                         last_id = name
+                  elif name == 'comment':
+                     break
                   else:
                      last_id = name
                else:
