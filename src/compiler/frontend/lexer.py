@@ -93,8 +93,6 @@ def lex(filename):
             else:
                if last_id is not None:
                   tokens.append(Token(last_id, word))
-                  word = ''
-                  last_id = None
                word = ''
                last_id = None
             i += 1
