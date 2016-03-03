@@ -1,0 +1,103 @@
+set x integer
+set y integer
+
+mov x 0101101111100100
+mov y 0001110111100110
+
+do:
+	set g1 boolean
+	set g2 boolean
+
+	clc:
+		cmp x y
+		slq:
+			mov g1 0000000000000001
+		sqt:
+			mov g2 0000000000000001
+
+	act g1:
+		sub y x
+	act g2:
+		sub x y
+
+set q integer
+set r integer
+set D integer
+
+mov q 0000000000000000
+mov r 0001111110101001
+mov D 0000110111101100
+
+do:
+	set g1 boolean
+
+	clc:
+		cmp r D
+		geq:
+			mov g1 0000000000000001
+
+	act g1:
+		sub r D
+		inc q
+
+set i integer
+set j integer
+set N integer
+set X integer
+set present boolean
+
+mov N 0000000000001010
+mov X 0000000000000101
+
+set A integer#10
+
+mov i 0000000000000000
+mov .r1int N
+inc .r1int
+mov j .r1int
+
+do:
+	set g boolean
+
+	clc:
+		mov .r1int j
+		dec .r1int
+		cmp i .r1int
+		slq:
+			mov g 0000000000000001
+	act g:
+		mov .r1int i
+		add .r1int j
+		div .r1int 0000000000000010
+		set m integer
+		mov m .r1int
+
+		if:
+			set g1 boolean
+			set g2 boolean
+			set g3 boolean
+
+			cmp A[m] X
+			slq:
+				mov g1 0000000000000001
+			equ:
+				mov g2 0000000000000001
+			sqt:
+				mov g3 0000000000000001
+
+			act g1:
+				mov i m
+			act g2:
+				mov i m
+				mov j n
+			act g3:
+				mov j m
+
+mov .r1bol 0000000000000000
+cmp i j
+equ:
+	mov .r1bol 0000000000000001
+
+mov present .r1bol
+print present
+halt

@@ -1,0 +1,131 @@
+set n integer
+set c integer
+set i integer
+set N integer
+
+mov n 00000000
+mov c 00000000
+mov N 00100101
+
+set X int integer#34
+mov i 00000000
+
+do:
+	set g01 boolean
+
+	clc:
+		cmp i N
+		neq:
+			mov g01 00000001
+
+	act g01:
+		inc i
+		mov X[i] i
+
+do:
+	set g01 boolean
+
+	clc:
+		cmp n N
+		neq:
+			cmp c 00000010
+			neq:
+				mov g01 00000001
+
+	act g01:
+		if:
+			set g02 boolean
+			set g03 boolean
+
+			cmp X[n] 0
+			equ:
+				mov g02 00000001
+			neq:
+				mov g03 00000001
+
+			act g02:
+				inc c
+			act g03:
+				skip
+
+		inc n
+
+if:
+	set g04 boolean
+	set g05 boolean
+
+	cmp c 00000010
+	slt:
+		mov g04 00000001
+	equ:
+		mov g05 00000001
+
+	act g04:
+		mov r INFTY_POS
+	act g05:
+		set s integer
+		set t integer
+		set r integer
+		mov s 00000000
+
+		do:
+			set g06 boolean
+
+			clc:
+				cmp X[s] 00000000
+				neq:
+					mov g06 00000001
+			act g06:
+				inc s
+
+		mov .r1int s
+		inc .r1int
+		mov t .t1int
+
+		do:
+			set g07 boolean
+
+			clc:
+				cmp X[t] 00000000
+				neq:
+					mov g07 00000001
+			act g07:
+				inc t
+
+		mov .r1int t
+		inc .r1int
+		mov n .r1int
+
+		do:
+			set g08 boolean
+
+			clc:
+				cmp n N
+				nq:
+					mov g08 00000001
+
+			act g08:
+				if:
+					set g09 boolean
+					set g10 boolean
+
+					cmp X[n] 0
+					neq:
+						mov g09 00000001
+					equ:
+						mov g10 00000001
+
+					act g09:
+						skip
+					act g10:
+						mov s t
+						mov t n
+				mov .r1int n
+				inc .r1int
+				sub .r1int s
+				push r
+				push .r1int
+				call min
+				mov r .retint
+				inc n
+halt
