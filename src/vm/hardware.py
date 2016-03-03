@@ -23,11 +23,9 @@ ATOMIC = {
 
 # The sizes in words, required for the storage of a value of each type
 TYPE_SIZE = {
-
 	'INTEGER' : 1,
 	'BOOLEAN' : 1,
 	'CHAR' : 1
-
 }
 
 MANAGER = utilities.TypeUtility(WORD_SIZE)
@@ -213,7 +211,7 @@ def fetch_atomic_value(type_name, value):
 	It provides a bridge between the (type, value) tuples in the vm and 
 	Python, is designed for operational facilities and compiler help'''
 
-	obj = None
+	obj = 'NULL'
 
 	# Does the type indicates, that value is an Integer?
 	if type_name == TYPES[0]:
@@ -314,24 +312,72 @@ class HCLVirtualMachine(object):
 			self._set('.' + register + 'int', 'INTEGER')
 			self._set('.' + register + 'chr', 'CHAR')
 
+	def _fetch(self, variable):
+		'''Returns the type and arress of the variable given by parameter, if variable points
+		to a not-structured data, it returns the address that stores the value pointed
+		by variable. If it's a 1-dimensional array, it treats variable as var_name[num]
+		and returns the address of var_name[num]. If it's a 2-dimensinonal array, the
+		function treats variable as var_name[i][j], and returns the address of it. Address
+		conversion is independent from this function, it uses self._index() instead. If the
+		given parameter is not a variable but a value, it returns \'NULL\''''
+		
+		atomic_type, address = '', ''
+		isarray, dimension = utilities.isarrayvariable(variable)
+
+		if isarray:
+
+			min_bound = variable.index('[')
+			max_bound = variable.index(']')
+			var_name =  variable[:min_bound]
+			atomic_type, _ = self.amv[var_name]
+			atomic_type = atomic_type[:atomic_type.index('#')]
+
+			if dimension == 1:
+				
+				index = variable[min_bound + 1 : max_bound]
+				address = self._index(var_name, index)				
+
+			elif dimension == 2:
+
+				rows = variable[min_bound + 1 : max_bound]
+				scnd_index = variable[max_bound + 1:]
+				min_bound = scnd_index.index('[')
+				max_bound = scnd_index.index(']')
+				cols = scnd_index[min_bound + 1 : max_bound]
+				address = self._index(var_name, rows, cols)
+
+		else:
+			isvalue = utilities.isbinarystring(variable)
+			if isvalue:
+				atomic_type = 'NULL'
+				address = 'NULL'
+
+			else:
+				atomic_type, address = self.amv[variable]
+
+		return atomic_type, address
+
 	def _value_of(self, address):
+		'''Returns the binary value stored at address, it just removes the occupation
+		bit.'''
+
 		address = int(address, 0)
 		value = self.memory[address]
 		value = value[1:]
+
 		return value
 
 	def _set_value(self, address, value):
+		'''It stores the given value in binary at the given address'''
+
 		address = int(address, 0)
-		value = value[:WORD_SIZE + 1]
-		self.memory[address] = value
+		#value = value[:WORD_SIZE + 1]
+		self.memory[address] = value[:WORD_SIZE + 1]
 
 	def _occupation_bit(self, word):
 		'''Tells the occupation bit of any memory word'''
 
 		return word[0]
-
-	def _index_array(self, indexed_var):
-		pass
 
 	def _negate_occupation_bit(self, word):
 		'''Sets the first bit of a word to the negation of it'''
@@ -396,6 +442,39 @@ class HCLVirtualMachine(object):
 			i += 1
 			chunks += 1
 
+	def _index_array(self, variable_name, index):
+		_type, _address = self.amv[variable_name]
+		_type, length = _type.split('#')
+		_address = int(_address, 0)
+
+		return hex(_address + index)
+
+	def _index_matrix(self, variable_name, i, j):
+		_type, _address = self.amv[variable_name]
+		_type, length1, length2 = _type.split('#')
+
+		base = int(hex(int(_address, 0) + int(length2) * i), 0)
+		base += j
+
+		return hex(base)
+
+	def _index(self, variable_name, i, j=-1):
+		'''Retrieves the address of the value pointed by variable_name at the given index.
+		The array might be pointed by variable_name, and the returned value, is
+		the address of variable_name[index1]. If index2 != -1, then, we treat
+		the array as a matrix, and the returned value is the address of 
+		variable_name[index1][index2]
+		'''
+
+		i = int(i)
+		j = int(j)
+
+		if j == -1:
+			return self._index_array(variable_name, i)
+
+		else:
+			return self._index_matrix(variable_name, i, j)
+
 	def _sizeof(self, name, variable=False):
 		'''Returns the words occupied by a type, or a variable (if variable)'''
 
@@ -427,16 +506,38 @@ class HCLVirtualMachine(object):
 
 		return ans
 
+	def _get_binary_pair(self, variable, operator):
+		isvalue = utilities.isbinarystring(operator)
+		_, mem_address1 = self._fetch(variable)
+		val1 = self._value_of(mem_address1)
+		val2 = ''
+
+		if isvalue:
+			val2 = operator
+
+		else:			
+			_, mem_address2 = self._fetch(operator)
+			val2 = self._value_of(mem_address2)
+
+		val1 = val1.zfill(WORD_SIZE)
+		val2 = val2.zfill(WORD_SIZE)
+
+		return val1, val2, mem_address1
+
 	def _fn_handler(self, args):
 		'''Returns the value of '''
+
 		args_package = {}
 		string = 'arg'
 		i = 1
+
 		for itm_type, itm_address in args:
+
 			binary_value = self._value_of(itm_address)
 			real_value = fetch_atomic_value(itm_type, binary_value)
 			arg_name = string + str(i)
-			args_package[arg_name] = real_value			
+			args_package[arg_name] = real_value
+					
 			i += 1
 
 		return args_package
@@ -456,20 +557,20 @@ class HCLVirtualMachine(object):
 			return -1
 		else:
 			self._allocate(address, sizeof_var)
-			self.amv[var_name] = (var_type, hex(address))
+			self.amv[var_name] = (var_type.upper(), hex(address))
 			self.regs['add'] = hex(address)
 			return address
 
 	def _mov(self, variable, operator):
 		isvalue = utilities.isbinarystring(operator)
-		_, mem_address1 = self.amv[variable]
+		_, mem_address1 = self._fetch(variable)
 		value = None
 
 		if isvalue:
-			value = operator
+			value = operator		
 
 		else:			
-			_, mem_address2 = self.amv[operator]
+			_, mem_address2 = self._fetch(operator)
 			value = self._value_of(mem_address2)
 
 		value = '1' + value.zfill(WORD_SIZE)		
@@ -480,35 +581,17 @@ class HCLVirtualMachine(object):
 		vm, for the purpose of negate a whole binary string, which is the value
 		of the given variable'''
 
-		_, mem_address = self.amv[variable]
+		_, mem_address = self._fetch(variable)
 		value = self._value_of(mem_address)
 		value = ''.join(['0' if bit == '1' else '1' for bit in value])
 
 		value = '1' + value.zfill(WORD_SIZE)		
 		self._set_value(mem_address, value)
 
-	def _get_binary_pair(self, variable, operator):
-		isvalue = utilities.isbinarystring(operator)
-		_, mem_address1 = self.amv[variable]
-		val1 = self._value_of(mem_address1)
-		val2 = ''
-
-		if isvalue:
-			val2 = operator
-
-		else:			
-			_, mem_address2 = self.amv[operator]
-			val2 = self._value_of(mem_address2)
-
-		val1 = val1.zfill(WORD_SIZE)
-		val2 = val2.zfill(WORD_SIZE)
-
-		return val1, val2, mem_address1
-
 	def _and(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of get the logical and of the variable's value and the
-		given operato value'''
+		given operator's value'''
 		
 		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
@@ -519,12 +602,13 @@ class HCLVirtualMachine(object):
 			val += '1' if val1[i] == val2[i] == '1' else '0'
 			i += 1
 
+		val = '1' + val.zfill(WORD_SIZE)
 		self._set_value(mem_address1, val)
 
 	def _or(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of get the logical or of the variable's value and the
-		given operato value'''
+		given operator's value'''
 		
 		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
@@ -535,12 +619,13 @@ class HCLVirtualMachine(object):
 			val += '1' if (val1[i] == '1' or val2[i] == '1') else '0'
 			i += 1
 			
+		val = '1' + val.zfill(WORD_SIZE)
 		self._set_value(mem_address1, val)
 
 	def _xor(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of get the logical xor of the variable's value and the
-		given operato value'''
+		given operator's value'''
 		
 		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
@@ -551,6 +636,7 @@ class HCLVirtualMachine(object):
 			val += '1' if (val1[i] != val2[i]) else '0'
 			i += 1
 			
+		val = '1' + val.zfill(WORD_SIZE)
 		self._set_value(mem_address1, val)
 
 	def _add(self, variable, operator):
@@ -558,14 +644,30 @@ class HCLVirtualMachine(object):
 		vm, for the purpose of adding the the value of the variable and the 
 		operator's value'''
 		
-		pass
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
+
+		val1 = Integer(val1).convert()
+		val2 = Integer(val2).convert()
+
+		val = MANAGER.int2vmbin(val1 + val2)
+			
+		val = '1' + val.zfill(WORD_SIZE)
+		self._set_value(mem_address1, val)
 
 	def _sub(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of substract the the value of the variable and the 
 		operator's value'''
 		
-		pass
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
+
+		val1 = Integer(val1).convert()
+		val2 = Integer(val2).convert()
+
+		val = MANAGER.int2vmbin(val1 - val2)
+			
+		val = '1' + val.zfill(WORD_SIZE)
+		self._set_value(mem_address1, val)
 
 	def _inc(self, variable):
 		'''Implements the logic for communicating between the debugger and the
@@ -586,28 +688,52 @@ class HCLVirtualMachine(object):
 		vm, for the purpose of multiply the the value of the variable and the 
 		operator's value'''
 		
-		pass
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
+
+		val1 = Integer(val1).convert()
+		val2 = Integer(val2).convert()
+
+		val = MANAGER.int2vmbin(val1 * val2)
+			
+		val = '1' + val.zfill(WORD_SIZE)
+		self._set_value(mem_address1, val)
 
 	def _div(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of divide the the value of the variable and the 
 		operator's value'''
 		
-		pass
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
+
+		val1 = Integer(val1).convert()
+		val2 = Integer(val2).convert()
+
+		val = MANAGER.int2vmbin(val1 / val2)
+			
+		val = '1' + val.zfill(WORD_SIZE)
+		self._set_value(mem_address1, val)
 
 	def _mod(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose to get the module of the the value of the variable 
 		and the operator's value'''
 		
-		pass
+		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
+
+		val1 = Integer(val1).convert()
+		val2 = Integer(val2).convert()
+
+		val = MANAGER.int2vmbin(val1 % val2)
+			
+		val = '1' + val.zfill(WORD_SIZE)
+		self._set_value(mem_address1, val)
 
 	def _print(self, variable):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of printing the current value of some variable 
 		allocated in the vm's memory'''
 
-		type_name, mem_address = self.amv[variable]
+		type_name, mem_address = self._fetch(variable)
 		value = self._value_of(mem_address)
 
 		print fetch_atomic_value(type_name, value)
@@ -618,7 +744,6 @@ class HCLVirtualMachine(object):
 		vm arguments stack'''
 		
 		isvalue = utilities.isbinarystring(argument)
-		isvariable = not isvalue
 
 		if isvalue:
 			print 'Trying to push a value'
@@ -626,13 +751,9 @@ class HCLVirtualMachine(object):
 
 		else:
 
-			if argument in self.amv:
-				type_name, address = self.amv[argument] 
-				value = self.memory[int(address, 0)]
-				self.args.push((type_name, address))
-
-			else:
-				return False
+			type_name, address = self._fetch(argument)
+			value = self.memory[int(address, 0)]
+			self.args.push((type_name, address))
 
 		return True
 
@@ -644,6 +765,7 @@ class HCLVirtualMachine(object):
 		if name in ATOMIC:
 			fn_type = atomic.TYPES[ATOMIC[name]]
 			arg_arity = len(fn_type[0][0])
+			fn_type = dict(fn_type)
 
 			i = 0
 			arguments = []
@@ -652,11 +774,35 @@ class HCLVirtualMachine(object):
 				arguments.append(self.args.pop())
 				i += 1
 
-			arguments = self._fn_handler(arguments)
-			fn_result = ATOMIC[name]
-			result = fn_result(arguments)
+			arguments_types = tuple([tp for tp, _ in arguments])
 
-			return result
+			if arguments_types in fn_type:
+				return_type = fn_type[arguments_types]
+				arguments = self._fn_handler(arguments)
+
+				ret_rgs = {
+							TYPES[0] : ('.retint', MANAGER.int2vmbin), 
+							TYPES[1] : ('.retbol', MANAGER.boolean2vmbin), 
+							TYPES[2] : ('.retchr', MANAGER.char2vmbin)
+						}
+				
+				fn_result = ATOMIC[name]
+				result = fn_result(arguments)
+
+				if result:
+					proper_register, conv_function = ret_rgs[return_type]
+					_, mem_address = self._fetch(proper_register)
+					result = conv_function(result)	
+					self._set_value(mem_address, '1' + result)
+
+				else:
+					# Wrong types
+					pass
+
+				return result
+
+			else:
+				return False
 
 		else:
 			return False
@@ -688,8 +834,9 @@ class HCLVirtualMachine(object):
 def debugging():
 
 	vm = HCLVirtualMachine()
+
 	db = debugger.Debugger(vm, MEMORY_SIZE)
-	db.run()
+	db.run()	
 
 if DEBUGGING:
 	debugging()
