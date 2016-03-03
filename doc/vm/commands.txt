@@ -170,3 +170,21 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 - La instrucción SKIP.
 
 - La instrucción ABORT.
+
+
+mov I I 		DONE
+not I 			DONE 
+and I I 		DONE 
+or I I 			DONE
+xor I I 		DONE
+=============
+add I I
+sub I I
+inc I
+dec I
+mul I I
+mod I I
+div I I
+=============
+print I 		DONE
+push I
