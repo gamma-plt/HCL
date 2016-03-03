@@ -1,9 +1,34 @@
+VM
+--------
 Document every file in the vm project
 Add single execution interpretation
 Add block parsing, representation and execution
 Document the VM
+Array indexing by variables (X[i])
+Define vm constants INFTY_POS, INFTY_NEG
 
-Array indexing
+ATOMIC
+--------
+
+isalnum
+isalpha
+isdigit
+islower
+isupper
+ispunct
+isspace
+isxdigit
+toupper
+tolower
+abs
+max
+min
+pow
+rand(a, b)
+even
+odd
+ord
+chr
 
 Compiler
 --------
