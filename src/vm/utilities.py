@@ -4,20 +4,13 @@ class TypeUtility(object):
 		self.word_size = word_size
 
 	def int2vmbin(self, integer):
-		sign = '1' if integer < 0 else '0'
-		bitstring = ''
-		integer = abs(integer)
 
-		while integer > 0:
-			bit = integer % 2
-			quotient = integer / 2
-			bitstring = str(bit) + bitstring
-			integer = quotient
+		if integer < 0:
+			integer = (1 << self.word_size) + integer
 
-		return sign + bitstring.zfill(self.word_size - 1)
+		formatstring = '{:0%ib}' % self.word_size
 
-	def real2vmbin(self, real):
-		pass
+		return formatstring.format(integer)
 
 	def boolean2vmbin(self, boolean):
 		return self.int2vmbin(1) if boolean else self.int2vmbin(0)
@@ -35,6 +28,14 @@ def isbinarystring(string):
 		if ch not in ['0', '1']:
 			return False
 	return True
+
+def isarrayvariable(variable):
+	indexes = [variable.count('['), variable.count(']')]
+	if indexes[0] == 1 and indexes[1] == 1:
+		return True, 1
+	elif indexes[0] == 2 and indexes[1] == 2:
+		return True, 2
+	return False, -1
 
 def compound_sizeof(type_name):
 	value = 0
