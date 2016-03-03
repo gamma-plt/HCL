@@ -23,7 +23,7 @@ class Debugger(object):
 	# Commands for vm manipulation
 	COMMANDS += ['set', 'mov', 'not', 'and', 'or', 'xor', 'inc']
 	COMMANDS += ['dec', 'add', 'sub', 'div', 'mod']
-	COMMANDS += ['print', 'push', 'call', 'free', 'halt']
+	COMMANDS += ['print', 'push', 'call', 'free', 'mul', 'halt']
 
 	QUITTER = 'quit'
 
@@ -316,7 +316,9 @@ class Debugger(object):
 
 		# Decrease in place the logical value of some variable's value
 		elif command == self.COMMANDS[11]:
-			pass
+			variable = arguments[0].lower()
+
+			self._dec(variable)
 
 		# Add in place a variable's value and a value or another variable's value
 		# given as parameter
@@ -372,7 +374,15 @@ class Debugger(object):
 		elif command == self.COMMANDS[19]:
 			variable = arguments[0].lower()
 
-			self._free(variable)		
+			self._free(variable)
+
+		# Multiply in place a variable's value and a value or another variable's value
+		# given as parameter
+		elif command == self.COMMANDS[20]:
+			variable = arguments[0].lower()
+			operator = arguments[1].lower()
+
+			self._mul(variable, operator)		
 
 		# Print wrong command
 		else:
@@ -391,7 +401,7 @@ class Debugger(object):
 
 			if len(parse) == 1:
 
-				if command == self.COMMANDS[18]:
+				if command == self.COMMANDS[-1]:
 					while True:
 						pass
 
