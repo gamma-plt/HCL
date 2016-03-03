@@ -161,11 +161,21 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 - El bloque CMP.
 
-- El bloque GG.
+equ
+slt
+sgt
+leq
+geq
+neq
 
 - El bloque DO.
 
+act
+clc
+
 - El bloque IF.
+
+act
 
 - La instrucción SKIP.
 
