@@ -1,46 +1,31 @@
-set n alloc.I
-
+set n integer
 mov n 1010100110
 
-set guard1 alloc.B
-set guard2 alloc.B
+do:
+	set guard1 boolean
+	set guard2 boolean
 
-push n
-call even
+	clc:
 
-cmp RESULT true ;; stdlib function
-equ:
-	mov guard1 000000001
-neq:
-	cmp n 000000001
-	big:
-		mov r1 000000001
-	mov guard2 000000001
-	and guard2 r1
+		push n
+		call even
 
-do guard1 guard2:
+		cmp .retbol 1
+		equ:
+			mov guard1 1
+			mov guard2 0
+		neq:
+			mov guard2 0
+			cmp n 1
+			sgt:
+				mov guard2 1
+			mov guard1 0
 
-	guard1:
-		mov r1 n
-		div r1 2
-		mov n r1
-	guard2:
-		mov r1 3
-		mul r1 n
-		inc r1
-		mov n r1
-
-	push n
-	call even
-
-	cmp RESULT true ;; stdlib function
-	equ:
-		mov guard1 000000001
-	neq:
-		cmp n 000000001
-		big:
-			mov r1 000000001
-		mov guard2 000000001
-		and guard2 r1
+	act guard1:
+		div n 2
+	act guard2:
+		mul n 11
+		inc n
 
 print n
+halt
