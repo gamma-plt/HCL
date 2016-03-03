@@ -1,3 +1,4 @@
+# http://www.exploringbinary.com/twos-complement-converter/
 class TypeUtility(object):
 
 	def __init__(self, word_size):
