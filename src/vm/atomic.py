@@ -43,7 +43,7 @@ def atomic_abs(args):
 	arg1 = args['arg1']
 
 	def innerfn(arg1):
-		return 0 - arg if arg < 0 else arg
+		return 0 - arg1 if arg1 < 0 else arg1
 
 	return innerfn(arg1)	
 
