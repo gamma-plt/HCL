@@ -1,35 +1,38 @@
-set m alloc.I
-set x alloc.I
-set N alloc.I
+set m integer
+set x integer
 
-lll {
-	-mov x 0000
-	-mov m N
-}
+mov x 0000000000000000
+mov m 1000011011101111
 
-set guard1 alloc.B
+do:
+	set guard1 boolean
 
-cmp m x
-neq:
-	mov guard1 true
+	clc:	
 
-do guard1:
-	
-	push x
-	call f
-	cmp RESULT 0000:
-	equ:
-		mov  guard2 true
-	neq:
-		mov guard3 true
+		cmp m x
+		neq:
+			mov guard1 0000000000000001
 
-	if guard2 guard2:
-		guard2:
-			inc x
-		guard3:
-			mov m x
+	act guard1:
+		if:
+			set guard2 boolean
+			set guard3 boolean
 
-	cmp m x
-	neq:
-		mov guard1 true
-	
+			push x
+			call f
+
+			mov guard2 0000000000000000
+			mov guard3 0000000000000000
+
+			cmp .retbol 0000000000000000
+			equ:
+				mov guard2 0000000000000001
+			neq:
+				mov guard3 0000000000000001
+
+			act guard2:
+				inc x
+			act guard3:
+				mov m x
+
+halt
