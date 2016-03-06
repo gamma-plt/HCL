@@ -1,0 +1,27 @@
+set b integer
+set t integer
+set a integer
+
+mov a 0010010000010100
+mov b 0000000011101000
+mov t 0000000000000000
+
+do:
+	gss guard
+
+	clc:
+		cmp b 0000000000000000
+		mov guard 0000000000000000
+		neq:
+			mov guard 0000000000000001
+
+	act guard:
+		mov t b
+		mov .r1int a
+		mod .r1int b
+		mov b .r1int
+		mov a t
+
+print a
+
+halt
