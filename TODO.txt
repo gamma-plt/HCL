@@ -1,11 +1,7 @@
 VM
 --------
-Document every file in the vm project
-Add single execution interpretation
-Add block parsing, representation and execution
+Document every file in the vm folder
 Document the VM
-Array indexing by variables (X[i])
-Define vm constants INFTY_POS, INFTY_NEG
 
 ATOMIC
 --------
@@ -29,6 +25,8 @@ even
 odd
 ord
 chr
+succ
+pred
 
 Compiler
 --------
