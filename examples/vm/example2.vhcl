@@ -2,21 +2,19 @@ set m integer
 set x integer
 
 mov x 0000000000000000
-mov m 1000011011101111
+mov m 0000000000000001
 
 do:
-	set guard1 boolean
+	gss guard1
 
-	clc:	
-
+	clc:
 		cmp m x
 		neq:
 			mov guard1 0000000000000001
 
 	act guard1:
 		if:
-			set guard2 boolean
-			set guard3 boolean
+			gss guard2 guard3
 
 			push x
 			call f
@@ -24,7 +22,7 @@ do:
 			mov guard2 0000000000000000
 			mov guard3 0000000000000000
 
-			cmp .retbol 0000000000000000
+			cmp ..retbol 0000000000000000
 			equ:
 				mov guard2 0000000000000001
 			neq:
