@@ -1,3 +1,4 @@
+program example1
 begin
 	var n : int;
 	n ← 678;
