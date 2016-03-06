@@ -5,14 +5,13 @@ mov x 0101101111100100
 mov y 0001110111100110
 
 do:
-	set g1 boolean
-	set g2 boolean
+	gss g1 g2
 
 	clc:
 		cmp x y
-		slq:
+		slt:
 			mov g1 0000000000000001
-		sqt:
+		sgt:
 			mov g2 0000000000000001
 
 	act g1:
@@ -29,7 +28,7 @@ mov r 0001111110101001
 mov D 0000110111101100
 
 do:
-	set g1 boolean
+	gss g1
 
 	clc:
 		cmp r D
@@ -57,13 +56,13 @@ inc .r1int
 mov j .r1int
 
 do:
-	set g boolean
+	gss g
 
 	clc:
 		mov .r1int j
 		dec .r1int
 		cmp i .r1int
-		slq:
+		slt:
 			mov g 0000000000000001
 	act g:
 		mov .r1int i
@@ -73,16 +72,14 @@ do:
 		mov m .r1int
 
 		if:
-			set g1 boolean
-			set g2 boolean
-			set g3 boolean
+			gss g1 g2 g3
 
 			cmp A[m] X
-			slq:
+			slt:
 				mov g1 0000000000000001
 			equ:
 				mov g2 0000000000000001
-			sqt:
+			sgt:
 				mov g3 0000000000000001
 
 			act g1:
