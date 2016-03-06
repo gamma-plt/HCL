@@ -1,5 +1,7 @@
+import sys
 import info
 import types
+import random
 import atomic
 import debugger
 import globalenv
@@ -204,7 +206,7 @@ class Char(object):
 			ans += (int(bit) * 2 ** power)
 			power += 1
 
-		return chr(ans) if ans in range(32, 128) else None
+		return chr(ans) if ans in range(0, 128) else None
 
 def fetch_atomic_value(type_name, value):
 	'''Returns the Python's value of some vm represented binary_string.
@@ -274,7 +276,7 @@ class HCLVirtualMachine(object):
 
 	'''The world is the set of elements that are present at initialization
 	as registers'''
-	world = ['add', 'ret', 'r1', 'r2', 'r3', 'r4', 'r5']
+	WORLD = ['add', 'ret', 'r1', 'r2', 'r3', 'r4', 'r5']
 
 	def __init__(self):
 		'''Initializes an instance of the class.
@@ -305,12 +307,43 @@ class HCLVirtualMachine(object):
 		self.memory = ['0' * (WORD_SIZE + 1) for i in range(MEMORY_SIZE)]
 		self.amv = {}
 		self.args = Stack()
-		self.regs = {_ : 'NULL' for _ in self.world}
+		self.regs = {_ : 'NULL' for _ in self.WORLD}
 
-		for register in self.world[1:]:
+		self._binary_instructions = {
+										'mov' : self._mov, 'and' : self._and, 
+										'or' : self._or, 'xor' : self._xor, 
+										'add' : self._add, 'sub' : self._sub, 
+										'mul' : self._mul, 'div' : self._div, 
+										'mod' : self._mod, 'cmp' : self._cmp
+									}
+		
+
+		self._unary_instructions = {
+										'not' : self._not, 'dec' : self._dec, 
+										'inc' : self._inc, 'push' : self._push, 
+										'call' : self._call, 'free' : self._free, 
+										'print' : self._print, 'readint' : self._readint,
+										'readchr' : self._readchr
+									}
+		
+		self.flags = {
+						'equ' : False, 'slt' : False, 'sgt' : False, 
+						'leq' : False, 'geq' : False, 'neq' : False
+					}
+
+		for register in self.WORLD[2:]:
 			self._set('.' + register + 'bol', 'BOOLEAN')
 			self._set('.' + register + 'int', 'INTEGER')
 			self._set('.' + register + 'chr', 'CHAR')
+
+		self._set('..retint', 'INTEGER')
+		self._set('..retchr', 'INTEGER')
+		self._set('..retbol', 'INTEGER')
+
+		self._set('..infty_pos', 'INTEGER')
+		self._mov('..infty_pos', '0' + ('1' * (WORD_SIZE - 1)))
+		self._set('..infty_neg', 'INTEGER')
+		self._mov('..infty_neg', '1' + ('0' * (WORD_SIZE - 1)))
 
 	def _fetch(self, variable):
 		'''Returns the type and arress of the variable given by parameter, if variable points
@@ -466,14 +499,25 @@ class HCLVirtualMachine(object):
 		variable_name[index1][index2]
 		'''
 
-		i = int(i)
-		j = int(j)
+		i = str(i)
+
+		if not(i.isdigit()):
+			_, add = self._fetch(i)
+			value = self._value_of(add)
+			i = Integer(value).convert()
 
 		if j == -1:
-			return self._index_array(variable_name, i)
+			return self._index_array(variable_name, int(i))
 
 		else:
-			return self._index_matrix(variable_name, i, j)
+			j = str(j)
+
+			if not(j.isdigit()):
+				_, add = self._fetch(j)
+				value = self._value_of(add)
+				j = Integer(value).convert()
+
+			return self._index_matrix(variable_name, int(i), int(j))
 
 	def _sizeof(self, name, variable=False):
 		'''Returns the words occupied by a type, or a variable (if variable)'''
@@ -548,6 +592,8 @@ class HCLVirtualMachine(object):
 		it returns the adress of the new variable if the memory has free memory
 		for it, otherwise, if returns -1
 		'''
+
+		var_type = var_type.upper()
 
 		sizeof_var = self._sizeof(var_type)
 		address = self._alloc(sizeof_var)
@@ -728,15 +774,77 @@ class HCLVirtualMachine(object):
 		val = '1' + val.zfill(WORD_SIZE)
 		self._set_value(mem_address1, val)
 
+	def _get_integer_values(self, operator1, operator2):
+		val1 = ''
+		type1 = ''
+		isvalue = utilities.isbinarystring(operator1)
+		if isvalue:
+			val1 = operator1
+		else:
+			type1, mem_address = self._fetch(operator1)
+			val1 = self._value_of(mem_address)
+
+		val2 = ''
+		type2 = ''
+		isvalue = utilities.isbinarystring(operator2)
+		if isvalue:
+			val2 = operator2
+		else:
+			type2, mem_address = self._fetch(operator2)
+			val2 = self._value_of(mem_address)
+
+		val1 = val1.zfill(WORD_SIZE)
+		val2 = val2.zfill(WORD_SIZE)
+
+		val1 = Integer(val1).convert()
+		val2 = Integer(val2).convert()
+
+		return val1, val2
+
+	def _cmp(self, operator1, operator2):
+
+		val1, val2 = self._get_integer_values(operator1, operator2)
+
+		self.flags['equ'] = val1 == val2
+		self.flags['neq'] = val1 != val2
+		self.flags['slt'] = val1 < val2
+		self.flags['sgt'] = val1 > val2
+		self.flags['leq'] = val1 <= val2
+		self.flags['geq'] = val1 >= val2
+
+	def _readint(self, variable):
+		value = input()
+		value = MANAGER.int2vmbin(value)
+		
+		self._mov(variable, value)
+
+	def _readchr(self, variable):
+		value = sys.stdin.read(1)
+		value = MANAGER.char2vmbin(value[0])
+		
+		self._mov(variable, value)
+
 	def _print(self, variable):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of printing the current value of some variable 
 		allocated in the vm's memory'''
+ 
+		isvalue = utilities.isbinarystring(variable)
 
-		type_name, mem_address = self._fetch(variable)
-		value = self._value_of(mem_address)
+		if isvalue:
+			msg = Integer(variable).convert()
 
-		print fetch_atomic_value(type_name, value)
+		elif variable[0] == variable[-1] == '"':
+			msg = variable[1:-1]
+
+		else:
+
+			type_name, mem_address = self._fetch(variable)
+			value = self._value_of(mem_address)
+
+			msg = fetch_atomic_value(type_name, value)
+
+		sys.stdout.write(str(msg))
 
 	def _push(self, argument):
 		'''Implements the logic for communicating between the debugger and the
@@ -781,9 +889,9 @@ class HCLVirtualMachine(object):
 				arguments = self._fn_handler(arguments)
 
 				ret_rgs = {
-							TYPES[0] : ('.retint', MANAGER.int2vmbin), 
-							TYPES[1] : ('.retbol', MANAGER.boolean2vmbin), 
-							TYPES[2] : ('.retchr', MANAGER.char2vmbin)
+							TYPES[0] : ('..retint', MANAGER.int2vmbin), 
+							TYPES[1] : ('..retbol', MANAGER.boolean2vmbin), 
+							TYPES[2] : ('..retchr', MANAGER.char2vmbin)
 						}
 				
 				fn_result = ATOMIC[name]
@@ -829,7 +937,167 @@ class HCLVirtualMachine(object):
 			i += 1
 
 		self.amv.pop(variable)
+
+	# Execution
+
+	def _execute_binarycommand(self, command, args):
+		self._binary_instructions[command](args[0], args[1])
+
+	def _execute_unarycommand(self, command, args):
+		self._unary_instructions[command](args[0])
+
+	def _execute_gssinstruction(self, node):
+		gss_instruction = node
+		guards = gss_instruction.args
+		for guard in guards:
+			self._set(guard, 'BOOLEAN')
+			self._mov(guard, '0000000')
+		return guards
+
+	def _filter_guards(self, guards):
+		true_guards = []
+
+		for guard in guards:
+			guard_type, guard_address = self._fetch(guard)
+			guard_value = self._value_of(guard_address)
+			guard_value = fetch_atomic_value(guard_type, guard_value)
+			if guard_value:
+				true_guards.append(guard)
+
+		return true_guards
+
+	def _free_guards(self, guards):
+		for guard in guards:
+			self._free(guard)
+
+	def _execute_actinstruction(self, act_instructions, guards):
+		true_guards = self._filter_guards(guards)
+
+		if true_guards:
+			true_guard = random.choice(true_guards)
+			executed_block = filter(lambda instruction : instruction.args[0] == \
+				true_guard, act_instructions).pop()
+
+			for child in executed_block.children:
+				self._execute_node(child)
+
+		return true_guards
+
+	def _execute_ifcommand(self, node):
+
+		level = node.level
+		line = node.line
+		command = node.command
+		args = map(lambda x : x.lower(), node.args)
+		children = node.children
+
+		gss_instruction = None
+		act_instructions = []
+		guards = []
+
+		for child in children:
+			if child.command == 'gss':
+				guards = self._execute_gssinstruction(child)
+			elif child.command == 'act':
+				child.args = map(lambda x : x.replace(':', ''), child.args)
+				act_instructions.append(child)
+			else:
+				self._execute_node(child)
+
+		self._execute_actinstruction(act_instructions, guards)
+		self._free_guards(guards)
+
+	def _loop(self, clc_instruction, act_instructions, guards):
+		for child in clc_instruction.children:
+			self._execute_node(child)
+
+		true_guards = self._execute_actinstruction(act_instructions, guards)
+
+		while true_guards:
+
+			for guard in guards:
+				self._mov(guard, '0')
+
+			for child in clc_instruction.children:
+				self._execute_node(child)
+
+			true_guards = self._execute_actinstruction(act_instructions, guards)				
+
+	def _execute_docommand(self, node):
 		
+		level = node.level
+		line = node.line
+		command = node.command
+		args = map(lambda x : x.lower(), node.args)
+		children = node.children
+
+		gss_instruction = None
+		act_instructions = []
+		guards = []
+
+		for child in children:
+			if child.command == 'gss':
+				guards = self._execute_gssinstruction(child)
+			elif child.command == 'act':
+				child.args = map(lambda x : x.replace(':', ''), child.args)
+				act_instructions.append(child)
+			elif child.command == 'clc':
+				clc_instruction = child
+
+		self._loop(clc_instruction, act_instructions, guards)
+		self._free_guards(guards)
+
+	def _execute_node(self, node):
+
+		level = node.level
+		line = node.line
+		command = node.command
+		args = map(lambda x : x.lower(), node.args)
+		children = node.children
+		
+		if command == 'set':
+			var_name, var_type = args[0], args[1]
+			association = {'integer' : 'INTEGER', 'boolean' : 'BOOLEAN', \
+										'char' : 'CHAR'}
+
+			if var_type in association:
+				self._set(var_name, association[var_type])
+			else:
+				parse = var_type.split('#')
+				if parse[0] in association:
+					self._set(var_name, var_type)
+
+		elif command in self._binary_instructions:
+			self._execute_binarycommand(command, args)
+
+		elif command in self._unary_instructions:
+			self._execute_unarycommand(command, args)
+
+		elif command in self.flags.keys():
+			if self.flags[command]:
+				for child in children:
+					self._execute_node(child)
+
+		elif command == 'do':
+			self._execute_docommand(node)
+
+		elif command == 'skip':
+			pass
+
+		elif command == 'if':
+			self._execute_ifcommand(node)
+
+		elif command == 'halt':
+			
+			if debugging:
+				pass 
+			else:
+				quit()
+
+	def process_syntax_tree(self, syntax_tree):
+
+		for node in syntax_tree:
+			self._execute_node(node)
 
 def debugging():
 
@@ -839,4 +1107,5 @@ def debugging():
 	db.run()	
 
 if DEBUGGING:
-	debugging()
+	#debugging()
+	pass
