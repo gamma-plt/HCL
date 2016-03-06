@@ -1,3 +1,4 @@
+program example3
 begin
 	var x : int;
 	var y : int;
