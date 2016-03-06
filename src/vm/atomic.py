@@ -12,30 +12,6 @@ DEBUGGING = info.DEBUGGING
 '''Allowed atomic types by the VM'''
 ATOMIC_TYPES = ['INTEGER', 'CHAR', 'BOOLEAN']
 
-# TYPES
-'''The type must be specified as a association to the function, as a tuple
-of this form ((t1, {t2, }*), tn) where tn is the type of the returned value
-by the function, and t1, t2, .., are the types of the arguments.
-
-For example, the function and3, defined un Python as:
-
-def and3(a, b, c):
-	return a and b and c
-
-Has a VM type: (('BOOLEAN', 'BOOLEAN', 'BOOLEAN',), 'BOOLEAN')
-
-The tuple must be in a list which is the value of the function's name key
-in the dictionary. If the function is polymorphic, one should include the
-possible combinations of types'''
-
-TYPES = {
-
-	atomic_min : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1]]],
-	atomic_max : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1]]],
-	atomic_abs : [((ATOMIC_TYPES[0], ), (ATOMIC_TYPES[0])),],
-
-}
-
 # FUNCTIONS
 '''Functions are defined using a general argument, which is a dictionary
 associating the number of the variable, for example 'arg1', 'arg2' with
@@ -69,7 +45,31 @@ def atomic_abs(args):
 	def innerfn(arg1):
 		return 0 - arg1 if arg1 < 0 else arg1
 
-	return innerfn(arg1)	
+	return innerfn(arg1)
+
+# TYPES
+'''The type must be specified as a association to the function, as a tuple
+of this form ((t1, {t2, }*), tn) where tn is the type of the returned value
+by the function, and t1, t2, .., are the types of the arguments.
+
+For example, the function and3, defined un Python as:
+
+def and3(a, b, c):
+	return a and b and c
+
+Has a VM type: (('BOOLEAN', 'BOOLEAN', 'BOOLEAN',), 'BOOLEAN')
+
+The tuple must be in a list which is the value of the function's name key
+in the dictionary. If the function is polymorphic, one should include the
+possible combinations of types'''
+
+TYPES = {
+
+	atomic_min : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1]]],
+	atomic_max : [((_, _), _) for _ in [ATOMIC_TYPES[0], ATOMIC_TYPES[1]]],
+	atomic_abs : [((ATOMIC_TYPES[0], ), (ATOMIC_TYPES[0])),],
+
+}
 
 def debugging():
 	pass
