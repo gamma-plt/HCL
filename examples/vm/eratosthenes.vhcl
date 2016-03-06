@@ -1,0 +1,92 @@
+set n integer
+set i integer
+set j integer
+set nl char
+set space char
+
+readint n
+mov i 0000000000000010
+mov j 0000000000000000
+mov nl 0000000000001010
+mov space 0000000000100000
+
+set primes boolean#100
+
+do:
+	gss guard
+
+	clc:
+		cmp i n
+		neq:
+			mov guard 0000000000000001
+
+	act guard:
+		mov primes[i] 0000000000000001
+		inc i
+
+mov i 0000000000000010
+
+do:
+	gss guard
+
+	clc:
+		mov .r1int i
+		mul .r1int .r1int
+		cmp .r1int n
+
+		slt:
+			mov guard 0000000000000001
+
+	act guard:
+		if:
+			gss guard01
+
+			cmp primes[i] 0000000000000001
+			equ:
+				mov guard01 0000000000000001
+
+			act guard01:
+				mov .r1int i
+				mul .r1int .r1int
+				mov j .r1int
+
+				do:
+					gss guard02
+
+					clc:
+						cmp j n
+						slt:
+							mov guard02 0000000000000001
+
+					act guard02:
+						mov primes[j] 0000000000000000
+						add j i
+
+		inc i
+
+mov i 0000000000000010
+
+do:
+	gss guard
+
+	clc:
+		cmp i n
+		slt:
+			mov guard 0000000000000001
+
+	act guard:
+		if:
+			gss guard01
+
+			cmp primes[i] 0000000000000001
+			equ:
+				mov guard01 0000000000000001
+
+			act guard01:
+				print i
+				print space
+		inc i
+
+print nl
+
+halt
