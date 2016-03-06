@@ -1,0 +1,34 @@
+set x integer
+set y integer
+set t integer
+set nl char
+
+readint x
+readint y
+
+mov t 0000000000000000
+mov nl 0000000000001010
+
+do:
+	gss guard1 guard2
+
+	clc:
+		cmp x y
+		sgt:
+			mov guard1 00000000001
+			mov guard2 00000000000
+		slt:
+			mov guard1 00000000000
+			mov guard2 00000000001
+
+	act guard1:
+		sub x y
+	act guard2:
+		mov t x
+		mov x y
+		mov y t
+
+print x
+print nl
+
+halt
