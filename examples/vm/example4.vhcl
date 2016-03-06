@@ -7,11 +7,11 @@ mov n 00000000
 mov c 00000000
 mov N 00100101
 
-set X int integer#34
+set X integer#34
 mov i 00000000
 
 do:
-	set g01 boolean
+	gss g01
 
 	clc:
 		cmp i N
@@ -23,7 +23,7 @@ do:
 		mov X[i] i
 
 do:
-	set g01 boolean
+	gss g01
 
 	clc:
 		cmp n N
@@ -34,8 +34,7 @@ do:
 
 	act g01:
 		if:
-			set g02 boolean
-			set g03 boolean
+			gss g02 g03
 
 			cmp X[n] 0
 			equ:
@@ -46,13 +45,14 @@ do:
 			act g02:
 				inc c
 			act g03:
-				skip
+				skipp
 
 		inc n
 
+set r integer
+
 if:
-	set g04 boolean
-	set g05 boolean
+	gss g04 g05
 
 	cmp c 00000010
 	slt:
@@ -61,7 +61,7 @@ if:
 		mov g05 00000001
 
 	act g04:
-		mov r INFTY_POS
+		mov r ..infty_pos
 	act g05:
 		set s integer
 		set t integer
@@ -69,7 +69,7 @@ if:
 		mov s 00000000
 
 		do:
-			set g06 boolean
+			gss g06
 
 			clc:
 				cmp X[s] 00000000
@@ -80,10 +80,10 @@ if:
 
 		mov .r1int s
 		inc .r1int
-		mov t .t1int
+		mov t .r1int
 
 		do:
-			set g07 boolean
+			gss g07
 
 			clc:
 				cmp X[t] 00000000
@@ -97,17 +97,16 @@ if:
 		mov n .r1int
 
 		do:
-			set g08 boolean
+			gss g08
 
 			clc:
 				cmp n N
-				nq:
+				neq:
 					mov g08 00000001
 
 			act g08:
 				if:
-					set g09 boolean
-					set g10 boolean
+					gss g09 g10
 
 					cmp X[n] 0
 					neq:
@@ -126,6 +125,6 @@ if:
 				push r
 				push .r1int
 				call min
-				mov r .retint
+				mov r ..retint
 				inc n
 halt
