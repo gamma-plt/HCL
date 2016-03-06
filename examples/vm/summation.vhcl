@@ -1,0 +1,25 @@
+set N integer
+set i integer
+set sum integer
+
+mov i 0000000000000000
+mov sum 0000000000000000
+mov N 0010011100010000
+
+do:
+	gss guard
+
+	clc:
+		cmp i N
+		geq:
+			mov guard 0000000000000000
+		leq:
+			mov guard 0000000000000001
+
+	act guard:
+		add sum i
+		inc i
+
+print sum
+
+halt
