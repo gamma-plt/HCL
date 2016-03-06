@@ -18,12 +18,12 @@ class Debugger(object):
 	'''
 
 	# The commands of the debugger
-	COMMANDS = ['pmem', 'pamv', 'pstk', 'prgs']
+	COMMANDS = ['pmem', 'pamv', 'pstk', 'prgs', 'pfgs']
 
 	# Commands for vm manipulation
 	COMMANDS += ['set', 'mov', 'not', 'and', 'or', 'xor', 'inc']
 	COMMANDS += ['dec', 'add', 'sub', 'div', 'mod']
-	COMMANDS += ['print', 'push', 'call', 'free', 'mul', 'halt']
+	COMMANDS += ['print', 'push', 'call', 'free', 'mul', 'cmp', 'halt']
 
 	QUITTER = 'quit'
 
@@ -43,6 +43,7 @@ class Debugger(object):
 		self.vm = vm
 		self.mem = vm.memory
 		self.amv = vm.amv
+		self.flags = vm.flags
 		self.args = vm.args
 		self.regs = vm.regs
 		self.memory_size = mem_size
@@ -101,6 +102,18 @@ class Debugger(object):
 
 		for name in self.regs:
 			table.append([name.upper(), self.regs[name].zfill(self.length)])
+
+		print tabulate(table)
+
+	def _print_flags(self):
+		'''Prints the value of each flag in the VM hardware. 000 represents that
+		flag is turned off, while 111, represents that the flag is on
+		'''
+
+		table = []
+
+		for flag in self.flags:
+			table.append([flag.upper(), '111' if self.flags[flag] else '000'])
 
 		print tabulate(table)
 
@@ -203,6 +216,14 @@ class Debugger(object):
 		
 		self.vm._print(variable)
 
+	def _readint(self, variable):
+		
+		self.vm._readint(variable)
+
+	def _readchr(self, variable):
+		
+		self.vm._readchr(variable)
+
 	def _push(self, operator):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of pushin some value or a variable's value to the
@@ -216,6 +237,10 @@ class Debugger(object):
 		'''
 		
 		self.vm._call(function)
+
+	def _cmp(self, operator1, operator2):
+		
+		self.vm._cmp(operator1, operator2)
 
 	def _free(self, variable):
 		'''Implements the logic for communicating between the debugger and the
@@ -245,6 +270,10 @@ class Debugger(object):
 		elif command == self.COMMANDS[3]:
 			self._print_regs()
 
+		# Print flags
+		elif command == self.COMMANDS[4]:
+			self._print_flags()
+
 		# Print wrong command
 		else:
 			print self.ERROR_INDICATOR
@@ -254,7 +283,7 @@ class Debugger(object):
 		variable'''
 
 		# Set a variable
-		if command == self.COMMANDS[4]:
+		if command == self.COMMANDS[-19]:
 
 			association = {'integer' : 'INTEGER', 'boolean' : 'BOOLEAN', \
 										'char' : 'CHAR'}
@@ -267,7 +296,7 @@ class Debugger(object):
 			else:
 				if '#' in name_type:
 					parse = name_type.split('#')
-					if parse[0] in association:
+					if parse[0].lower() in association:
 						self._set(name, name_type)
 					else:
 						print self.SYNTAX_ERROR
@@ -275,54 +304,54 @@ class Debugger(object):
 					print self.SYNTAX_ERROR
 
 		# Move a varible or value to an specific cell pointed by a variable
-		elif command == self.COMMANDS[5]:
+		elif command == self.COMMANDS[-18]:
 			name = arguments[0].lower()
 			operator = arguments[1].lower()
 
 			self._mov(name, operator)
 
 		# Negate in place a whole variable's value
-		elif command == self.COMMANDS[6]:
+		elif command == self.COMMANDS[-17]:
 			variable = arguments[0].lower()
 
 			self._not(variable)
 
 		# Get in place the logical and of some variable's value
-		elif command == self.COMMANDS[7]:
+		elif command == self.COMMANDS[-16]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
 			self._and(variable, operator)
 
 		# Get in place the logical or of some variable's value
-		elif command == self.COMMANDS[8]:
+		elif command == self.COMMANDS[-15]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
 			self._or(variable, operator)
 
 		# Get in place the logical xor of some variable's value
-		elif command == self.COMMANDS[9]:
+		elif command == self.COMMANDS[-14]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
 			self._xor(variable, operator)
 
 		# Increment in place the logical value of some variable's value
-		elif command == self.COMMANDS[10]:
+		elif command == self.COMMANDS[-13]:
 			variable = arguments[0].lower()
 
 			self._inc(variable)
 
 		# Decrease in place the logical value of some variable's value
-		elif command == self.COMMANDS[11]:
+		elif command == self.COMMANDS[-12]:
 			variable = arguments[0].lower()
 
 			self._dec(variable)
 
 		# Add in place a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[12]:
+		elif command == self.COMMANDS[-11]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
@@ -330,7 +359,7 @@ class Debugger(object):
 
 		# Substract in place a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[13]:
+		elif command == self.COMMANDS[-10]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
@@ -338,7 +367,7 @@ class Debugger(object):
 
 		# Divide in place a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[14]:
+		elif command == self.COMMANDS[-9]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
@@ -346,43 +375,61 @@ class Debugger(object):
 
 		# Get in place the module of a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[15]:
+		elif command == self.COMMANDS[-8]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
 			self._mod(variable, operator)
 
 		# Print a variable's value 
-		elif command == self.COMMANDS[16]:
+		elif command == self.COMMANDS[-7]:
 			variable = arguments[0].lower()
 
 			self._print(variable)
+			print
 
 		# Push a variable to the stack
-		elif command == self.COMMANDS[17]:
+		elif command == self.COMMANDS[-6]:
 			variable = arguments[0].lower()
 
 			self._push(variable)
 
 		# Call a function
-		elif command == self.COMMANDS[18]:
+		elif command == self.COMMANDS[-5]:
 			variable = arguments[0].lower()
 
 			self._call(variable)
 
 		# Free a variable
-		elif command == self.COMMANDS[19]:
+		elif command == self.COMMANDS[-4]:
 			variable = arguments[0].lower()
 
 			self._free(variable)
 
 		# Multiply in place a variable's value and a value or another variable's value
 		# given as parameter
-		elif command == self.COMMANDS[20]:
+		elif command == self.COMMANDS[-3]:
 			variable = arguments[0].lower()
 			operator = arguments[1].lower()
 
-			self._mul(variable, operator)		
+			self._mul(variable, operator)
+
+		# Compare to values, variables, or any combination of those (21)
+		elif command == self.COMMANDS[-2]:
+			operator1 = arguments[0].lower()
+			operator2 = arguments[1].lower()
+
+			self._cmp(operator1, operator2)
+
+		elif command == 'readint':
+			variable = arguments[0].lower()
+
+			self._readint(variable)
+
+		elif command == 'readchr':
+			variable = arguments[0].lower()
+
+			self._readchr(variable)
 
 		# Print wrong command
 		else:
@@ -392,9 +439,11 @@ class Debugger(object):
 		'''Receive the command and executes it as properly defined by
 		self._execute. It should be called by the client code'''
 
+		print '= ' * 50
+
 		command = raw_input(self.INPUT_PROMPT)
 		command = command.lower()
-		parse = command.split()		
+		parse = command.split()	
 
 		while command != self.QUITTER:
 			command = parse[0]
