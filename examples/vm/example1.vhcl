@@ -2,29 +2,28 @@ set n integer
 mov n 1010100110
 
 do:
-	set guard1 boolean
-	set guard2 boolean
+	gss guard1 guard2
 
 	clc:
 
 		push n
 		call even
 
-		cmp .retbol 1
+		cmp ..retbol 0001
 		equ:
-			mov guard1 1
-			mov guard2 0
+			mov guard1 0001
+			mov guard2 0000
 		neq:
-			mov guard2 0
-			cmp n 1
+			mov guard2 0000
+			cmp n 0001
 			sgt:
-				mov guard2 1
-			mov guard1 0
+				mov guard2 0001
+			mov guard1 0000
 
 	act guard1:
-		div n 2
+		div n 0010
 	act guard2:
-		mul n 11
+		mul n 0011
 		inc n
 
 print n
