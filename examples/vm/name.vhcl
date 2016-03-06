@@ -1,0 +1,20 @@
+set name char#10
+set i integer
+set nl char
+
+mov i 0000000000000000
+mov nl 0000000000001010
+
+do:
+	gss guard
+
+	clc:
+		cmp i 0000000000001010
+		neq:
+			mov guard 0000000000000001
+
+	act guard:
+		readchr name[i]
+		inc i
+
+halt
