@@ -1,3 +1,4 @@
+program example4
 begin
 	var n, c, i, N : int;
 	n, c ← 0, 0;
