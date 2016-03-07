@@ -2,9 +2,12 @@ set N integer
 set i integer
 set sum integer
 
+set nl char
+mov nl 0000000000001010
+
 mov i 0000000000000000
 mov sum 0000000000000000
-mov N 0010011100010000
+readint N
 
 do:
 	gss guard
@@ -21,5 +24,6 @@ do:
 		inc i
 
 print sum
+print nl
 
 halt
