@@ -1,100 +1,133 @@
-set x integer
-set y integer
-
-mov x 0101101111100100
-mov y 0001110111100110
-
-do:
-	gss g1 g2
-
-	clc:
-		cmp x y
-		slt:
-			mov g1 0000000000000001
-		sgt:
-			mov g2 0000000000000001
-
-	act g1:
-		sub y x
-	act g2:
-		sub x y
-
-set q integer
-set r integer
-set D integer
-
-mov q 0000000000000000
-mov r 0001111110101001
-mov D 0000110111101100
-
-do:
-	gss g1
-
-	clc:
-		cmp r D
-		geq:
-			mov g1 0000000000000001
-
-	act g1:
-		sub r D
-		inc q
-
+set n integer
+set c integer
 set i integer
-set j integer
 set N integer
-set X integer
-set present boolean
 
-mov N 0000000000001010
-mov X 0000000000000101
+set nl char
+mov nl 0000000000001010
 
-set A integer#10
+mov n 00000000
+mov c 00000000
+mov N 00100101
 
-mov i 0000000000000000
-mov .r1int N
-inc .r1int
-mov j .r1int
+set X integer#34
+mov i 00000000
 
 do:
-	gss g
+	gss g01
 
 	clc:
-		mov .r1int j
-		dec .r1int
-		cmp i .r1int
-		slt:
-			mov g 0000000000000001
-	act g:
-		mov .r1int i
-		add .r1int j
-		div .r1int 0000000000000010
-		set m integer
-		mov m .r1int
+		cmp i N
+		neq:
+			mov g01 00000001
 
+	act g01:
+		inc i
+		mov X[i] i
+
+do:
+	gss g01
+
+	clc:
+		cmp n N
+		neq:
+			cmp c 00000010
+			neq:
+				mov g01 00000001
+
+	act g01:
 		if:
-			gss g1 g2 g3
+			gss g02 g03
 
-			cmp A[m] X
-			slt:
-				mov g1 0000000000000001
+			cmp X[n] 0
 			equ:
-				mov g2 0000000000000001
-			sgt:
-				mov g3 0000000000000001
+				mov g02 00000001
+			neq:
+				mov g03 00000001
 
-			act g1:
-				mov i m
-			act g2:
-				mov i m
-				mov j n
-			act g3:
-				mov j m
+			act g02:
+				inc c
+			act g03:
+				skipp
 
-mov .r1bol 0000000000000000
-cmp i j
-equ:
-	mov .r1bol 0000000000000001
+		inc n
 
-mov present .r1bol
-print present
+set r integer
+
+if:
+	gss g04 g05
+
+	cmp c 00000010
+	slt:
+		mov g04 00000001
+	equ:
+		mov g05 00000001
+
+	act g04:
+		mov r ..infty_pos
+	act g05:
+		set s integer
+		set t integer
+		set r integer
+		mov s 00000000
+
+		do:
+			gss g06
+
+			clc:
+				cmp X[s] 00000000
+				neq:
+					mov g06 00000001
+			act g06:
+				inc s
+
+		mov .r1int s
+		inc .r1int
+		mov t .r1int
+
+		do:
+			gss g07
+
+			clc:
+				cmp X[t] 00000000
+				neq:
+					mov g07 00000001
+			act g07:
+				inc t
+
+		mov .r1int t
+		inc .r1int
+		mov n .r1int
+
+		do:
+			gss g08
+
+			clc:
+				cmp n N
+				neq:
+					mov g08 00000001
+
+			act g08:
+				if:
+					gss g09 g10
+
+					cmp X[n] 0
+					neq:
+						mov g09 00000001
+					equ:
+						mov g10 00000001
+
+					act g09:
+						skip
+					act g10:
+						mov s t
+						mov t n
+				mov .r1int n
+				inc .r1int
+				sub .r1int s
+				push r
+				push .r1int
+				call min
+				mov r ..retint
+				inc n
 halt
