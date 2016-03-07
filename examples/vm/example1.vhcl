@@ -1,13 +1,27 @@
 set n integer
-mov n 1010100110
+set nl char
+set space char
+
+readint n
+mov nl 0000000000001010
+mov space 0000000000100000
+
+print n
+print space
 
 do:
 	gss guard1 guard2
 
 	clc:
 
-		push n
-		call even
+		mov .r1int n
+		mod .r1int 0010
+
+		mov ..retbol 0000
+
+		cmp .r1int 0000
+		equ:
+			mov ..retbol 0001
 
 		cmp ..retbol 0001
 		equ:
@@ -22,9 +36,13 @@ do:
 
 	act guard1:
 		div n 0010
+		print n
+		print space
 	act guard2:
 		mul n 0011
 		inc n
+		print n
+		print space
 
-print n
+print nl
 halt
