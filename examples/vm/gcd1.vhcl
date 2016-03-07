@@ -1,0 +1,28 @@
+set x integer
+set y integer
+
+set nl char
+mov nl 00001010
+
+readint x
+readint y
+
+do:
+	gss g1 g2
+
+	clc:
+		cmp x y
+		slt:
+			mov g1 00000001
+		sgt:
+			mov g2 00000001
+
+	act g1:
+		sub y x
+	act g2:
+		sub x y
+
+print x
+print nl
+
+halt
