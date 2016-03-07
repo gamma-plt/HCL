@@ -2,6 +2,9 @@ set b integer
 set t integer
 set a integer
 
+set nl char
+mov nl 0000000000001010
+
 mov a 0010010000010100
 mov b 0000000011101000
 mov t 0000000000000000
@@ -23,5 +26,6 @@ do:
 		mov a t
 
 print a
+print nl
 
 halt
