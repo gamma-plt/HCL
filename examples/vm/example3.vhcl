@@ -130,4 +130,7 @@ if:
 				call min
 				mov r ..retint
 				inc n
+
+print n
+print nl
 halt
