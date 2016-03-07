@@ -1,0 +1,31 @@
+set num integer
+set n integer
+set x integer
+set y integer
+
+set nl char
+mov nl 00001010
+
+readint num
+
+mov n 00000000
+mov x 00000000
+mov y 00000001
+
+do:
+	gss guard
+
+	clc:
+		cmp n num
+		neq:
+			mov guard 00000001
+
+	act guard:
+		mov .r1int x
+		mov x y
+		add y .r1int
+		inc n
+
+print x
+print nl
+halt
