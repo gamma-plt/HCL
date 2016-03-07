@@ -9,6 +9,7 @@ import debugger
 import globalenv
 
 MEMORY_SIZE = globalenv.MEMORY_SIZE
+DEBUGGING = info.DEBUGGING
 
 def remove_comments(parsed_file):
 	ans = []
@@ -80,8 +81,10 @@ def main():
 			syntax_tree = process_file(filename)
 			vm.process_syntax_tree(syntax_tree)
 
-			db = debugger.Debugger(vm, MEMORY_SIZE)
-			db.run()
+			if DEBUGGING:
+
+				db = debugger.Debugger(vm, MEMORY_SIZE)
+				db.run()
 
 if __name__ == '__main__':
 	main()

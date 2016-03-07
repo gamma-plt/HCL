@@ -1,36 +1,104 @@
-set m integer
 set x integer
+set y integer
 
-mov x 0000000000000000
-mov m 0000000000000001
+set nl char
+mov nl 0000000000001010
+
+mov x 0101101111100100
+mov y 0001110111100110
 
 do:
-	gss guard1
+	gss g1 g2
 
 	clc:
-		cmp m x
-		neq:
-			mov guard1 0000000000000001
+		cmp x y
+		slt:
+			mov g1 0000000000000001
+		sgt:
+			mov g2 0000000000000001
 
-	act guard1:
+	act g1:
+		sub y x
+	act g2:
+		sub x y
+
+set q integer
+set r integer
+set D integer
+
+mov q 0000000000000000
+mov r 0001111110101001
+mov D 0000110111101100
+
+do:
+	gss g1
+
+	clc:
+		cmp r D
+		geq:
+			mov g1 0000000000000001
+
+	act g1:
+		sub r D
+		inc q
+
+set i integer
+set j integer
+set N integer
+set X integer
+set present boolean
+
+mov N 0000000000001010
+mov X 0000000000000101
+
+set A integer#10
+
+mov i 0000000000000000
+mov .r1int N
+inc .r1int
+mov j .r1int
+
+do:
+	gss g
+
+	clc:
+		mov .r1int j
+		dec .r1int
+		cmp i .r1int
+		slt:
+			mov g 0000000000000001
+	act g:
+		mov .r1int i
+		add .r1int j
+		div .r1int 0000000000000010
+		set m integer
+		mov m .r1int
+
 		if:
-			gss guard2 guard3
+			gss g1 g2 g3
 
-			push x
-			call f
-
-			mov guard2 0000000000000000
-			mov guard3 0000000000000000
-
-			cmp ..retbol 0000000000000000
+			cmp A[m] X
+			slt:
+				mov g1 0000000000000001
 			equ:
-				mov guard2 0000000000000001
-			neq:
-				mov guard3 0000000000000001
+				mov g2 0000000000000001
+			sgt:
+				mov g3 0000000000000001
 
-			act guard2:
-				inc x
-			act guard3:
-				mov m x
+			act g1:
+				mov i m
+			act g2:
+				mov i m
+				mov j n
+			act g3:
+				mov j m
 
+mov .r1bol 0000000000000000
+cmp i j
+equ:
+	mov .r1bol 0000000000000001
+
+mov present .r1bol
+print present
+print nl
 halt

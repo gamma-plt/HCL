@@ -1,0 +1,32 @@
+set X integer
+set D integer
+set q integer
+set r integer
+
+set nl char
+mov nl 00001010
+
+readint X
+readint D
+
+mov q 00000000
+mov r X
+
+do:
+	gss guard
+
+	clc:
+		cmp r D
+		geq:
+			mov guard 00000001
+
+	act guard:
+		sub r D
+		inc q
+
+print q
+print nl
+print r
+print nl
+
+halt

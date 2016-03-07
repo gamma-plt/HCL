@@ -2,6 +2,9 @@ set a integer
 set b integer
 set c integer
 
+set nl char
+mov nl 0000000000001010
+
 mov a 0101101101111111 ;; Number is 23423
 mov b 0011001110111010 ;; Number is 13242
 mov c 0000000000000000
@@ -16,4 +19,6 @@ if:
 		mov c a
 
 print c
+print nl
+
 halt

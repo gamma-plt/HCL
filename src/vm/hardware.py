@@ -836,6 +836,7 @@ class HCLVirtualMachine(object):
 
 		elif variable[0] == variable[-1] == '"':
 			msg = variable[1:-1]
+			msg = msg.replace('_', ' ')
 
 		else:
 
