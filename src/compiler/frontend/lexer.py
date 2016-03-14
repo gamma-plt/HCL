@@ -14,12 +14,12 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
          'not_in':u'^∉$', 'union':u'^∪$', 'intersection':u'^∩$', 'infty':u'^∞$',
          'empty':u'^∅$', 'guard_sep':u'^□$', 'left_rparen':r'^[(]$',
          'right_rparen':r'^[)]$', 'left_sparen':r'^[[]$', 'right_sparen':r'^[]]$',
-         'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'#.*'}
+         'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'#.*', 'pow':r'^\^$'}
 
-keywords = {'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
+keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
             'for':'FOR', 'rof':'ROF', 'abort':'ABORT', 'skip':'SKIP', 'array':'ARRAY',
-            'of':'OF', 'var':'VAR', 'int':'INT', 'bool':'BOOL', 'min':'MIN', 'max':'MAX', 
-            'abs':'ABS'}
+            'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'bool':'BOOL', 'min':'MIN', 'max':'MAX', 
+            'abs':'ABS', 'print':'PRINT', 'even':'EVEN'}
 
 class Token(object):
    def __init__(self, token, value):
@@ -34,6 +34,15 @@ class Token(object):
 
    def __repr__(self):
        return self.__str__()
+
+   def __eq__(self, y):
+       return self.token == y.token
+
+   def __neq__(self, y):
+       return not self.token == y.token
+
+   def __hash__(self):
+       return hash(self.token)
 
 
 def remove_trailing_spaces(s):
@@ -76,7 +85,7 @@ def lex(filename):
                         last_id = keywords[word]
                      except KeyError:
                         last_id = name
-                  elif name == 'comment':
+                  elif name == 'comment' or name == 'semicolon':
                      break
                   else:
                      last_id = name
@@ -88,8 +97,9 @@ def lex(filename):
                      last_id = None
                      i -= 1
                   else:
-                     print("File: %s\nSyntax Error: Unrecognized or invalid symbol: %s at Line : %d:%d" % (filename, word, lc+1, i+1), file=sys.stderr)
-                     status_code = -1
+                     if word != '.':
+                        print("File: %s\nSyntax Error: Unrecognized or invalid symbol: %s at Line : %d:%d" % (filename, word, lc+1, i+1), file=sys.stderr)
+                        status_code = -1
             else:
                if last_id is not None:
                   tokens.append(Token(last_id, word))

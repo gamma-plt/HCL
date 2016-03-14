@@ -2,7 +2,7 @@ program eratosthenes
 begin
 	var n, i, j : int;
 	n, i, j ← 30, 2, 0;
-	var A : array[2 .. n) of boolean;
+	var A : array[2 .. n] of boolean;
 	do i * i < n →
 		if A[i] → 
 			j ← i * i;
@@ -16,7 +16,7 @@ begin
 
 	i ← 2;
 	do i < n →
-		if A[i] → print i, ; fi
+		if A[i] → print i fi
 		i ← i + 1
 	od;
 end

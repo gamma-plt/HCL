@@ -5,11 +5,11 @@ begin
 
 	N ← 37
 
-	var X : array[34] of int;
+	var X : array[0 .. 34] of int;
 	i ← 0;
 
-	do i ≠ N →
-	 □ X[i] ← i + 1; i ← i + 1
+	do i ≠ N →  X[i] ← i + 1
+   i ← i + 1
 	od
 
 	do n ≠ N ∧ c ≠ 2 → 
@@ -21,7 +21,6 @@ begin
 
 	if c < 2 → r ← ∞
 	 □ c = 2 → 
-	 	begin
 	 		var s, t, r : int;
 	 		s ← 0;
 	 		do X[s] ≠ 0 → s ← s + 1 od;
@@ -36,6 +35,5 @@ begin
 				r ← min(r, (n + 1 - s));
 				n ← n + 1
 			od
-	 	end
 	fi
 end

@@ -1,0 +1,38 @@
+P -> program name begin W end
+W -> Π | EPSILON
+Π -> Ξ ζ
+ζ -> Ξ ζ | EPSILON
+Ξ -> D | I | S | H | print C | skip | abort
+D -> do G od
+I -> if G fi
+G -> Ô Ĺ
+Ĺ -> □ Ô Ĺ | EPSILON
+Ô -> C → Π
+S -> L ← R
+R -> C M
+M -> , C M | EPSILON
+L -> name Φ Z
+Z -> , name Φ Z | EPSILON
+H -> var L : Δ
+Δ -> X | array Γ of X
+X -> boolean | int
+Γ -> [ Ω ]
+Ω -> Θ Ψ
+Θ -> V .. V
+Ψ -> , Θ | EPSILON
+C -> Q N
+N -> ∧ Q N | EPSILON
+Q -> Λ K
+K -> ∨ Λ K | EPSILON
+Λ -> ¬ Λ | Σ
+Σ -> E Y
+Y -> ≥ E Y | ≤ E Y | > E Y | < E Y | ≠ E Y | = E Y | EPSILON
+E -> T A
+A -> + T A | - T A | EPSILON
+T -> F B
+B -> * F B | / F B | ^ F B | EPSILON
+F -> - F | ( C ) | V | max ( C , C ) | min ( C , C ) | abs ( C ) | even ( C )
+V -> number | name Φ | ∞
+Φ -> [ O ] | ( R ) | EPSILON
+O -> E J
+J -> : E J | , E J | EPSILON
