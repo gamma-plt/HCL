@@ -22,9 +22,11 @@ keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':
             'abs':'ABS', 'print':'PRINT', 'even':'EVEN'}
 
 class Token(object):
-   def __init__(self, token, value):
+   def __init__(self, token, value, l=0, col=0):
        self.token = token
        self.value = value
+       self.line = l
+       self.col = col
 
    def __unicode__(self):
        return u'<'+self.token+u', '+self.value+u'>'
@@ -92,17 +94,17 @@ def lex(filename):
                else:
                   if last_id is not None:
                      word = word[:-1]
-                     tokens.append(Token(last_id, word))
+                     tokens.append(Token(last_id, word, lc+1, i+1))
                      word = ''
                      last_id = None
                      i -= 1
                   else:
                      if word != '.':
-                        print("File: %s\nSyntax Error: Unrecognized or invalid symbol: %s at Line : %d:%d" % (filename, word, lc+1, i+1), file=sys.stderr)
+                        print("File: %s - Line: %d:%d\nSyntax Error: Unrecognized or invalid symbol: %s" % (filename, lc+1, i+1, word), file=sys.stderr)
                         status_code = -1
             else:
                if last_id is not None:
-                  tokens.append(Token(last_id, word))
+                  tokens.append(Token(last_id, word, lc+1, i+1))
                word = ''
                last_id = None
             i += 1

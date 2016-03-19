@@ -10,6 +10,54 @@ import ll_table as LLT
 
 GRAMMAR_PATH = '../../../doc/language/LL_Grammar_Description.txt'
 
+
+class ParseTree(object):
+   def __init__(self, rule):
+       self.rule = rule
+       self.parent = None
+       self.value = None
+       self.next = None
+       self.children = []
+
+   def subs(self, args):
+       last = None
+       for i, arg in enumerate(args):
+           if isinstance(arg, lexer.Token):
+              node = ParseTree(arg.token)
+           else:
+              node = ParseTree(arg)
+           if last is not None:
+              last.next = node
+           self.children.append(node)
+           last = node
+       last.next = self
+       return self.children[0]
+
+   def val(self, value):
+       self.value = value
+       return self.next
+
+   def __unicode__(self):
+       if len(self.children) == 0:
+          s = u'Terminal: '+unicode(self.value)
+       else:
+          s = u'Rule: '+self.rule+u'\n'
+          s += u'Derivation: '
+          for child in self.children:
+              if child.rule is None:
+                 s += child.value+u' '
+              else:
+                 s += child.rule+u' '
+       return s
+
+   def __str__(self):
+       return self.__unicode__().encode('utf-8')
+
+   def __repr__(self):
+       return self.__str__()
+
+
+
 def equiv(sym, reverse):
     f = True
     try:
@@ -31,7 +79,7 @@ def equiv(sym, reverse):
               break
     return n
 
-def parse(path):
+def parse(path, debug=False):
     tokens, status_code = lexer.lex(path)
     if status_code != 0:
        print("Compiler exited with status -1", file=sys.stderr)
@@ -53,35 +101,50 @@ def parse(path):
             tok = lexer.Token(n, sym)
             tab[rule][tok] = l
     status_code = 0
+    tree = ParseTree('P')
+    root = tree
     stack = ['P']
     last_evaluation = None
     while len(stack) > 0:
-       if len(tokens) > 5:
-          s = ' '.join([i.value for i in tokens[0:5]]) + ' ... '+tokens[-1].value
-       else:
-          s = ' '.join([i.value for i in tokens])
-       if len(stack) > 5:
-          s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack[0:5]]) + ' ... '+stack[-1].value
-       else:
-          s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack])
-       print(s+'\n')
+       if debug:
+          output(tokens, stack)
        if isinstance(stack[0], unicode) or isinstance(stack[0], str):
           try:
              trans = tab[stack[0]][tokens[0]]
              stack = trans + stack[1:]
+             if len(trans) > 0:
+                tree = tree.subs(trans)
+             else:
+                tree = tree.val('')
           except KeyError:
-             print("File: %s\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].value, ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
+             print("File: %s - Line: %d:%d\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].line, tokens[0].col, tokens[0].value, ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
+             break
+          except IndexError:
+             if last_evaluation is None:
+                last_evaluation = lexer.Token(u'', u'')
+             print("File: %s - Line: %d:%d\nSyntax Error: Missing symbol, expected: %s" % (path, last_evaluation.line, last_evaluation.col+len(last_evaluation.value), ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
              break
        else:
           if tokens[0] == stack[0]:
-             last_evaluation = tokens[0].value
+             last_evaluation = tokens[0]
+             tree = tree.val(tokens[0])
              tokens = tokens[1:]
              stack = stack[1:]
           else:
-             print("File: %s\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].value, stack[0].value), file=sys.stderr)
+             print("File: %s - Line: %d:%d\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].line, tokens[0].col, tokens[0].value, stack[0].value), file=sys.stderr)
              break
+    return root
 
-
+def output(tokens, stack):
+    if len(tokens) > 5:
+       s = ' '.join([i.value for i in tokens[0:5]]) + ' ... '+tokens[-1].value
+    else:
+       s = ' '.join([i.value for i in tokens])
+    if len(stack) > 5:
+       s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack[0:5]]) + ' ... '+stack[-1].value
+    else:
+       s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack])
+    print(s+'\n')
 
 
 
