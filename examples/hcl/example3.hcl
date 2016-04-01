@@ -30,12 +30,12 @@ begin
 	N ← 10;
 	X ← 5;
 
-	var A : array[N] of integer;
+	var A : array[0 .. N] of integer;
 
 	i, j ← 0, N + 1;
 	do i < j - 1 →
 		var m : integer;
-		m ← (i + j) div 2;
+		m ← (i + j) / 2;
 		if A[m] < X → i ← m
 		 □ A[m] = X → i, j ← m, n
 		 □ A[m] > X → j ← m
@@ -44,4 +44,4 @@ begin
 	present ← (i = j);
 
 	print present
-end 
+end
