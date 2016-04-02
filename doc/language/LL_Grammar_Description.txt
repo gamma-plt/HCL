@@ -15,7 +15,7 @@ L -> name Φ Z
 Z -> , name Φ Z | EPSILON
 H -> var L : Δ
 Δ -> X | array Γ of X
-X -> boolean | int
+X -> boolean | int | char
 Γ -> [ Ω ]
 Ω -> Θ Ψ
 Θ -> V .. V

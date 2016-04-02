@@ -146,6 +146,4 @@ def output(tokens, stack):
        s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack])
     print(s+'\n')
 
-
-
-
+    

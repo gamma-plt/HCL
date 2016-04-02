@@ -1,0 +1,60 @@
++ : int * int -> int
+
+- : int * int -> int
+
+* : int * int -> int
+
+% : int * int -> int
+
+/ : int * int -> int
+
+and : boolean * boolean -> boolean
+or : boolean * boolean -> boolean
+not : boolean -> boolean
+
+<= : int * int -> boolean
+<= : char * char -> boolean
+
+>= : int * int -> boolean
+>= : char * char -> boolean
+
+== : int * int -> boolean
+== : char * char -> boolean
+== : boolean * boolean -> boolean
+
+!= : int * int -> boolean
+!= : char * char -> boolean
+!= : boolean * boolean -> boolean
+
+Given the following declaration, we may infer
+
+var a : tau;
+a <- exp; is valid iff type(eval(exp)) = tau
+
+Given that foo is a function of type tau1 * tau2 * ... * taun -> taur
+
+foo(a1, a2, ..., an); is valid iff type(eval(ai)) = taui for i = 1 .. n, and its type is taur
+type(foo(a1, a2, ..., an)) = taur
+
+print exp; is valid iff exp is a valid expression, its semantics is print eval(exp)
+
+
+Given the following declaration, we may infer
+
+var a : array[i..j] of tau
+
+type(eval(i)) = type(eval(j)) = int
+i <= j
+
+a[k] <- exp; is valid iff type(eval(exp)) = tau and type(eval(k)) = int and k in [i..j]
+
+Given the following declaration, we may infer
+
+array[i..j][k..l] of tau
+
+type(eval(i)) = type(eval(j)) = type(eval(k)) = type(eval(l)) = int
+i <= j and k <= l
+
+a[g, h] <- exp; is valid iff type(eval(exp)) = tau and 
+	type(eval(g)) = int and 
+	type(eval(h)) = int and g in [i..j] and h in [k..l]
