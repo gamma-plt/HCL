@@ -1,8 +1,8 @@
 import info
 
-'''The atomic standard library, defines the set of native VM functions,
+'''The atomic standard library, defines the set of native VM functions.
 for a function to be added to the standard, it has to receive and return
-just values of the type 'INTEGER', 'REAL', 'BOOLEAN', 'CHAR'. This is
+just values of the type 'INTEGER', 'BOOLEAN', 'CHAR'. This is
 why it's called atomic. To specify a function, it has to have an 
 implementation in Python and a definition in TYPES, specifying the 
 possible argument tuple type, and return type'''

@@ -362,8 +362,14 @@ class HCLVirtualMachine(object):
 			min_bound = variable.index('[')
 			max_bound = variable.index(']')
 			var_name =  variable[:min_bound]
-			atomic_type, _ = self.amv[var_name]
-			atomic_type = atomic_type[:atomic_type.index('#')]
+			try:
+				atomic_type, _ = self.amv[var_name]
+				atomic_type = atomic_type[:atomic_type.index('#')]
+			except:
+				# No existe ese arreglo
+				print 'ERROR: VAR002_ERROR'
+				quit()
+
 
 			if dimension == 1:
 				
@@ -386,7 +392,13 @@ class HCLVirtualMachine(object):
 				address = 'NULL'
 
 			else:
-				atomic_type, address = self.amv[variable]
+				
+				try:
+					atomic_type, address = self.amv[variable]
+				except:
+					# No existe la variable
+					print 'ERROR: VAR001_ERROR'
+					quit()
 
 		return atomic_type, address
 
@@ -395,10 +407,13 @@ class HCLVirtualMachine(object):
 		bit.'''
 
 		address = int(address, 0)
-		value = self.memory[address]
-		value = value[1:]
 
-		return value
+		try:
+			value = self.memory[address]
+			value = value[1:]
+			return value
+		except:
+			print 'ERROR: MEM002_ERROR'		
 
 	def _set_value(self, address, value):
 		'''It stores the given value in binary at the given address'''
@@ -470,6 +485,11 @@ class HCLVirtualMachine(object):
 		chunks = 0
 
 		while chunks != words:
+
+			if i == len(self.memory):
+				print 'ERROR: MEM001_ERROR'
+				quit()
+
 			curr_word = self.memory[i] 
 			self.memory[i] = self._negate_occupation_bit(curr_word)
 			i += 1
@@ -593,6 +613,12 @@ class HCLVirtualMachine(object):
 		for it, otherwise, if returns -1
 		'''
 
+		types = ['integer', 'char', 'boolean']
+
+		if var_type.split('#')[0] not in types + map(lambda x : x.upper(), types):
+			print 'ERROR: TYPE001_ERROR'
+			quit()
+
 		var_type = var_type.upper()
 
 		sizeof_var = self._sizeof(var_type)
@@ -627,12 +653,19 @@ class HCLVirtualMachine(object):
 		vm, for the purpose of negate a whole binary string, which is the value
 		of the given variable'''
 
-		_, mem_address = self._fetch(variable)
-		value = self._value_of(mem_address)
-		value = ''.join(['0' if bit == '1' else '1' for bit in value])
+		try:
+			_, mem_address = self._fetch(variable)
 
-		value = '1' + value.zfill(WORD_SIZE)		
-		self._set_value(mem_address, value)
+			value = self._value_of(mem_address)
+			value = ''.join(['0' if bit == '1' else '1' for bit in value])
+
+			value = '1' + value.zfill(WORD_SIZE)		
+			self._set_value(mem_address, value)
+
+		except:
+			print 'ERROR: VAR001_ERROR'
+			quit()
+
 
 	def _and(self, variable, operator):
 		'''Implements the logic for communicating between the debugger and the
@@ -641,14 +674,14 @@ class HCLVirtualMachine(object):
 		
 		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
-		val = '1'
+		val = ''
 		i = 0
 
 		while i < WORD_SIZE:
 			val += '1' if val1[i] == val2[i] == '1' else '0'
 			i += 1
 
-		val = '1' + val.zfill(WORD_SIZE)
+		val = '1' + val.zfill(WORD_SIZE)		
 		self._set_value(mem_address1, val)
 
 	def _or(self, variable, operator):
@@ -658,7 +691,7 @@ class HCLVirtualMachine(object):
 		
 		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
-		val = '1'
+		val = ''
 		i = 0
 
 		while i < WORD_SIZE:
@@ -675,7 +708,7 @@ class HCLVirtualMachine(object):
 		
 		val1, val2, mem_address1 = self._get_binary_pair(variable, operator)
 
-		val = '1'
+		val = ''
 		i = 0
 
 		while i < WORD_SIZE:
@@ -1108,5 +1141,5 @@ def debugging():
 	db.run()	
 
 if DEBUGGING:
-	#debugging()
+	debugging()
 	pass
