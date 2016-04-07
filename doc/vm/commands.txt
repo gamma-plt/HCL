@@ -1,65 +1,229 @@
-Sea S = [I, R, B, C], el conjunto que denota los tipos atómicos de hclvm, respectivamente, estos denotan 
-los tipos Integer, Real, Boolean, Char. T es el tipo de todos los tipos compuestos a un nivel. Estos se 
-denotan A#N, donde A es un tipo en S, y N es un número entero. T es el conjunto [I#N, R#N, B#N, C#N]. El 
-conjunto TIPO, es el conjunto de los tipos admitidos por la máquina de manera nativa. Tipo está compuesto 
-por los tipos de datos atómicos, los compuestos a un nivel y a dos niveles.
+TIPOS SOPORTADOS POR LA MÁQUINA VIRTUAL
 
-Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
+Los tipos soportados de manera nativa por la máquina virtual, son: el tipo de caractéres del alfabeto
+ASCII, el tipo de los números enteros (los sopotados a partir de la representación), y el tipo de 
+booleanos, o valores lógicos. Este conjunto de tipos sirve para definir variables, calcular expresiones, 
+realizar operaciones, y obtener valores en función de otros valores. El conjunto de tipos anteriormente 
+definido, es referido como tipos atómicos. Ademas de estos tipos de datos nativos (atómicos), la máquina 
+virtual soporta dos niveles de estructuración, o agrupación de datos, estos son, los arreglos de una y de 
+dos dimensiones de los tipos atómicos. Es decir, para cada uno de los tipos de datos atómicos, pueden 
+existir arreglos de una y de dos dimensiones, es decir, los tipos soportados de manera nativa por la 
+máquina virtual, son los siguientes. (A continuación, se incluye una lista exhaustiva de los tipos de 
+datos, tal y como son referenciados en el código de más alto nivel capaz de ser interpretado por la 
+máuqina, esto es virtual hoare command language):
 
-- La instrucción SET.
-	El propósito de esta instrucción, es el de reservar el espacio necesario para alojar una variable de 
-	un tipo admitido de manera nativa por la máquina virtual. La ejecución de tal instrucción, cambia el 
-	valor de la memoria de reserva dedicada o denotada por ADD. Ahora ADD toma el valor de una dirección 
-	de memoria, o 0000; en el último caso, no se encuentra memoria suficiente para alojar la variable. 
-	Luego de la efectiva ejecución de esta instrucción, se crea en la memoria asociativas de variables (
-	AMV), un registro que contiene el nombre de la variable, el tipo, y la dirección en memoria.
+- char
+- integer
+- boolean
+- arreglo de n elementos de tipo char
+- arreglo de n elementos de tipo integer
+- arreglo de n elementos de tipo boolean
+- arreglo de n * m elementos de tipo char (arreglo de dos dimensiones)
+- arreglo de n * m elementos de tipo integer (arreglo de dos dimensiones)
+- arreglo de n * m elementos de tipo boolean (arreglo de dos dimensiones)
 
-	set var T ;; T pertence a Tipo (ver encabezado de éste archivo)
+Los tipos atómicos, son referenciados tal y como se describen en la anterior lista. Los tipos 
+estructurados, son referenciados en código vhcl, de la siguiente forma, si el arreglo es de una 
+dimensión, y su tamaño en memoria ocupa n palabras (las descripciones de arquitectura de la máquina, se 
+encuentran en el archivo architecture.txt), el tipo del arreglo debe referenciarse como TYPE#n, donde 
+TYPE debe ser reemplazado por el tipo de datos del arreglo y n, por el valor entero (calculado antés de 
+la escritura del código) que representa el número de elementos del arreglo. Por ejemplo, char#45, es el 
+tipo de un arreglo de caractéres de tamaño 45 palabras en la memoria. Para referenciar arreglos de dos 
+niveles, o mejor entenididos como matrices, se debe usar el tipo TYPE#n#m, donde TYPE debe ser 
+reemplazado por el tipo de datos del arreglo, y n por el número de 'filas' de la matriz, y m, por el 
+número de columnas del mismo. Por ejemplo, integer#10#10, puede ser usado como tipo de un arreglo de dos 
+dimensiones (matriz) de enteros con 10 filas y 10 columnas, es decir, 10 * 10 = 100 elementos.
 
-	En caso de pasar un tipo inválido, o una variable inexistente, el sistema aborta la interpretación 
-	del programa, indicando la linea del error.
+Cada uno de los tipos atómicos, ocupan una palabra en la memoria de la máquina virtual, por lo tanto, los 
+datos estructurados ocupan su dimensión en palabras de la memoria de la máquina virtual. Para indexar un 
+arreglo o matriz, se escribe el nombre de la matriz, seguido de '[', seguido de un número entero o del 
+nombre de una variable de tipo entero, seguido de ']'. El el caso de matriz, el proceso es análogo. Si el 
+índice se logra con el nombre de una variable, y este no existe en la amv, se lanzará un error 
+VAR001_ERROR, y se detendrá la ejecución del programa. Si para indexar se utiliza un númeor entero, la 
+máquina no revisa sobre el tamaño del arreglo, por lo que indexar un número mayor o igual al tamaño del 
+arreglo es perfectamente válido mientras exista una dirección que pueda alcanzarse usando este número. En caso de que se indexe algo cuyo valor excede la capacidad de la memoria, se lanzará el error MEM002_ERROR, y se suspenderá la ejecución del programa.
+
+LAS INSTRUCCIONES DE LA MÁQUINA VIRTUAL
+
+==========================================================================================================
+LA INSTRUCCIÓN SET	
+==========================================================================================================
+
+El propósito de esta instrucción, es el de resevar memoria para una variable del tipo especificado, es 
+decir, dado un nombre aceptado por la VM, el trabajo de esta instrucción, es asociar en la memoria de la 
+VM, el nombre pasado como parámetro, con una dirección libre, según el tamaño de ocupación del tipo
+ deseado para dicha variable. La sintáxis de la instrucción es:
+
+	set <name> <type>
+
+	Donde name, hace referencia al nombre de la variable, y type, al tipo deseado. Si <type> no existe, se lanzará un error TYPE001_ERROR, y se suspendrá la ejecución.
+
+Por ejemplo, la ejecución de la instrucción set primes type, debe encontrar una dirección en memoria que 
+satisfaga que desde ella en adelante, exista una reserva de memoria disponible para el almacenamiento de 
+la variable primes. La ejeución es exitosa, si existe espacio suficiente para el almacenamiento de la 
+variable, de lo contrario, la ejecución fue fallida.
+
+La ejecución exitosa de esta instrucción, cambia el estado de la tabla de asociación entre direcciones y 
+variables (amv), de tal manera que a esta tabla, se agrega una entrada que tiene como llave el nombre de 
+la variable, y como valor, la dirección inicial de almacenamiento de la variable. El valor del registro 
+ADD (address), en la tabla de registros (rgs), también se ve alterado, y toma como valor, la dirección de 
+esta variable. La memoria (mem), contiene ahora, desde la dirección apuntada por el registro ADD, y hasta 
+una dirección que cubra el tamaño del tipo de la nueva variable, palabras que indican la ocupación de 
+esas direcciones de memoria. La ejecución fallida de la instrucción, detiene por completo la ejecución 
+del programa que está actualmente siendo interpretado, y lanza en la salida estándar el error 
+MEM001_ERROR.
+
+La dirección encontrada por este comando, no debe tener necesariamente, el valor de 0. Pues puede ser que 
+anteriormente, la ejecución de la instrucción free haya limpiado uno o varios registros, los cuales ahora 
+se encuentran no ocupados, pero con el valor de la variable recién liberada, en este caso, el valor de 
+esta dirección de memoria, será el mismo de la variable recién limpiada. Por ejemplo:
+
+	001 set i integer
+	002 mov i 101010100101111
+	003 free i
+	004 set a integer
+
+Durante la ejecución secuencial de estos comandos, puede verse que si la lina 001, resultó exitosa, puede 
+moverse el valor 101010100101111, a la dirección relacionada a la variable i en el amv. Al limpiar la 
+variable i, ahora esta dirección se encuentra disponible, pero el valor será 101010100101111, por lo que 
+al almacenar la variable a (en la misma dirección, por el funcionamiento	interno de la instrucción 
+set), el valor después de la ejecución exitosa de la linea 004, será el mismo, es decir 101010100101111.
+
+La ejecución se un comando de la forma set <name> <type>#i (igualmente set <name> <type>#i#j), es 
+riesgosa, pues la base de este almacenamiento será la posición cero de la memoria, posición posiblemente 
+apuntada por un registro previamente, es decir, la modificación a la variable recién almacenda en esta 
+posición, o del registro que originalmente apuntaba a esta posición, alterará el valor de ambas 
+variables, sin importar si el tipo del registro y la variable (o elemento de la colección) sean 
+distintos. Si <type>, no es un tipo nativo, se lanzará el error TYPE001_ERROR, y se suspenderá la 
+ejecución del programa.
+
+==========================================================================================================
+LA INSTRUCCIÓN MOV
+==========================================================================================================
+
+El propósito de esta instrucción, es el asignar un valor específico a una variable, es decir, asignar un 
+valor a la dirección de memoria relacionada con una variable o alguna posición de un arreglo o matriz. La 
+sintáxis de la instrucción es:
+
+	mov <name|ind_arr|ind_mat> <binary|name|ind_arr|ind_mat>
+
+	Donde name hace referencia al nombre de la variable, ind_arr a una estructura del tipo <name>[index],
+	donde index es un número entero que representa la posición del arreglo a indexar, y ind_mat, 
+	representa la indexación sobre una matriz. index puede también ser una variable entera. Asimismo, 
+	binary es un número binario en complemento a dos.
+
+La ejecución exitosa de la instrucción mov op1 op2, copia entonces el valor de op2, en el espacio de 
+memoria asignado a op1. Las descripciones sobre los valores y su interpretación, se encuentran en el 
+archivo de documentación de la arquitectura. Si la ejecución no es exitosa, las causas normales de error 
+son que op1 no exista en el amv de la máquina virtual, es decir, que no exista una variable con este 
+nombre, en este caso, se lanzará el error VAR001_ERROR, y la máquina detendrá la ejecución del programa. 
+Si op1, tiene la forma de ind_arr, o ind_mat y el nombre del arreglo (o matriz) no existe, se lanzará el 
+error VAR002_ERROR, y la máquina detendrá la ejecución del programa. Si op2 tiene la forma de nae y no 
+existe, se lanza un error VAR001_ERROR, igualmente si tiene la forma ind_arr o ind_mat, y el nombre 
+referenciado no existe, se lanza un error VAR002_ERROR. Por último, si op2 no tiene ninguna de las formas 
+<name|ind_arr|ind_mat>, y el valor no es un número binario, se detiene la ejecución, lanzando el error 
+VAR002_ERROR.
+
+==========================================================================================================
+LA INSTRUCCIÓN NOT
+==========================================================================================================
+
+Esta instrucción, tiene como propósito, negar el contenido de la memoria apuntada por una variable, es 
+decir, ejecutar el not binario bit por bit del contenido de la memoria que corresponde a la variable de 
+su operador. La sintáxis de la instrucción es:
+
+	not <name|ind_arr|ind_mat> 
+
+	Donde name hace referencia al nombre de la variable, ind_arr a una estructura del tipo <name>[index],
+	donde index es un número entero que representa la posición del arreglo a indexar, y ind_mat, 
+	representa la indexación sobre una matriz. index puede también ser una variable entera.
+
+Si el operador de esta instrucción, es una variable no existente (o la indexación inválida), o un valor binario, la máquina lanzará un error VAR001_ERROR, y suspenderá la ejecución del programa. Los errores de indexación, también pueden ser lanzados tras la ejecución de esta instrucción.
+
+==========================================================================================================
+LA INSTRUCCIÓN OR
+==========================================================================================================
+
+==========================================================================================================
+LA INSTRUCCIÓN AND
+==========================================================================================================
+
+La instrucción AND, calcula el and (/\) bit por bit de sus operandos, y lo almacena en la dirección del primer operando. 
+
+	and var1 [val | var2]
+
+En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el tipo de var1, del and bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de control. No se determina con exactitud las consecuencias de esto. Si el segundo operando dado en binario, es mayor en longitud al tamaño de la palabra, el sistema abortará, reportando la linea de error.
+
+==========================================================================================================
+LA INSTRUCCIÓN XOR
+==========================================================================================================
+
+==========================================================================================================
+LA INSTRUCCIÓN ADD
+==========================================================================================================
+
+==========================================================================================================
+LA INSTRUCCIÓN SUB
+==========================================================================================================
+
+==========================================================================================================
+LA INSTRUCCIÓN DEC
+==========================================================================================================
+
+==========================================================================================================
+LA INSTRUCCIÓN INC
+==========================================================================================================
+
+==========================================================================================================
+LA INSTRUCCIÓN MUL
+==========================================================================================================
 
 
-- La instrucción MOV.
-	Ésta instrucción, cambia el valor de una variable alojada en memoria, por el valor o el valor de la 
-	variable dados como segundo operando de la instrucción. El valor a alojar, debe estar dado en 
-	binario. La máquina virtual se encarga de identificar el valor simbólico de cada cadena binaria según 
-	el tipo registrado en la AMV. 
+==========================================================================================================
+LA INSTRUCCIÓN DIV
+==========================================================================================================
 
-	mov var1 [var2 | valor]
+==========================================================================================================
+LA INSTRUCCIÓN MOD
+==========================================================================================================
 
-	La máquina virtual no revisa que el tipo de var2 sea igual al de var1, simplemente, en el caso de que 
-	sean distintos, la interpretación cambiará, es decir, se interpretará el valor de var2, 
-	independientemente de su tipo, y se tratará este valor como si perteneciera al tipo de la variable 
-	var1. En caso de que la interpretación bajo el nuevo tipo carezca de sentido, el sistema abortará la 
-	interpretaciñon del programa, indicando la linea del error. Si el segundo operando dado en binario, es mayor en longitud al tamaño de la palabra, el sistema abortará, reportando la linea de error.
 
-- La instrucción PUSH.
-	La instrucción PUSH, posee como operando únicamente una variable. Esta instrucción, empila sobre la 
-	pila de argumentos (ARGS), una referencia a la variable en la AMV. El propósito de esta instrucción, 
-	es proveer un mecanismo de comunicación entre un programa nativo de la máquina y la librería estándar 
-	de la máquina virtual (ATOMIC). Para una descripción de la librería estándar debe visitar el archi 
-	correspondiente. 
+==========================================================================================================
+LA INSTRUCCIÓN CMP
+==========================================================================================================
+
+
+==========================================================================================================
+LA INSTRUCCIÓN PUSH
+==========================================================================================================
+
+La instrucción PUSH, posee como operando únicamente una variable. Esta instrucción, empila sobre la 
+pila de argumentos (ARGS), una referencia a la variable en la AMV. El propósito de esta instrucción, 
+es proveer un mecanismo de comunicación entre un programa nativo de la máquina y la librería estándar 
+de la máquina virtual (ATOMIC). Para una descripción de la librería estándar debe visitar el archi 
+correspondiente. 
 
 	push [var | val]
 
-	Si el tipo de los argumentos no corresponde de manera debida con los de la interfaz 
-	de las funciones en ATOMIC, o la variable no existe, el sistema abortará la interpretación del 
-	programa, indicando la linea del error. La pila se vacia apenas termine la ejecución de la función. 
-	Si 	no se llama una función de manera adecuada, es decir, se empilan variables sin llamar la función, 
-	el comportamiento es no determinado. Si el operando dado en binario, es mayor en longitud al tamaño 
-	de la palabra, el sistema abortará, reportando la linea de error.
+Si el tipo de los argumentos no corresponde de manera debida con los de la interfaz 
+de las funciones en ATOMIC, o la variable no existe, el sistema abortará la interpretación del 
+programa, indicando la linea del error. La pila se vacia apenas termine la ejecución de la función. 
+Si 	no se llama una función de manera adecuada, es decir, se empilan variables sin llamar la función, 
+el comportamiento es no determinado. Si el operando dado en binario, es mayor en longitud al tamaño 
+de la palabra, el sistema abortará, reportando la linea de error.
 
-- La instrucción CALL.
-	CALL obedece la responsabilidad de comunicarse de manera directa con ATOMIC. Esta instrucción toma 
-	los 
-	valores de la pila y los pasa por parametro a la función llamada. Se desmpilan referencias de la pila 
-	hasta haber desempilado una cantidad igual al número de argumentos de la función llamada. 
+==========================================================================================================
+LA INSTRUCCIÓN CALL
+==========================================================================================================
 
-	Al llamar la función, aparte de desempilar la cantidad adecuada de referencias, la variable RET 
-	perteneciente al almacenamiento WORLD, ahora posee el valor retornado por la función.
+CALL obedece la responsabilidad de comunicarse de manera directa con ATOMIC. Esta instrucción toma 
+los valores de la pila y los pasa por parametro a la función llamada. Se desmpilan referencias de la pila 
+hasta haber desempilado una cantidad igual al número de argumentos de la función llamada. 
 
-	Si even es una función que cumple el siguiente trato, entonces el proceso seguido es:
+Al llamar la función, aparte de desempilar la cantidad adecuada de referencias, la variable RET 
+perteneciente al almacenamiento WORLD, ahora posee el valor retornado por la función.
+
+Si even es una función que cumple el siguiente trato, entonces el proceso seguido es:
 
 	even : int -> bool
 	even(n) = true IFF n mod 2 == 0 ELSE false
@@ -82,119 +246,27 @@ Tipo = [I, R, B, C, I#N, R#N, B#N, C#N, I#N#M, R#N#M, B#N#M, C#N#M]
 
 	call function
 
-	Si function no es una función incluida en ATOMIC, el sistema abortará la interpretaciñon del 
-	programa, indicando la linea del error.
+Si function no es una función incluida en ATOMIC, el sistema abortará la interpretaciñon del programa, indicando la linea del error.
 
-- La instrucción AND.
-	La instrucción AND, calcula el and (/\) bit por bit de sus operandos, y lo almacena en la dirección 
-	del primer operando. 
+==========================================================================================================
+LA INSTRUCCIÓN FREE
+==========================================================================================================
 
-	and var1 [val | var2]
+==========================================================================================================
+LA INSTRUCCIÓN HALT
+==========================================================================================================
 
-	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la 
-	linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el 
-	tipo de var1, del and bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la 
-	inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de 
-	control. No se determina con exactitud las consecuencias de esto. Si el segundo operando dado en 
-	binario, es mayor en longitud al tamaño de la palabra, el sistema abortará, reportando la linea de 
-	error.
+==========================================================================================================
+LA INSTRUCCIÓN PRINT
+==========================================================================================================
 
-- La instrucción OR.
-	La instrucción OR, calcula el or (\/) bit por bit de sus operandos, y lo almacena en la dirección 
-	del primer operando. 
+cmp_blocks = ['equ', 'neq', 'slt', 'sgt', 'leq', 'geq']
+blocks = ['do', 'if', 'clc', 'act'] + cmp_blocks
+instructions = ['print', 'readint', 'readchr']
 
-	or var1 [val | var2]
-
-	En caso de que var1 o var2, no existan, el sistema aborta la ejecución del programa, indicando la 
-	linea del error. De lo contrario, ahora el valor de var1, será el valor de la interpretación bajo el 
-	tipo de var1, del or bit a bit del valor anterior de var1 y el valor de var2 o de val. Si la 
-	inerpretación bajo el tipo de var1, se sale del tipo de var1, se tiene una situación fuera de 
-	control. No se determina con exactitud las consecuencias de esto. Si el segundo operando dado en 
-	binario, es mayor en longitud al tamaño de la palabra, el sistema abortará, reportando la linea de 
-	error.
-
-- La instrucción NOT.
-	La instrucción NOT, calcula el not bit por bit de su operandos, y lo almacena en la dirección 
-	del mismo. 
-
-	not var
-
-	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del 
-	error. De lo contrario, ahora el valor de var, será el valor de la interpretación bajo el tipo de 
-	var, del not bit a bit del valor anterior de var.
-
-- La instrucción INC.
-	El propósito de ésta instrucción, es incrementar el valor de la variable operada en una unidad. Puede 
-	aplicarse sobre todos los tipos de datos.
-
-	inc var
-
-	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del 
-	error.
-
-- La instrucción DEC.
-	El propósito de ésta instrucción, es decrementar el valor de la variable operada en una unidad. Puede 
-	aplicarse sobre todos los tipos de datos.
-
-	dec var
-
-	En caso de que var, no exista, el sistema aborta la ejecución del programa, indicando la linea del 
-	error.
-
-- La instrucción ADD.
-
-- La instrucción SUB.
-
-- La instrucción MUL.
-
-- La instrucción DIV.
-
-- La instrucción MOD.
-
-- La instrucción PRINT.
-
-- La instrucción HALT.
-
-- La instrucción FREE.
-
-- La instrucción XOR.
-
+single_composed_instructions = ['halt', 'skip']
+single_instructions = single_composed_instructions + ['gss']
+Indexación
 - El bloque CMP.
-
-equ 000
-slt 001
-sgt 010
-leq 011
-geq 100
-neq 101b
-
 - El bloque DO.
-
-act
-clc
-
 - El bloque IF.
-
-act
-
-- La instrucción SKIP.
-
-- La instrucción ABORT.
-
-
-mov I I 		DONE
-not I 			DONE 
-and I I 		DONE 
-or I I 			DONE
-xor I I 		DONE
-=============
-add I I
-sub I I
-inc I
-dec I
-mul I I
-mod I I
-div I I
-=============
-print I 		DONE
-push I
