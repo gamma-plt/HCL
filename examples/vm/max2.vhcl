@@ -1,0 +1,17 @@
+set a integer
+set b integer
+
+set nl char
+mov nl 0000000000001010
+
+mov a 0101101101111111 ;; Number is 23423
+mov b 0011001110111010 ;; Number is 13242
+
+push a
+push b
+call max
+
+print ..retint
+print nl
+
+halt
