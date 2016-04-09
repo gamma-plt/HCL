@@ -1,0 +1,36 @@
+set n integer
+set nl char
+set space char
+
+readint n
+mov nl 0000000000001010
+mov space 0000000000100000
+
+do:
+	gss guard1 guard2
+
+	clc:
+		push n
+		call even
+		cmp ..retbol 0001
+		print n
+		print space	
+
+		equ:
+			mov guard1 0001
+			mov guard2 0000
+		neq:
+			mov guard2 000
+			cmp n 0001
+			sgt:
+				mov guard2 0001
+			mov guard1 0000
+
+	act guard1:
+		div n 0010
+	act guard2:
+		mul n 0011
+		inc n
+
+print nl
+halt
