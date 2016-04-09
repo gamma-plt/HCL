@@ -1,6 +1,6 @@
 # The number of words in the memory
 
-MEMORY_SIZE = 30
+MEMORY_SIZE = 10000
 
 # The number of bits of a word, not counting the occupation bit
 
