@@ -1,0 +1,19 @@
+abs
+chr
+even
+isalnum
+isalpha
+isdigit
+islower
+isspace
+isupper
+max
+min
+odd
+ord
+pow
+pred
+rand(a, b)
+succ
+tolower
+toupper

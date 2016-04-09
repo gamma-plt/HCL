@@ -18,7 +18,6 @@ do:
 		mod .r1int 0010
 
 		mov ..retbol 0000
-
 		cmp .r1int 0000
 		equ:
 			mov ..retbol 0001

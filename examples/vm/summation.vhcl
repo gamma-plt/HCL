@@ -24,8 +24,11 @@ do:
 
 	act guard:
 		add sum i
-		print sum
-		print nl
 		inc i
+
+print ..infty_pos
+print nl
+print sum
+print nl
 
 halt
