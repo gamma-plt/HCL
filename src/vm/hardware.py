@@ -18,9 +18,25 @@ TYPES = ['INTEGER', 'BOOLEAN', 'CHAR']
 '''Defines the current functions in the enviroment, that is, the atomic
 standard library'''
 ATOMIC = {
-	'min' : atomic.atomic_min,
+	'abs' : atomic.atomic_abs,
+	'chr' : atomic.atomic_chr,
+	'even' : atomic.atomic_evn,
+	'isalnum' : atomic.atomic_isalnum,
+	'isalpha' : atomic.atomic_isalpha,
+	'isdigit' : atomic.atomic_isdigit,
+	'islower' : atomic.atomic_islower,
+	'isspace' : atomic.atomic_isspace,
+	'isupper' : atomic.atomic_isupper,
 	'max' : atomic.atomic_max,
-	'abs' : atomic.atomic_abs	
+	'min' : atomic.atomic_min,
+	'odd' : atomic.atomic_odd,
+	'ord' : atomic.atomic_ord,	
+	'pow' : atomic.atomic_pow,
+	'pred' : atomic.atomic_pred,
+	'rand' : atomic.atomic_rand,
+	'succ' : atomic.atomic_succ, 
+	'tolower' : atomic.atomic_tolower, 
+	'toupper' : atomic.atomic_toupper, 
 }
 
 # The sizes in words, required for the storage of a value of each type
@@ -337,8 +353,8 @@ class HCLVirtualMachine(object):
 			self._set('.' + register + 'chr', 'CHAR')
 
 		self._set('..retint', 'INTEGER')
-		self._set('..retchr', 'INTEGER')
-		self._set('..retbol', 'INTEGER')
+		self._set('..retchr', 'CHAR')
+		self._set('..retbol', 'BOOLEAN')
 
 		self._set('..infty_pos', 'INTEGER')
 		self._mov('..infty_pos', '0' + ('1' * (WORD_SIZE - 1)))
@@ -903,6 +919,12 @@ class HCLVirtualMachine(object):
 		'''Implements the logic for communicating between the debugger and the
 		vm, for the purpose of calling a function, as defined in atomic library
 		'''
+
+		fnrgs = ['..retint', '..retchr', '..retbol']
+
+		for fnrg in fnrgs:
+			_, mem_address = self._fetch(fnrg)
+			self._set_value(mem_address, '1' + '0')
 		
 		if name in ATOMIC:
 			fn_type = atomic.TYPES[ATOMIC[name]]
@@ -934,7 +956,8 @@ class HCLVirtualMachine(object):
 				if result:
 					proper_register, conv_function = ret_rgs[return_type]
 					_, mem_address = self._fetch(proper_register)
-					result = conv_function(result)	
+					result = conv_function(result)
+					
 					self._set_value(mem_address, '1' + result)
 
 				else:
@@ -947,7 +970,9 @@ class HCLVirtualMachine(object):
 				return False
 
 		else:
-			return False
+			# Undeclared function
+			print 'ERROR: CALL001_ERROR'
+			quit()
 
 	def _free(self, variable):
 		'''Sets to unocuppied the memory location of variable, the variable
