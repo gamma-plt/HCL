@@ -1,0 +1,194 @@
+set n integer
+set nl char
+set space char
+
+readint n
+
+mov nl 0000000000001010
+mov space 0000000000100000
+
+set W integer#10#10
+set current integer
+set flag integer
+
+set inf integer
+mov inf 111111
+
+set d integer#10#10
+
+set i integer
+set j integer
+set k integer
+
+mov i 000000
+
+do:
+	gss guard1
+
+	clc:
+		mov guard1 000000
+		cmp i n
+		slt:
+			mov guard1 000001
+
+	act guard1:
+
+		mov j 000000
+
+		do:
+
+			gss guard2
+
+			clc:
+				mov guard2 000000
+				cmp j n
+				slt:
+					mov guard2 000001
+
+			act guard2:
+				mov flag 000000
+				dec flag
+
+				readint current
+
+				mov W[i][j] current
+
+				cmp flag W[i][j]
+				equ:
+					mov W[i][j] inf
+
+				inc j
+
+		inc i
+
+mov i 000000
+
+do:
+	gss guard1
+
+	clc:
+		mov guard1 000000
+		cmp i n
+		slt:
+			mov guard1 000001
+
+	act guard1:
+
+		mov j 000000
+
+		do:
+
+			gss guard2
+
+			clc:
+				mov guard2 000000
+				cmp j n
+				slt:
+					mov guard2 000001
+
+			act guard2:
+				mov d[i][j] W[i][j]
+
+				inc j
+
+		inc i
+
+mov k 000000
+
+do:
+
+	gss guard1
+
+	clc:
+		mov guard1 000000
+		cmp k n
+		slt:
+			mov guard1 000001
+
+	act guard1:
+
+		mov i 000000
+
+		do:
+
+			gss guard2
+
+			clc:
+				mov guard2 000000
+				cmp i n
+				slt:
+					mov guard2 000001
+
+			act guard2:
+
+				mov j 000000
+
+				do:
+
+					gss guard3
+
+					clc:
+						mov guard3 000000
+						cmp j n
+						slt:
+							mov guard3 000001
+
+					act guard3:
+						if:
+							gss guard4
+
+
+							mov .r1int d[i][k]
+							add .r1int d[k][j]
+							cmp .r1int d[i][j]
+
+							slt:
+								mov guard4 000001
+
+							act guard4:
+								mov .r1int d[i][k]
+								add .r1int d[k][j]
+								mov d[i][j] .r1int
+						inc j
+
+				inc i
+
+		inc k
+
+
+
+mov i 000000
+
+do:
+	gss guard1
+
+	clc:
+		mov guard1 000000
+		cmp i n
+		slt:
+			mov guard1 000001
+
+	act guard1:
+
+		mov j 000000
+
+		do:
+
+			gss guard2
+
+			clc:
+				mov guard2 000000
+				cmp j n
+				slt:
+					mov guard2 000001
+
+			act guard2:
+
+				print d[i][j]
+				print space
+				inc j
+
+		inc i
+		print nl
+
+halt
