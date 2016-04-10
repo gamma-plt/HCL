@@ -18,7 +18,7 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
 
 keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
             'for':'FOR', 'rof':'ROF', 'abort':'ABORT', 'skip':'SKIP', 'array':'ARRAY',
-            'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'bool':'BOOL', 'min':'MIN', 'max':'MAX', 
+            'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'boolean':'BOOLEAN', 'min':'MIN', 'max':'MAX', 
             'abs':'ABS', 'print':'PRINT', 'even':'EVEN', 'char' : 'CHAR'}
 
 class Token(object):
@@ -38,9 +38,13 @@ class Token(object):
        return self.__str__()
 
    def __eq__(self, y):
+       if not isinstance(y, Token):
+          return False
        return self.token == y.token
 
    def __neq__(self, y):
+       if not isinstance(y, Token):
+          return True
        return not self.token == y.token
 
    def __hash__(self):
