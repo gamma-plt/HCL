@@ -21,20 +21,20 @@ begin
 		q ← q + 1
 	od
 
-	var i : integer;
-	var j : integer;
-	var N : integer;
-	var X : integer;
+	var i : int;
+	var j : int;
+	var N : int;
+	var X : int;
 	var present : boolean;
 
 	N ← 10;
 	X ← 5;
 
-	var A : array[0 .. N] of integer;
+	var A : array[0 .. N] of int;
 
 	i, j ← 0, N + 1;
 	do i < j - 1 →
-		var m : integer;
+		var m : int;
 		m ← (i + j) / 2;
 		if A[m] < X → i ← m
 		 □ A[m] = X → i, j ← m, n

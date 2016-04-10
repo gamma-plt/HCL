@@ -18,7 +18,7 @@ H -> var L : Δ
 X -> boolean | int | char
 Γ -> [ Ω ]
 Ω -> Θ Ψ
-Θ -> V .. V
+Θ -> number .. number
 Ψ -> , Θ | EPSILON
 C -> Q N
 N -> ∧ Q N | EPSILON

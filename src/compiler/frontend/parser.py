@@ -18,6 +18,7 @@ class ParseTree(object):
        self.value = None
        self.next = None
        self.children = []
+       self.marks = []
 
    def subs(self, args):
        last = None
@@ -29,13 +30,28 @@ class ParseTree(object):
            if last is not None:
               last.next = node
            self.children.append(node)
+           self.marks.append(False)
+           node.parent = self
            last = node
-       last.next = self
+       # last.next = self
        return self.children[0]
 
    def val(self, value):
        self.value = value
-       return self.next
+       return self.up_node()
+
+   def up_node(self):
+       node = self
+       root = False
+       while node.next is None:
+          if node.parent is None:
+             root = True
+             break
+          node = node.parent
+       if not root: 
+          return node.next
+       else:
+          return node  
 
    def __unicode__(self):
        if len(self.children) == 0:
@@ -55,6 +71,7 @@ class ParseTree(object):
 
    def __repr__(self):
        return self.__str__()
+
 
 
 
@@ -83,7 +100,7 @@ def parse(path, debug=False):
     tokens, status_code = lexer.lex(path)
     if status_code != 0:
        print("Compiler exited with status -1", file=sys.stderr)
-       sys.exit(-1)
+       return None, -1
     reverse = dict(zip(lexer.regex.values(), lexer.regex.keys()))
     G, FNE, FLL, LL = LLT.LL(GRAMMAR_PATH)
     tab = {}
@@ -117,11 +134,13 @@ def parse(path, debug=False):
              else:
                 tree = tree.val('')
           except KeyError:
+             status_code = -2
              print("File: %s - Line: %d:%d\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].line, tokens[0].col, tokens[0].value, ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
              break
           except IndexError:
              if last_evaluation is None:
                 last_evaluation = lexer.Token(u'', u'')
+             status_code = -3
              print("File: %s - Line: %d:%d\nSyntax Error: Missing symbol, expected: %s" % (path, last_evaluation.line, last_evaluation.col+len(last_evaluation.value), ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
              break
        else:
@@ -131,9 +150,10 @@ def parse(path, debug=False):
              tokens = tokens[1:]
              stack = stack[1:]
           else:
+             status_code = -2
              print("File: %s - Line: %d:%d\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].line, tokens[0].col, tokens[0].value, stack[0].value), file=sys.stderr)
              break
-    return root
+    return root, status_code
 
 def output(tokens, stack):
     if len(tokens) > 5:
@@ -146,4 +166,3 @@ def output(tokens, stack):
        s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack])
     print(s+'\n')
 
-    
