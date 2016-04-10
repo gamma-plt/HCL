@@ -1,0 +1,76 @@
+set n integer
+set i integer
+set two integer
+
+set nl char
+set space char
+
+readint n
+mov two 00010
+mov nl 01010
+mov space 100000
+
+do:
+	gss guard
+
+	clc:
+		mov .r1int n
+		mod .r1int two
+		cmp .r1int 00000
+
+		equ:
+			mov guard 00001
+
+	act guard:
+		print two
+		print space
+		div n two
+
+mov i 00011
+
+do:
+	gss guard
+
+	clc:
+		mov .r1int i
+		mul .r1int .r1int
+		cmp .r1int n
+
+		leq:
+			mov guard 00001
+
+	act guard:
+
+		do:
+
+			gss guard1
+
+			clc:
+				mov .r1int n
+				mod .r1int i
+				cmp .r1int 00000
+
+				equ:
+					mov guard1 00001
+
+			act guard1:
+				print i
+				print space
+				div n i
+
+		add i two
+
+if:
+	gss guard
+
+	cmp n two
+	sgt:
+		mov guard 00001
+
+	act guard:
+		print n
+		print space
+
+print nl
+
+halt
