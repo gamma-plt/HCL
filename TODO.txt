@@ -30,6 +30,8 @@ pred
 
 Compiler
 --------
-1. Finish Lexical Analysis and Parsing components (Frontend)
-2. Implement Semantic Analysis
-3. Intermediate and final Code Generation
+0. Documentation and Cleanup
+1. Implement Semantic Analysis
+   1.1 Expression Translation and Three-Adress Code
+   1.2 Type Checking 
+2. Intermediate and final Code Generation

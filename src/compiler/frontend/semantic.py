@@ -13,6 +13,7 @@ COMMA = u'comma'
 ARRAY = u'ARRAY'
 NUM = u'number'
 COMMA = u'comma'
+DO = u'DO'
 
 def analyse(path):
     tree, status_code = parser.parse(path)
@@ -23,7 +24,10 @@ def analyse(path):
     scope = {}
     root = tree
     node = tree.children[3]
-    last_node = None
+    status_code, node, scope, lvl = analyse_tree(path, root, node, scope, lvl)
+
+def analyse_tree(path, root, node, scope, lvl):
+    stat = 0
     while id(node) != id(root):
        if len(node.children) > 0:
           child = node.children[0]
@@ -32,12 +36,20 @@ def analyse(path):
                 stat, node, scope = process_var(child.next, scope, lvl, path)
                 if stat != 0:
                    break
+             elif child.value.token == DO:
+                lvl += 1
+                stat, node, scope = process_do(child.next, scope, lvl, path)
+                lvl -= 1
           else:
              node = child
        else:
           if node.value != '':
              print(node.value)
           node = node.up_node()
+    lvl -= 1
+    return stat, node.up_node(), scope, lvl
+
+def process_do()
 
 def process_var(child, scope, lvl, path):
     stat = 0

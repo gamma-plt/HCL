@@ -19,7 +19,7 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
 keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
             'for':'FOR', 'rof':'ROF', 'abort':'ABORT', 'skip':'SKIP', 'array':'ARRAY',
             'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'boolean':'BOOLEAN', 'min':'MIN', 'max':'MAX', 
-            'abs':'ABS', 'print':'PRINT', 'even':'EVEN', 'char' : 'CHAR'}
+            'abs':'ABS', 'print':'PRINT', 'even':'EVEN', 'char' : 'CHAR', 'readint':'READINT'}
 
 class Token(object):
    def __init__(self, token, value, l=0, col=0):
