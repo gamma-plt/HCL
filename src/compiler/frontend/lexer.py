@@ -14,12 +14,12 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
          'not_in':u'^∉$', 'union':u'^∪$', 'intersection':u'^∩$', 'infty':u'^∞$',
          'empty':u'^∅$', 'guard_sep':u'^□$', 'left_rparen':r'^[(]$',
          'right_rparen':r'^[)]$', 'left_sparen':r'^[[]$', 'right_sparen':r'^[]]$',
-         'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'#.*', 'pow':r'^\^$'}
+         'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'#.*', 'pow':r'^\^$',
+         'func':r'^[a-zA-Z_]\w*[(]$'}
 
-keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
+keywords = {'program':'PROGRAM', 'apple':'APPLE', 'lit': 'LIT', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
             'for':'FOR', 'rof':'ROF', 'abort':'ABORT', 'skip':'SKIP', 'array':'ARRAY',
-            'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'boolean':'BOOLEAN', 'min':'MIN', 'max':'MAX', 
-            'abs':'ABS', 'print':'PRINT', 'even':'EVEN', 'char' : 'CHAR', 'readint':'READINT'}
+            'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'boolean':'BOOLEAN', 'print':'PRINT', 'char' : 'CHAR'}
 
 class Token(object):
    def __init__(self, token, value, l=0, col=0):

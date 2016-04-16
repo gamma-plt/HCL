@@ -14,42 +14,98 @@ ARRAY = u'ARRAY'
 NUM = u'number'
 COMMA = u'comma'
 DO = u'DO'
+GUARD_SEP = u'guard_sep'
+GUARD_EXEC = u'guard_exec'
+INT = u'int'
+BOOLEAN = u'boolean'
+CHAR = u'char'
+
+cond_count = {'if':0, 'do':0}
+instr_count = 0
+lvl_count = -1
 
 def analyse(path):
     tree, status_code = parser.parse(path)
     if status_code != 0:
        print("Compiler exited with status %d" % (status_code), file=sys.stderr)
        return None, status_code
-    lvl = 0
+    lvl = -1
     scope = {}
+    definitions = {}
+    program = {}
+    guards = {}
+    instructions = {}
     root = tree
     node = tree.children[3]
-    status_code, node, scope, lvl = analyse_tree(path, root, node, scope, lvl)
+    status_code, node = analyse_tree(path, root, node, scope, program, guards, instructions, lvl)
 
-def analyse_tree(path, root, node, scope, lvl):
+def analyse_tree(path, root, node, scope, definitions, program, guards, instructions, lvl):
     stat = 0
+    lvl_count += 1
+    cur_lvl = lvl_count
+    scope[cur_lvl] = {'inside':lvl}
+    try:
+       _ = instructions[lvl]
+    except IndexError:
+       instructions[lvl] = []
     while id(node) != id(root):
        if len(node.children) > 0:
           child = node.children[0]
           if child.value is not None:
              if child.value.token == VAR:
-                stat, node, scope = process_var(child.next, scope, lvl, path)
+                stat, node = process_var(child.next, definitions, cur_lvl, path)
                 if stat != 0:
                    break
              elif child.value.token == DO:
-                lvl += 1
-                stat, node, scope = process_do(child.next, scope, lvl, path)
-                lvl -= 1
+                stat, node = process_cond(child.next, scope, definitions, program, guards, instructions, cur_lvl, path, 'do')
+                if stat != 0:
+                   break
+             elif child.value.token == IF:
+                stat, node = process_cond(child.next, scope, definitions, program, guards, instructions, cur_lvl, path, 'if')
+                if stat != 0:
+                   break
           else:
              node = child
        else:
           if node.value != '':
              print(node.value)
           node = node.up_node()
-    lvl -= 1
-    return stat, node.up_node(), scope, lvl
+    return stat, node
 
-def process_do()
+def process_cond(child, scope, definitions, program, guards, instructions, lvl, path, _type):
+    stat = 0
+    limit = child.next
+    node = child
+    key = _type+'_'+str(cond_count[_type])
+    instruction = {'type':_type.upper(), 'set':None, 'guards':key}
+    guards[key] = []
+    while id(node) != id(limit):
+       if len(node.children) > 0:
+          if node.children[1].value is not None:
+             if node.children[1].value.token == guard_exec:
+                stat, node, instr_list = process_expr(node.children[0], scope, definitions, lvl, path)
+                if stat != 0:
+                   break
+                instructions['instr_'+str(instr_count)] = instr_list
+                g = {'eval':'instr_'+str(instr_count), 'scope':lvl}
+                guards[key].append(g)
+                node = node.up_node()
+                stat, node = analyse_tree(path, node.up_node(), node, scope, program, guards, instructions, lvl)
+                if stat != 0:
+                   break
+          else:
+             node = node.children[0]
+       else:
+          node = node.up_node()
+    cond_count[_type] += 1
+    return stat, node.up_node()
+
+
+def process_expr(_type, node, scope, definitions, lvl, path):
+    stat = 0
+    limit = node.next
+    while id(node) != id(limit):
+      
 
 def process_var(child, scope, lvl, path):
     stat = 0
@@ -121,7 +177,7 @@ def process_var(child, scope, lvl, path):
          scope[lvl] = info
        for var in variables:       
            info[var.value] = {'size':shape, 'type':type_tok, 'tok':var}
-    return stat, node.up_node(), scope
+    return stat, node.up_node()
 
 
 

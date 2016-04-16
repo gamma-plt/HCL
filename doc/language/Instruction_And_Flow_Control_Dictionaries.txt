@@ -1,5 +1,15 @@
-
 scope = {
+	0 : {
+	    inside:<Key to scope> 
+	},
+	1 : {
+	    inside:<Key to scope> 
+	},
+	...
+}
+
+#Keys reference scope existance
+definitions = {
      0: {
 	       var1 : {'size':shape, 'type':type_tok, 'tok':var},
 	       var2 : {'size':shape2, 'type':type_tok2, 'tok':var2},
