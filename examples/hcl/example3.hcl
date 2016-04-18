@@ -30,7 +30,7 @@ begin
 	N ← 10;
 	X ← 5;
 
-	var A : array[0 .. N] of int;
+	var A : array[0 .. 10] of int;
 
 	i, j ← 0, N + 1;
 	do i < j - 1 →

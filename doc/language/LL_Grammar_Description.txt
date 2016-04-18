@@ -2,13 +2,15 @@ P -> program name begin W end
 W -> Π | EPSILON
 Π -> Ξ ζ
 ζ -> Ξ ζ | EPSILON
-Ξ -> D | I | S | H | print C | skip | abort
+Ξ -> D | I | S | H | FUNC | print C | skip | abort | lit | apple 
+FUNC -> func ARGS )
 D -> do G od
 I -> if G fi
 G -> Ô Ĺ
 Ĺ -> □ Ô Ĺ | EPSILON
 Ô -> C → Π
 S -> L ← R
+ARGS -> R | EPSILON
 R -> C M
 M -> , C M | EPSILON
 L -> name Φ Z
@@ -31,7 +33,7 @@ E -> T A
 A -> + T A | - T A | EPSILON
 T -> F B
 B -> * F B | / F B | ^ F B | EPSILON
-F -> - F | ( C ) | V | max ( C , C ) | min ( C , C ) | abs ( C ) | even ( C )
+F -> - F | ( C ) | V | FUNC
 V -> number | name Φ | ∞
 Φ -> [ O ] | ( R ) | EPSILON
 O -> E J
