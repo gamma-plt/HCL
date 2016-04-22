@@ -1,0 +1,81 @@
+set n integer
+set nl char
+set space char
+set s integer
+set array integer#100
+readint n
+
+mov nl 001010
+mov space 100000
+
+mov .r1int 000000
+do:
+	gss guard
+	clc:
+		cmp .r1int n
+		neq:
+			mov guard 000001
+	act guard:
+		readint array[.r1int]
+		inc .r1int
+
+readint s
+
+set init integer
+set end integer
+set flag boolean
+set sum integer
+
+mov flag 000001
+mov init 000000
+mov sum 000000
+mov end n
+dec end
+
+mov .r1int 000000
+do:
+	gss guard
+	clc:
+		cmp init end
+		mov .r1bol 000000
+		neq:
+			mov .r1bol 000001
+
+		mov .r2bol flag
+
+		mov guard .r1bol
+		and guard .r2bol
+
+	act guard:
+		mov sum array[init]
+		add sum array[end]
+
+		if:
+			gss guard1 guard2 guard3
+
+			cmp sum s
+			equ:
+				mov guard1 000001
+
+			cmp sum s
+			sgt:
+				mov guard2 000001
+
+			cmp sum s
+			slt:
+				mov guard3 000001
+
+			act guard1:
+				print init
+				print space
+				print end
+				mov flag 000000
+
+			act guard2:
+				dec end
+
+			act guard3:
+				inc init			
+
+print nl
+halt

@@ -1,0 +1,42 @@
+set n integer
+set nl char
+set space char
+
+readint n
+mov nl 001010
+mov space 100000
+
+do:
+	gss guard1 guard2
+
+	clc:
+		push n
+		call even
+		mov .r1bol ..retbol		;; Code for the first guard
+
+		push n
+		call even
+		not ..retbol
+		mov .r2bol ..retbol 	;; Code for the second guard, first operand
+
+		cmp n 000001
+		mov .r3bol 000000		;; WARNING, if this statment is removed, then the program will run forever
+		sgt:
+			mov .r3bol 000001
+
+		and .r2bol .r3bol		;; Code for the second guard, second operand
+
+		mov guard1 .r1bol
+		mov guard2 .r2bol
+
+		print n
+		print space		
+
+	act guard1:
+		div n 000010
+	act guard2:
+		mul n 000011
+		inc n
+
+print nl
+halt

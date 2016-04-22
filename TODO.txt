@@ -3,30 +3,11 @@ VM
 Document every file in the vm folder
 Document the VM
 
-ATOMIC
---------
+Optimize print, read for atoms and arrays
+Ompitmize printing strings with spaces
+Dynamic memory allocation via set command
 
-isalnum
-isalpha
-isdigit
-islower
-isupper
-ispunct
-isspace
-isxdigit
-toupper
-tolower
-abs
-max
-min
-pow
-rand(a, b)
-even
-odd
-ord
-chr
-succ
-pred
+
 
 Compiler
 --------
@@ -35,3 +16,37 @@ Compiler
    1.1 Expression Translation and Three-Adress Code
    1.2 Type Checking 
 2. Intermediate and final Code Generation
+
+
+compile_do(doblock, level):
+	guards = doblock.guards
+
+	write(buffer, level + 'do:\n')
+	write(buffer, level + '\tgss ')
+
+	guardnames = {}
+
+	for guard in guards:
+		ugname = ugn(guard, env)	;; Unused gaurd name
+		guardnames[guard] = ugname
+		write(buffer, ugname + ' ')
+
+	write(buffer, '\n')
+	write(buffer, level + '\tclc:\n')
+
+	for guard in guards:
+		compile(guard, level)
+
+	for guard in guards:
+		write(buffer, level + '\tact' + guardnames[guard] + ':\n')
+
+		body = guard.body
+
+		compile(body, level + 1)
+
+EXPLORE:
+	compiler security (Ken thmpson)
+	security by I/O pocedures
+	Garbage collection
+
+

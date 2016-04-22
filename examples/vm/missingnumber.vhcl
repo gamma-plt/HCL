@@ -1,0 +1,40 @@
+set N integer
+set nl char
+set space char
+set bound integer
+set array integer#100
+readint n
+mov bound n
+dec bound
+mov .r1int 0000000
+do:
+	gss guard
+	clc:
+		cmp .r1int bound
+		neq:
+			mov guard 0000001
+	act guard:
+		readint array[.r1int]
+		inc .r1int
+
+mov nl 001010
+mov space 100000
+set summation integer
+mov summation N
+inc summation
+mul summation N
+div summation 0000010
+mov .r1int 0000000
+do:
+	gss guard1
+	clc:
+		cmp .r1int N
+		leq:
+			mov guard1 0000001
+	act guard1:
+		sub summation array[.r1int]
+		inc .r1int
+
+print summation
+print nl
+halt
