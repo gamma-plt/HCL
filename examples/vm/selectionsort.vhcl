@@ -1,0 +1,107 @@
+set n integer
+set nl char
+set space char
+set array integer#100
+set copy integer#100
+
+mov nl 001010
+mov space 100000
+
+readint n
+
+mov .r1int 000000
+do:
+	gss guard
+	clc:
+		cmp .r1int n
+		neq:
+			mov guard 000001
+	act guard:
+		readint array[.r1int]
+		inc .r1int
+
+mov .r1int 000000
+do:
+	gss guard
+	clc:
+		cmp .r1int n
+		neq:
+			mov guard 000001
+	act guard:
+		mov copy[.r1int] array[.r1int]
+		inc .r1int
+
+set pmin integer
+
+mov .r1int 00000
+do:
+	gss guard
+	clc:
+		mov .r2int n
+		dec .r2int
+		cmp .r1int .r2int
+		neq:
+			mov guard 000001
+	act guard:
+		mov pmin .r1int
+		mov .r2int .r1int
+		inc .r2int
+		do:
+			gss g1
+			clc:
+				cmp .r2int n
+				neq:
+					mov g1 000001
+			act g1:
+				if:
+					gss g2
+
+					cmp array[.r2int] array[pmin]
+					slt:
+						mov g2 00001
+					act g2:
+						mov pmin .r2int
+				inc .r2int
+
+		mov .r4int array[.r1int]
+		mov array[.r1int] array[pmin]
+		mov array[pmin] .r4int
+		inc .r1int
+
+print "ORIGINAL"
+print space
+print "ARRAY:"
+print space
+
+mov .r1int 000000
+do:
+	gss guard
+	clc:
+		cmp .r1int n
+		neq:
+			mov guard 000001
+	act guard:
+		print copy[.r1int]
+		print space
+		inc .r1int
+print nl
+
+print "SORTED"
+print space
+print "ARRAY:"
+print space
+
+mov .r1int 000000
+do:
+	gss guard
+	clc:
+		cmp .r1int n
+		neq:
+			mov guard 000001
+	act guard:
+		print array[.r1int]
+		print space
+		inc .r1int
+print nl
+
+halt
