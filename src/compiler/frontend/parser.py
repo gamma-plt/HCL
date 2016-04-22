@@ -10,6 +10,8 @@ import ll_table as LLT
 
 GRAMMAR_PATH = '../../../doc/language/LL_Grammar_Description.txt'
 
+basepath = os.path.dirname(__file__)
+GRAMMAR_PATH = os.path.abspath(os.path.join(basepath, GRAMMAR_PATH))
 
 class ParseTree(object):
    def __init__(self, rule):

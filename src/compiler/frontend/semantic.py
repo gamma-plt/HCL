@@ -2,10 +2,12 @@
 
 from __future__ import print_function
 
+import vm
 import os
 import re
 import sys
 import parser
+
 
 VAR = u'VAR'
 OP = u'name'
@@ -19,10 +21,15 @@ GUARD_EXEC = u'guard_exec'
 INT = u'int'
 BOOLEAN = u'boolean'
 CHAR = u'char'
+FUNC = u'func'
+READ = u'read'
+
 
 cond_count = {'if':0, 'do':0}
 instr_count = 0
 lvl_count = -1
+
+types = {INT:'INTEGER', BOOLEAN:'BOOLEAN', CHAR:'CHAR'}
 
 def analyse(path):
     tree, status_code = parser.parse(path)
@@ -81,19 +88,21 @@ def process_cond(child, scope, definitions, program, guards, instructions, lvl, 
     guards[key] = []
     while id(node) != id(limit):
        if len(node.children) > 0:
-          if node.children[1].value is not None:
-             if node.children[1].value.token == guard_exec:
-                stat, node, instr_list = process_expr(node.children[0], scope, definitions, lvl, path)
-                if stat != 0:
-                   break
-                instructions['instr_'+str(instr_count)] = instr_list
-                g = {'eval':'instr_'+str(instr_count), 'scope':lvl}
-                guards[key].append(g)
-                node = node.up_node()
-                stat, node = analyse_tree(path, node.up_node(), node, scope, program, guards, instructions, lvl)
-                if stat != 0:
-                   break
-          else:
+          try:
+             if node.children[1].value is not None:
+                if node.children[1].value.token == guard_exec:
+                   stat, node, instr_list = process_expr(node.children[0], scope, definitions, lvl, path)
+                   if stat != 0:
+                      break
+                   instructions['instr_'+str(instr_count)] = instr_list
+                   g = {'eval':'instr_'+str(instr_count), 'scope':lvl}
+                   instr_count += 1
+                   guards[key].append(g)
+                   node = node.up_node()
+                   stat, node = analyse_tree(path, node.up_node(), node, scope, program, guards, instructions, lvl)
+                   if stat != 0:
+                      break
+          except IndexError:
              node = node.children[0]
        else:
           node = node.up_node()
@@ -104,8 +113,29 @@ def process_cond(child, scope, definitions, program, guards, instructions, lvl, 
 def process_expr(_type, node, scope, definitions, lvl, path):
     stat = 0
     limit = node.next
+    type_ = None
     while id(node) != id(limit):
-      
+       if len(node.children) > 0:
+          node = node.children[0]
+       else:
+          if node.value != '':
+             if node.value.token == FUNC:
+                stat, node, type_ = process_func(type_, node, scope, definitions, lvl, path)
+                
+def process_func(_type, node, scope, definitions, lvl, path):
+    stat = 0
+    func = node.value.value.split('(')[0]
+    if func == READ and _type is None:
+       
+    try:
+       params = vm.atomic.TYPES[vm.hardware.ATOMIC[func]]
+    except KeyError:
+       stat = -5
+       return stat, node, _type
+    node = node.next
+
+
+                
 
 def process_var(child, scope, lvl, path):
     stat = 0

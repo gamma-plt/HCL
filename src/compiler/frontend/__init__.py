@@ -1,7 +1,11 @@
 import os
 import sys
-from . import lexer
-from . import parser
-from . import semantic
+import parser
+import lexer
+import semantic
+
+__all__ = ["lexer", "parser", "semantic"]
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+import vm

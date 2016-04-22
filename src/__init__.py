@@ -1,2 +1,2 @@
-import compiler
-import vm
+from compiler import *
+from vm import *
