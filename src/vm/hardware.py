@@ -383,7 +383,7 @@ class HCLVirtualMachine(object):
 				atomic_type = atomic_type[:atomic_type.index('#')]
 			except:
 				# No existe ese arreglo
-				print 'ERROR: VAR002_ERROR'
+				print 'ERROR: VAR002_ERROR', var_name
 				quit()
 
 
@@ -413,7 +413,7 @@ class HCLVirtualMachine(object):
 					atomic_type, address = self.amv[variable]
 				except:
 					# No existe la variable
-					print 'ERROR: VAR001_ERROR'
+					print 'ERROR: VAR001_ERROR', variable
 					quit()
 
 		return atomic_type, address
@@ -679,7 +679,7 @@ class HCLVirtualMachine(object):
 			self._set_value(mem_address, value)
 
 		except:
-			print 'ERROR: VAR001_ERROR'
+			print 'ERROR: VAR001_ERROR', variable
 			quit()
 
 
