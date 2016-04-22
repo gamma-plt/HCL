@@ -2,7 +2,7 @@ P -> program name begin W end
 W -> Π | EPSILON
 Π -> Ξ ζ
 ζ -> Ξ ζ | EPSILON
-Ξ -> D | I | S | H | FUNC | print C | skip | abort | lit | apple 
+Ξ -> D | I | S | H | FUNC | print C | skip | abort
 FUNC -> func ARGS )
 D -> do G od
 I -> if G fi

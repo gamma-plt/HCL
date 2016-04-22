@@ -1,12 +1,14 @@
 import os
 import sys
-from . import atomic
-from . import debugger
-from . import hardware
-from . import info
-from . import lang
-from . import main
-from . import tabulate
-from . import utillites
+import atomic
+import debugger
+import hardware
+import info
+import lang
+import main
+import tabulate
+import utilities
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))a
+__all__ = ["atomic","debugger","hardware","info","lang","main","tabulate","utillites"] 
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))

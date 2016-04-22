@@ -17,7 +17,7 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
          'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'#.*', 'pow':r'^\^$',
          'func':r'^[a-zA-Z_]\w*[(]$'}
 
-keywords = {'program':'PROGRAM', 'apple':'APPLE', 'lit': 'LIT', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
+keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
             'for':'FOR', 'rof':'ROF', 'abort':'ABORT', 'skip':'SKIP', 'array':'ARRAY',
             'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'boolean':'BOOLEAN', 'print':'PRINT', 'char' : 'CHAR'}
 
