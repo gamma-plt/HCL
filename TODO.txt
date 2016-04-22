@@ -45,8 +45,66 @@ compile_do(doblock, level):
 		compile(body, level + 1)
 
 EXPLORE:
-	compiler security (Ken thmpson)
-	security by I/O pocedures
-	Garbage collection
+	Compiler security (Ken thompson Turing award lecture)
+	Security by I/O pocedures (gets (unbound I/O), Morris worm)
+	Garbage collection (freeing unused variables in a program)
+
+COMPILED CODE FACTORIZATION
+
+if sum = s -> s11; s12; ..; s1n
+[] sum > s -> s21; s22; ..; s2n
+[] sum < s -> s31; s32; ..; s3n
+fi
+
+Let eqvsij, be que insturctions compiled for the statement sij.
+
+The code above, should compile without optimizations to something similar to:
+
+if:
+	gss g1 g2 g3
+
+	cmp sum s
+	equ:
+		mov g1 000001
+
+	cmp sum s
+	sgt:
+		mov g2 000001
+
+	cmp sum s
+	slt:
+		mov g3 000001
+
+	act g1:
+		eqvs11
+		...
+		eqvs1n
+
+	...
+
+An optmized version could be:
+
+if:
+	gss g1 g2 g3
+
+	cmp sum s
+	equ:
+		mov g1 000001
+
+	sgt:
+		mov g2 000001
+
+	slt:
+		mov g3 000001
+
+	act g1:
+		eqvs11
+		...
+		eqvs1n
+
+	...
+
+
+
 
 
