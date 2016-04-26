@@ -1,0 +1,9 @@
+http://programmers.stackexchange.com/questions/111358/functional-programming-writing-a-small-interpreter
+http://stackoverflow.com/questions/1604103/what-are-the-main-issues-in-designing-an-interpreter-for-a-functional-language
+http://www.stephendiehl.com/posts/essential_compilers.html
+https://github.com/dillonhuff/Folly
+https://github.com/aimacode/aima-java/tree/AIMA3e/aima-core/src/main/java/aima/core/logic/fol
+https://github.com/boyers/theorem_prover
+https://github.com/mAarnos/Serkr
+http://www.webofstories.com/
+http://proofcraft.org/blog/proof-engineer-reading.html
