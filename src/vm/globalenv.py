@@ -9,4 +9,4 @@ This must not take into account the occupation bit.
 That its a flag to indicates wheter or not the word
 is occuppied'''
 
-WORD_SIZE = 16
+WORD_SIZE = 128
