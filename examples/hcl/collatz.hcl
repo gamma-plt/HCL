@@ -1,7 +1,7 @@
 program collatz
 begin
-	var n : int;
-	read n; {Need to be defined, read(n) or read n} 
+	var n : int
+	read(n) {Need to be defined, read(n) or read n} 
 	do even(n) → 
 		{PRE: let m = n ∧ (n | 2)} 
 		n ← n / 2 
@@ -10,6 +10,6 @@ begin
 	 	{PRE: let m = n ∧ ¬(n | 2)} 
 	 	n ← 3 * n + 1
 	 	{POST: m = 3 * n + 1}
-	od;
+	od
 	print n
 end

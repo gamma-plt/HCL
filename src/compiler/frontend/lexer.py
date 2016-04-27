@@ -14,7 +14,7 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
          'not_in':u'^∉$', 'union':u'^∪$', 'intersection':u'^∩$', 'infty':u'^∞$',
          'empty':u'^∅$', 'guard_sep':u'^□$', 'left_rparen':r'^[(]$',
          'right_rparen':r'^[)]$', 'left_sparen':r'^[[]$', 'right_sparen':r'^[]]$',
-         'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'#.*', 'pow':r'^\^$',
+         'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'[{].*', 'pow':r'^\^$',
          'func':r'^[a-zA-Z_]\w*[(]$'}
 
 keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',

@@ -120,20 +120,22 @@ def process_expr(_type, node, scope, definitions, lvl, path):
        else:
           if node.value != '':
              if node.value.token == FUNC:
-                stat, node, type_ = process_func(type_, node, scope, definitions, lvl, path)
+                stat, node, type_ = process_func(node, scope, definitions, lvl, path, type_)
                 
-def process_func(_type, node, scope, definitions, lvl, path):
+
+def process_func(node, scope, definitions, lvl, path, _type=None):
     stat = 0
     func = node.value.value.split('(')[0]
     if func == READ and _type is None:
-       
+       pass
     try:
        params = vm.atomic.TYPES[vm.hardware.ATOMIC[func]]
     except KeyError:
        stat = -5
+       print("File: %s - Line: %d:%d\nFunction %s is undefined" % (path, node.value.line, node.value.col, func), file=sys.stderr)
        return stat, node, _type
     node = node.next
-
+    
 
                 
 

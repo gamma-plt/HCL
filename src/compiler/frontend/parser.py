@@ -144,6 +144,7 @@ def parse(path, debug=False):
                 last_evaluation = lexer.Token(u'', u'')
              status_code = -3
              print("File: %s - Line: %d:%d\nSyntax Error: Missing symbol, expected: %s" % (path, last_evaluation.line, last_evaluation.col+len(last_evaluation.value), ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
+             print("Stack: "+stack[0])
              break
        else:
           if tokens[0] == stack[0]:
