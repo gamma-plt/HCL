@@ -9,8 +9,8 @@ import codecs
 
 regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]$', 'name':r'^[a-zA-Z_]\w*$',
          'number':r'^-?\d+$', 'eq':r'^[=]$', 'leq':u'^≤$', 'geq':u'^≥$',
-         'le':r'^[<]$', 'ge':r'^>$', 'plus':r'^[+]$', 'minus':'^[-]$', 'times':'^[*]$',
-         'div':'^[/]$', 'neq':u'^≠$', 'not':u'^¬$', 'and':u'^∧$', 'or':u'^∨$', 'in':u'^∈$',
+         'le':r'^[<]$', 'ge':r'^>$', 'plus':r'^[+]$', 'minus':'^[-]$', 'times':'^[*]$', 'mod':'^[%]$',
+         'div':'^[/]$', 'power':r'^\^$', 'neq':u'^≠$', 'not':u'^¬$', 'and':u'^∧$', 'or':u'^∨$', 'in':u'^∈$',
          'not_in':u'^∉$', 'union':u'^∪$', 'intersection':u'^∩$', 'infty':u'^∞$',
          'empty':u'^∅$', 'guard_sep':u'^□$', 'left_rparen':r'^[(]$',
          'right_rparen':r'^[)]$', 'left_sparen':r'^[[]$', 'right_sparen':r'^[]]$',

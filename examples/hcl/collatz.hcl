@@ -6,7 +6,7 @@ begin
 		{PRE: def[let m = n] ; (n | 2)}
 		{PRE: ∃ (x in integer) | ¬p(x)}
 		{pre: def[let rng = [0..100]; let m = n] \
-			∀ (x in rng) ∀ (y in integer) ∀ (z in integer) | x + y + z = 100}
+		{∀ (x in rng) ∀ (y in integer) ∀ (z in integer) | x + y + z = 100}
 		n ← n / 2 
 		{POST: m = n * 2}
 	 □ ¬even(n) ∧ n > 1 →
