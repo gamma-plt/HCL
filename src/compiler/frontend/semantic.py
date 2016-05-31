@@ -97,13 +97,13 @@ def analyse(path):
 
 def process_expr(node, data, lvl, _type=None):
     stat = 0
-    count = 0
+    count_e = 0
     typ = None
     last_addr = None
     last_var = None
     shape = [1]
     operators = set(inference['double'].keys()).union(inference['single'].keys())
-    operator = {'var':None, 'func':None, 'addr':None, 'index':None}
+    operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
     op = {'oper1':None, 'op':None, 'oper2':None}
     limit = node.up_node()
     while id(node) != id(limit):
@@ -114,37 +114,28 @@ def process_expr(node, data, lvl, _type=None):
           if node.value != '':
              if node.value.token == OP:
                 stat, typ, shape, scope = lookup_var(node.value, data, lvl)
-                operator['var'] = (scope, node.value, typ)
-                if op['oper1'] is None:
-                   if op['op'] is not None:
-                      op['oper2'] = operator
-                      try:
-                        #Unary Operators processing
-                        typ = inference['single'][op['op'].token][typ]
-                        data['addresses']["addr%d" % (count['addr'])] = op
-                        last_addr = "addr%d" % (count['addr'])
-                        count['addr'] += 1     
-                      except KeyError:
-                        stat = -7
-                        print("File: %s - Line: %d:%d\nOperand Type Mismatch: Operand %s is undefined for arguments of type: %s (Variable: %s)" % (data['path'], node.value.line, node.value.col, op['op'].value, typ, node.value.value), file=sys.stderr) 
-                   else:
-                      op['oper1'] = operator
-                      count += 1
-                      last_var = 'oper1'
-                elif op['oper2'] is None:                              
-                   #Binary Operators processing
-                   try:
-                      typ = inference['double'][op['op'].token][last_type][typ]
-                   except KeyError:
-                      stat = -9
-                      print("File: %s - Line: %d:%d\nOperand Type Mismatch: Cannot perform operation %s over arguments of type %s, %s (variables: %s, %s)" % (data['path'], op['op'].line, op['op'].col, op['op'].value, op['oper1']['var'][2], op['oper2']['var'][2], op['oper1']['var'][1].value, op['oper2']['var'][1].value), file=sys.stderr)    
-                   op['oper2'] = operator
+                operator['var'] = (scope, node.value)
+                operator['type'] = typ
+                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
+             elif node.value.token in operators:
+                if last_var == 'oper2':
+                   operator = {'var':None, 'func':None, 'addr':last_addr, 'index':None, 'type':None}
+                   op = {'oper1':operator, 'op':None, 'oper2':None}
+                   operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
+                   last_var = None
+                   count_e = 1
+                if op['op'] is not None:
+                   op['oper2'] = {'var':None, 'func':None, 'addr':count['addr']+1, 'index':None, 'type':None}
                    data['addresses']["addr%d" % (count['addr'])] = op
                    last_addr = "addr%d" % (count['addr'])
+                   op = {'oper1':None, 'op':None, 'oper2':None}
+                   op['oper1'] = {'var':None, 'func':None, 'addr':last_addr, 'index':None, 'type':None}
                    count['addr'] += 1
-                   last_var = 'oper2'
-             elif node.value.token in operators:
+                   operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
+                   count_e = 1
+                   last_var = None
                 op['op'] = node.value
+                count_e += 1
                 if len(shape) > 1:
                    if op['oper1']['index'] is None:
                       stat = -8
@@ -159,15 +150,60 @@ def process_expr(node, data, lvl, _type=None):
                 else:
                    stat, node, idx_id = process_indices(node, data, opf)
                    opf['index'] = idx_id
+                   operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
              elif node.value.token == LRPAREN:
                 #Round Parentheses expressions
-                #TODO:
                 stat, node, addr_id, typ = process_expr(node.up_node(), data, lvl)
-             #TODO: Functions
+                operator['type'] = typ
+                operator['addr'] = addr_id
+                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
+             elif node.value.token == FUNC:
+                #TODO: Functions
+                stat, node, func_id, typ = process_func(node, data, lvl)
+                operator['type'] = typ
+                operator['func'] = func_id
+                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
           node = node.up_node()
        if stat != 0:
           break
 
+def process_indices(node, data, operator):
+    stat = 0
+
+
+def process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type):
+    stat = 0
+    if op['oper1'] is None:
+       if op['op'] is not None:
+          op['oper2'] = operator
+          try:
+            #Unary Operators processing
+            typ = inference['single'][op['op'].token][typ]
+            data['addresses']["addr%d" % (count['addr'])] = op
+            last_addr = "addr%d" % (count['addr'])
+            count['addr'] += 1
+            last_var = 'oper2'     
+          except KeyError:
+            stat = -7
+            print("File: %s - Line: %d:%d\nOperand Type Mismatch: Operand %s is undefined for arguments of type: %s" % (data['path'], node.value.line, node.value.col, op['op'].value, typ), file=sys.stderr) 
+       else:
+          op['oper1'] = operator
+          count_e += 1
+          last_var = 'oper1'
+    elif op['oper2'] is None:                              
+       #Binary Operators processing
+       try:
+          typ = inference['double'][op['op'].token][last_type][typ]
+       except KeyError:
+          stat = -9
+          print("File: %s - Line: %d:%d\nOperand Type Mismatch: Cannot perform operation %s over arguments of type %s, %s" % (data['path'], op['op'].line, op['op'].col, op['op'].value, op['oper1']['type'], op['oper2']['type']), file=sys.stderr)    
+       op['oper2'] = operator
+       data['addresses']["addr%d" % (count['addr'])] = op
+       last_addr = "addr%d" % (count['addr'])
+       count['addr'] += 1
+       last_var = 'oper2'
+       count_e += 1
+    return stat, count_e, last_addr, last_var
 
 def lookup_var(tok, data, lvl):
     stat = 0

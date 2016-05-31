@@ -38,8 +38,8 @@ addresses = {
 }
 
 Where:
-operN = {'var':(<Scope Number>, <Name of Variable>, <Type>), 'func':<Pointer to Function Table;>, 'index':<Pointer to Index Table>,
-'addr':<Pointer to Address Table>}
+operN = {'var':(<Scope Number>, <Name of Variable>), 'func':<Pointer to Function Table;>, 'index':<Pointer to Index Table>,
+'addr':<Pointer to Address Table>, 'type':<Name of Type>}
 
 op = <Token that describes operator>
 
@@ -50,6 +50,7 @@ Conditions:
 'addr': Optional
 
 Relations:
+'type' not None
 'index' not None → 'var' not None 
 'addr' not None → 'var' is None && 'func' is None
 
