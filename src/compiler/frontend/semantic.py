@@ -28,6 +28,9 @@ FUNC = u'func'
 READ = u'read'
 LSPAREN = u'left_sparen'
 LRPAREN = u'left_rparen'
+INF = u'infty'
+
+NEXPR = u'E'
 
 # operators = []
 inference = {'single':{}, 'double':{}}
@@ -49,9 +52,10 @@ def analyse(path):
     instructions = {}
     func = {}
     addresses = {}
+    indices = {}
     data = {'path':path, 'scope':scope, 'definitions': definitions,
             'program': program, 'guards':guards, 'instructions':instructions,
-            'functions':func, 'addresses':addresses}
+            'functions':func, 'addresses':addresses, 'indices':indices}
     root = tree
     node = tree.children[3]
 
@@ -96,6 +100,7 @@ def analyse(path):
 
 
 def process_expr(node, data, lvl, _type=None):
+    #Node: Start of Expression 
     stat = 0
     count_e = 0
     typ = None
@@ -103,9 +108,9 @@ def process_expr(node, data, lvl, _type=None):
     last_var = None
     shape = [1]
     operators = set(inference['double'].keys()).union(inference['single'].keys())
-    operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
+    operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None, 'num':None}
     op = {'oper1':None, 'op':None, 'oper2':None}
-    limit = node.up_node()
+    limit = node.next
     while id(node) != id(limit):
        last_type = typ
        if len(node.children) > 0:
@@ -115,6 +120,16 @@ def process_expr(node, data, lvl, _type=None):
              if node.value.token == OP:
                 stat, typ, shape, scope = lookup_var(node.value, data, lvl)
                 operator['var'] = (scope, node.value)
+                operator['type'] = typ
+                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
+             elif node.value.token == NUM:
+                operator['num'] = node.value.value
+                typ = 'int'
+                operator['type'] = typ
+                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
+             elif node.value.token == INF:
+                operator['num'] = 'inf'
+                typ = 'int'
                 operator['type'] = typ
                 stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
              elif node.value.token in operators:
@@ -148,7 +163,7 @@ def process_expr(node, data, lvl, _type=None):
                    stat = -10
                    print("File: %s - Line: %d:%d\nIndex Error: Cannot reference indices over scalar variables (Variable: %s)" % (data['path'], opf['var'][1].line, opf['var'][1].col, opf['var'][1].value), file=sys.stderr)
                 else:
-                   stat, node, idx_id = process_indices(node, data, opf)
+                   stat, node, idx_id = process_indices(node, data, opf, lvl)
                    opf['index'] = idx_id
                    operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
              elif node.value.token == LRPAREN:
@@ -158,7 +173,6 @@ def process_expr(node, data, lvl, _type=None):
                 operator['addr'] = addr_id
                 stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
              elif node.value.token == FUNC:
-                #TODO: Functions
                 stat, node, func_id, typ = process_func(node, data, lvl)
                 operator['type'] = typ
                 operator['func'] = func_id
@@ -167,9 +181,44 @@ def process_expr(node, data, lvl, _type=None):
        if stat != 0:
           break
 
-def process_indices(node, data, operator):
+def process_func(node, data, lvl):
+    #Node: Function call
     stat = 0
+    single_arg = False
+    check = True
+    typ = None
+    func_n = node.value.value.split('(')[0]
+    if func_n == READ:
+       single_arg = True
+       check = False
+    node = node.next
+    limit = node.next
 
+    if check:
+       func_description = vm.atomic.TYPES[vm.hardware.ATOMIC[func_n]]
+    #TODO: Complete
+
+def process_indices(node, data, lvl):
+    #Node: Start of expression
+    stat = 0
+    limit = node.next
+    index_l = []
+    idx_indices = None
+    while id(node) != id(limit):
+       if len(node.children) > 0:
+          if node.rule == NEXPR:
+             stat, node, addr_id, typ = process_expr(node.up_node(), data, lvl, _type = INT) 
+             if stat != 0:
+                break
+             index_l.append(addr_id)
+          node = node.children[0]
+       else:       
+          node = node.up_node()
+    if stat == 0:
+       idx_indices = 'index%d' % (count['indices'])
+       data['indices'][idx_indices] = index_l
+       count['indices'] += 1
+    return stat, node, idx_indices 
 
 def process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type):
     stat = 0
@@ -214,6 +263,7 @@ def lookup_var(tok, data, lvl):
     while lvl != -1:
        try:
          inf = data['definitions'][lvl][name]
+         break
        except KeyError:
          lvl = data['scope'][lvl]['inside']
     if not inf:
@@ -226,6 +276,7 @@ def lookup_var(tok, data, lvl):
 
 
 def process_var(child, data, lvl):
+    #Child: Sibling of VAR
     scope = data['definitions']
     stat = 0
     limit = child.next
@@ -284,9 +335,9 @@ def process_var(child, data, lvl):
                 shape.append(length)
           node = node.up_node()
           node = node.next
-          type_tok = node.children[0].value
+          type_tok = node.children[0].value.value
     else:
-       type_tok = node.children[0].value
+       type_tok = node.children[0].value.value
        shape = [1]
     if stat == 0:
        try:

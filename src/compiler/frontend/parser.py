@@ -137,6 +137,9 @@ def parse(path, debug=False):
                 tree = tree.val('')
           except KeyError:
              status_code = -2
+             if debug:
+                print(stack[0])
+                print(tokens[0])
              print("File: %s - Line: %d:%d\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].line, tokens[0].col, tokens[0].value, ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
              break
           except IndexError:
