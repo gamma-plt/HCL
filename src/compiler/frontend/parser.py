@@ -137,6 +137,9 @@ def parse(path, debug=False):
                 tree = tree.val('')
           except KeyError:
              status_code = -2
+             if debug:
+                print(stack[0])
+                print(tokens[0])
              print("File: %s - Line: %d:%d\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].line, tokens[0].col, tokens[0].value, ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
              break
           except IndexError:
@@ -144,6 +147,7 @@ def parse(path, debug=False):
                 last_evaluation = lexer.Token(u'', u'')
              status_code = -3
              print("File: %s - Line: %d:%d\nSyntax Error: Missing symbol, expected: %s" % (path, last_evaluation.line, last_evaluation.col+len(last_evaluation.value), ', '.join([i.value for i in tab[stack[0]].keys()])), file=sys.stderr)
+             print("Stack: "+stack[0])
              break
        else:
           if tokens[0] == stack[0]:

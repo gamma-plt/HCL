@@ -32,7 +32,7 @@ Y -> ≥ E Y | ≤ E Y | > E Y | < E Y | ≠ E Y | = E Y | EPSILON
 E -> T A
 A -> + T A | - T A | EPSILON
 T -> F B
-B -> * F B | / F B | ^ F B | EPSILON
+B -> * F B | / F B | ^ F B | % F B | EPSILON
 F -> - F | ( C ) | V | FUNC
 V -> number | name Φ | ∞
 Φ -> [ O ] | ( R ) | EPSILON

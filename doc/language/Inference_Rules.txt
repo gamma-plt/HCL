@@ -1,0 +1,46 @@
+plus : int x int -> int
+minus : int x int -> int
+times : int x int -> int
+mod : int x int -> int
+div : int x int -> int
+power : int x int -> int
+plus : boolean x int -> int
+minus : boolean x int -> int
+minus : int -> int
+minus : boolean -> boolean
+times : boolean x int -> int
+mod : boolean x int -> int
+div : boolean x int -> int
+power : boolean x int -> int
+and : boolean x boolean -> boolean
+and : int x boolean -> boolean
+and : int x int -> int
+or : boolean x boolean -> boolean
+or : int x boolean -> boolean
+or : int x int -> int
+not : boolean -> boolean
+not : int -> boolean
+leq : int x int -> boolean
+leq : boolean x boolean -> boolean
+leq : boolean x int -> boolean
+leq : char x char -> boolean
+le : int x int -> boolean
+le : boolean x boolean -> boolean
+le : boolean x int -> boolean
+le : char x char -> boolean
+geq : int x int -> boolean
+geq : boolean x boolean -> boolean
+geq : boolean x int -> boolean
+geq : char x char -> boolean
+ge : int x int -> boolean
+ge : boolean x boolean -> boolean
+ge : boolean x int -> boolean
+ge : char x char -> boolean
+eq : int x int -> boolean
+eq : boolean x boolean -> boolean
+eq : boolean x int -> boolean
+eq : char x char -> boolean
+neq : int x int -> boolean
+neq : boolean x int -> boolean
+neq : char x char -> boolean
+neq : boolean x boolean -> boolean

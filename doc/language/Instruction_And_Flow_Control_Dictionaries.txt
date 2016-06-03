@@ -44,6 +44,21 @@ Where:
 g = {eval:<Pointer to instruction sequence>, scope:<Key to Program>}
 
 instr = {
-	TBD
+	instr1: [op1, op2, ..., opN],
+	instr2: [op1, op2, ..., opN],
+	...
 }
+
+Where:
+op = {var:(<Pointer to Definitions Scope>, <Name of var>; Optional), func:<Pointer to Function Table; Optional>, operator:<Name of Operator; Optional>}
+
+func = {
+	func1: {name:<Name of Function>, 
+	        args:[<Pointer to Instruction Table>, ...]},
+	...
+}
+
+
+
+
 

@@ -1,0 +1,68 @@
+scope = {
+	0 : {
+	    inside:<Key to scope> 
+	},
+	1 : {
+	    inside:<Key to scope> 
+	},
+	...
+}
+
+-----------------------------------------------
+
+#Keys reference scope existance
+definitions = {
+     scope1: {
+	       var1 : {'size':shape, 'type':type_tok, 'tok':var},
+	       var2 : {'size':shape2, 'type':type_tok2, 'tok':var2},
+	       ...
+	    },
+	 scope2: {
+	       var1 : {'size':shape, 'type':type_tok, 'tok':var},
+	       var5 : {'size':shape2, 'type':type_tok2, 'tok':var2},
+	       ...
+	    },
+	  ...
+}
+
+Where:
+scopeN exists as key in scope table
+
+
+-----------------------------------------------
+
+addresses = {
+	addr1 = (oper1, op, oper2),
+	addr2 = (oper1, op, oper2),
+	... 
+}
+
+Where:
+operN = {'var':(<Scope Number>, <Name of Variable>), 'func':<Pointer to Function Table;>, 'index':<Pointer to Index Table>,
+'addr':<Pointer to Address Table>, 'type':<Name of Type>,
+'num':<Value Or Inf>}
+
+op = <Token that describes operator>
+
+Conditions:
+'var': Optional
+'func': Optional
+'index': Optional
+'addr': Optional
+'num': Optional
+
+Relations:
+'type' not None
+'index' not None → 'var' not None 
+'addr' not None → 'var' is None && 'func' is None && 'num' is None
+'func' not None → 'var' is None && 'addr' is None && 'num' is None
+'num' not None → 'var' is None && 'addr' is None && 'func' is None
+'var' not None → 'num' is None && 'addr' is None && 'func' is None
+ ----------------------------------------------
+
+indices = {
+	index1:[<Pointer to addresses>, <Pointer to addresses>, ...],
+	index2:[<Pointer to addresses>, <Pointer to addresses>, ...],
+	...
+}
+
