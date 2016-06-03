@@ -6,7 +6,7 @@ begin
 	{DEF: let white i = array[i] == white}
 	{DEF: let red i = array[i] == red}
 	{DEF: let rng1 = [M..r); let rng2 = [r..w); let rng3 = [b..N)}
-	{INV: (M ≤ r ≤ w ≤ b ≤ N) ∧ (∀ (i : rng1) | red(i)) ∧ \
+	{INV: (M ≤ r ≤ w ≤ b ≤ N) ∧ (∀ (i : rng1) | red(i)) ∧
 			(∀ (i : rng2) | white(i)) ∧ (∀ (i : rng3) | blue(i))}
 	{BND: b - w}
 	do w < b → n ← n / 2 

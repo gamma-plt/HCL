@@ -1,0 +1,18 @@
+41 DEF: let blue i = array[i] == blue
+41 DEF: let white i = array[i] == white 
+41 DEF: let red i = array[i] == red
+41 DEF: let rng1 = [M..r); let rng2 = [r..w); let rng3 = [b..N)
+41 INV: (M ≤ r ≤ w ≤ b ≤ N) ∧ (∀ (i : rng1) | red(i)) ∧ (∀ (i : rng2) | white(i)) ∧ (∀ (i : rng3) | blue(i))
+41 BND: b - w
+
+
+50 DEF:
+		 pred sorted [] = true
+  		  | sorted (x::[]) = true 
+  		  | sorted (x::xs) = x < hd xs ∧ sorted xs;
+
+50 DEF: let X = any [x | x <- f , y <- g, x == y]
+50 PRE: true
+
+
+60 POST: sorted(f) ∧ sorted(g) ∧ f[i] < X ∧ f[j] < X
