@@ -28,7 +28,6 @@ definitions = {
 Where:
 scopeN exists as key in scope table
 
-
 -----------------------------------------------
 
 addresses = {
@@ -58,11 +57,36 @@ Relations:
 'func' not None → 'var' is None && 'addr' is None && 'num' is None
 'num' not None → 'var' is None && 'addr' is None && 'func' is None
 'var' not None → 'num' is None && 'addr' is None && 'func' is None
- ----------------------------------------------
+
+----------------------------------------------
 
 indices = {
 	index1:[<Pointer to addresses>, <Pointer to addresses>, ...],
 	index2:[<Pointer to addresses>, <Pointer to addresses>, ...],
 	...
 }
+
+Conditions:
+|indexN| > 0 For all N
+
+----------------------------------------------
+
+functions = {
+	func1:{'call':<Function Name>, 'args':[<Pointer to addresses table>, <Pointer to addresses table>, ...]}
+}
+
+Conditions:
+'call' not None
+'args' not None
+|'args'| > 0 : All system defined functions must define input arguments.
+TODO: User function definition
+
+----------------------------------------------
+
+
+
+
+
+
+
 

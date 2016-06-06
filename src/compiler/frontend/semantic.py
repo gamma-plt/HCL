@@ -31,12 +31,13 @@ LRPAREN = u'left_rparen'
 INF = u'infty'
 
 NEXPR = u'E'
+FEXPR = u'C'
 
 # operators = []
 inference = {'single':{}, 'double':{}}
-count = {'if':0, 'do':0, 'addr':0, 'lvl':-1, 'index':0}
+count = {'if':0, 'do':0, 'addr':0, 'lvl':-1, 'index':0, 'func':0}
 
-types = {INT:'INTEGER', BOOLEAN:'BOOLEAN', CHAR:'CHAR'}
+VM_TYPES = {'INTEGER':INT, 'BOOLEAN':BOOLEAN, 'CHAR':CHAR}
 
 def analyse(path):
     # global operators
@@ -163,7 +164,7 @@ def process_expr(node, data, lvl, _type=None):
                    stat = -10
                    print("File: %s - Line: %d:%d\nIndex Error: Cannot reference indices over scalar variables (Variable: %s)" % (data['path'], opf['var'][1].line, opf['var'][1].col, opf['var'][1].value), file=sys.stderr)
                 else:
-                   stat, node, idx_id = process_indices(node, data, opf, lvl)
+                   stat, node, idx_id = process_indices(node.up_node(), data, opf, lvl)
                    opf['index'] = idx_id
                    operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
              elif node.value.token == LRPAREN:
@@ -187,19 +188,81 @@ def process_func(node, data, lvl):
     single_arg = False
     check = True
     typ = None
+    func_id = None
+    _func = node
     func_n = node.value.value.split('(')[0]
     if func_n == READ:
        single_arg = True
        check = False
     node = node.next
     limit = node.next
-
+    _types_ = []
+    args = []
     if check:
-       func_description = vm.atomic.TYPES[vm.hardware.ATOMIC[func_n]]
-    #TODO: Complete
+       try:
+         func_description = vm.atomic.TYPES[vm.hardware.ATOMIC[func_n]]
+       except KeyError:
+         stat = -11
+         print("File: %s - Line: %d:%d\nUnknown Function: Function %s is undefined" % (data['path'], _func.value.line, _func.value.col, func_n), file=sys.stderr)
+    while id(node) != id(limit):
+       if len(node.children) > 0:
+          if node.rule == FEXPR:
+             stat, node, addr_id, typ = process_expr(node, data, lvl)
+             _types_.append(typ)
+             args.append(addr_id)
+          else:
+             node = node.children[0]
+       else:
+          node = node.up_node()
+       if stat != 0:
+          break
+    if stat == 0:
+       __func__ = {'call':None, 'args':args}
+       if not check:
+          #If processing read function
+          if len(args) > 1:
+             stat = -12
+             print("File: %s - Line: %d:%d\nIllegal Number of Arguments: Function %s, must have only one input argument, got %d arguments instead" % (data['path'], _func.value.line, _func.value.col, func_n, len(args)), file=sys.stderr)
+          else:
+             if typ == INT or typ == BOOLEAN:
+                __func__['call'] = 'readint'
+             elif typ == CHAR:
+                __func__['call'] = 'readchr'
+             func_id = 'func%d' % count['func']
+             data['functions'] = __func__
+             count['func'] += 1
+       else:
+          #The function expects only singleton return value per function
+          #TODO: Extend to multiple return values (Broadcast arguments)
+          vm_func = [[map(lambda x: map(lambda y: VM_TYPES[y], x), func_arg[0]), VM_TYPES[func_arg[1]]] for func_arg in func_description]
+          t_types = None
+          impl_f = False
+          for impl in vm_func:
+              idx = 0
+              if len(impl[0]) == len(_types_):
+                 for arg in _types_:
+                     if impl[0][idx] == arg:
+                        idx += 1
+                     else:
+                        break
+              if idx == len(_types_)-1:
+                 impl_f = True
+                 t_types = impl
+                 break
+          if impl_f:
+             typ = impl[1]
+             func_id = 'func%d' % count['func']
+             data['functions'] = __func__
+             count['func'] += 1
+          else:
+             stat = -13
+             err_s = map(lambda x: reduce(lambda u, v: u+' '+str(v), x[0], ''), vm_func)
+             print("File: %s - Line: %d:%d\nIllegal Function Arguments: Function %s is not defined for arguments %s, expects: %s" % (data['path'], _func.value.line, _func.value.col, func_n, str(_types_), err_s), file=sys.stderr)
+    return stat, node, func_id, typ             
+
 
 def process_indices(node, data, lvl):
-    #Node: Start of expression
+    #Node: Start of expression 
     stat = 0
     limit = node.next
     index_l = []
@@ -207,11 +270,12 @@ def process_indices(node, data, lvl):
     while id(node) != id(limit):
        if len(node.children) > 0:
           if node.rule == NEXPR:
-             stat, node, addr_id, typ = process_expr(node.up_node(), data, lvl, _type = INT) 
+             stat, node, addr_id, typ = process_expr(node, data, lvl, _type = INT) 
              if stat != 0:
                 break
              index_l.append(addr_id)
-          node = node.children[0]
+          else:
+             node = node.children[0]
        else:       
           node = node.up_node()
     if stat == 0:
