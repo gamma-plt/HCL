@@ -107,17 +107,21 @@ def process_expr(node, data, lvl, _type=None):
     typ = None
     last_addr = None
     last_var = None
+    last_tok = None
     shape = [1]
     operators = set(inference['double'].keys()).union(inference['single'].keys())
     operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None, 'num':None}
     op = {'oper1':None, 'op':None, 'oper2':None}
-    limit = node.next
+    limit = node.up_node()
+    # print(operators)
     while id(node) != id(limit):
        last_type = typ
        if len(node.children) > 0:
           node = node.children[0]
        else:
           if node.value != '':
+             last_tok = node
+             print(node.value)
              if node.value.token == OP:
                 stat, typ, shape, scope = lookup_var(node.value, data, lvl)
                 operator['var'] = (scope, node.value)
@@ -149,7 +153,7 @@ def process_expr(node, data, lvl, _type=None):
                    count['addr'] += 1
                    operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
                    count_e = 1
-                   last_var = None
+                   last_var = 'oper1'#None
                 op['op'] = node.value
                 count_e += 1
                 if len(shape) > 1:
@@ -181,6 +185,17 @@ def process_expr(node, data, lvl, _type=None):
           node = node.up_node()
        if stat != 0:
           break
+    if stat == 0:
+       #Single variable/function/index reference
+       if last_addr is None:
+          last_addr = 'addr%d' % count['addr']
+          count['addr'] += 1
+          data['addresses'][last_addr] = op 
+       if _type is not None:
+          if _type != typ:
+             stat = -14
+             print("File: %s - Line: %d:%d\nExpression Type Mismatch: Expression must be of type: %s, got: %s" % (data['path'], last_tok.value.line, last_tok.value.col, _type, typ), file=sys.stderr)
+    return stat, node, last_addr, typ           
 
 def process_func(node, data, lvl):
     #Node: Function call
@@ -286,6 +301,7 @@ def process_indices(node, data, lvl):
 
 def process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type):
     stat = 0
+    # print(op)
     if op['oper1'] is None:
        if op['op'] is not None:
           op['oper2'] = operator

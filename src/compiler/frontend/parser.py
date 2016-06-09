@@ -60,6 +60,8 @@ class ParseTree(object):
           s = u'Terminal: '+unicode(self.value)
        else:
           s = u'Rule: '+self.rule+u'\n'
+          if self.value is not None:
+             s += u'Value: '+unicode(self.value)+u'\n'
           s += u'Derivation: '
           for child in self.children:
               if child.rule is None:
@@ -73,8 +75,6 @@ class ParseTree(object):
 
    def __repr__(self):
        return self.__str__()
-
-
 
 
 def equiv(sym, reverse):
@@ -172,3 +172,151 @@ def output(tokens, stack):
        s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack])
     print(s+'\n')
 
+
+def compress_tree(node):
+    obj_node = None
+    if len(node.children) == 1:
+       obj_node = node.children[0]
+       while len(obj_node.children) == 1:
+          obj_node = obj_node.children[0]
+       if len(obj_node.children) == 0:
+          if obj_node.value is not None:
+             node.value = obj_node.value
+          node.children = []
+       else:
+          node.children = obj_node.children
+          for child in node.children:
+              child.parent = node
+    # for child in node.children:
+    #    compress_tree(child)
+
+def remove_useless_productions(node):
+    for child in node.children:
+        remove_useless_productions(child)
+    if len(node.children) == 0:
+       if node.value is None:
+          idx = node.parent.children.index(node)
+          del node.parent.children[idx]
+
+def process_expr_tree(node, debug=False):
+    last_lvl = 0
+    node.lvl = 0
+    queue = [node]
+    f_term = False
+    while len(queue) > 0:
+       current_node = queue.pop(0)
+       lvl = current_node.lvl
+       if lvl != last_lvl:
+          if debug:
+             print("--------------------")
+             print("Level %d" % (lvl))
+          last_lvl = lvl
+       if debug:
+          print(current_node)
+       if current_node.value is not None:
+          if current_node.value.token == u'left_rparen':
+             idx = queue.index(current_node.next.next)
+             del queue[idx]
+             current_node.parent.children = current_node.parent.children[1:-1]
+             current_node.parent.children[0].next = None
+          else:   
+            f_term = True
+            break
+       for child in current_node.children:
+           child.lvl = current_node.lvl + 1
+       queue += current_node.children
+    if id(current_node) != id(node):
+       if f_term:
+          node.value = current_node.value
+          idx = current_node.parent.children.index(current_node)
+          del current_node.parent.children[idx]
+       remove_useless_productions(node)
+       compress_tree(node)
+    for child in node.children:
+       process_expr_tree(child, debug)
+
+def remove_epsilon_productions(node, debug=False):
+   last_lvl = 0
+   node.lvl = 0
+   queue = [node]
+   while len(queue) > 0:
+      current_node = queue.pop(0)
+      lvl = current_node.lvl
+      if lvl != last_lvl:
+         if debug:
+            print("--------------------")
+            print("Level %d" % (lvl))
+         last_lvl = lvl
+      if debug:
+         print(current_node)
+      if current_node.value is not None:
+         if current_node.value == '':
+            parent = current_node.parent
+            idx = parent.children.index(current_node)
+            del parent.children[idx]
+            parent.children[idx-1].next = current_node.next
+      for child in current_node.children:
+          child.lvl = current_node.lvl + 1
+      queue += current_node.children
+
+def remove_parentheses(node, debug=False):
+   last_lvl = 0
+   node.lvl = 0
+   queue = [node]
+   while len(queue) > 0:
+      current_node = queue.pop(0)
+      lvl = current_node.lvl
+      if lvl != last_lvl:
+         if debug:
+            print("--------------------")
+            print("Level %d" % (lvl))
+         last_lvl = lvl
+      if debug:
+         print(current_node)
+      if current_node.value is not None:
+         if current_node.value.token == u'left_sparen' or current_node.value.token == u'right_sparen' or current_node.value.token == u'right_rparen':
+            parent = current_node.parent
+            idx = parent.children.index(current_node)
+            del parent.children[idx]
+            if idx > 0:
+               parent.children[idx-1].next = current_node.next
+      for child in current_node.children:
+          child.lvl = current_node.lvl + 1
+      queue += current_node.children
+
+def comma_detection(node, debug=False):
+   last_lvl = 0
+   node.lvl = 0
+   queue = [node]
+   while len(queue) > 0:
+      current_node = queue.pop(0)
+      lvl = current_node.lvl
+      if lvl != last_lvl:
+         if debug:
+            print("--------------------")
+            print("Level %d" % (lvl))
+         last_lvl = lvl
+      if debug:
+         print(current_node)
+      if current_node.value is not None:
+         if current_node.value.token == u'comma':
+            current_node.parent.children = comma_collection(current_node, [])
+            children = current_node.parent.children
+            for i in range(0, len(children)-1):
+                children[i].parent = current_node.parent
+                children[i].next = children[i+1]
+            children[-1].next = None
+            children[-1].parent = current_node.parent
+            queue = children + queue
+         else:
+            for child in current_node.children:
+                child.lvl = current_node.lvl + 1
+            queue += current_node.children 
+
+def comma_collection(node,_list=[]):
+   if node.value.token != u'comma':
+      _list.append(node)
+   else:
+      for child in node.children:
+          _list = comma_collection(child,_list)
+   return _list

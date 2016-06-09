@@ -1,28 +1,29 @@
-P -> program name begin W end
-W -> Π | EPSILON
-Π -> Ξ ζ
-ζ -> Ξ ζ | EPSILON
-Ξ -> D | I | S | H | FUNC | print C | skip | abort
+P -> program name begin BODY end
+BODY -> SCOPE | EPSILON
+SCOPE -> INSTRUCTION NEXTINSTR
+NEXTINSTR -> INSTRUCTION NEXTINSTR | EPSILON
+INSTRUCTION -> DO | IF | ASSIGNMENT | DEFINITION | FUNC | READ | print EXPR | skip | abort
 FUNC -> func ARGS )
-D -> do G od
-I -> if G fi
-G -> Ô Ĺ
-Ĺ -> □ Ô Ĺ | EPSILON
-Ô -> C → Π
-S -> L ← R
-ARGS -> R | EPSILON
-R -> C M
-M -> , C M | EPSILON
-L -> name Φ Z
-Z -> , name Φ Z | EPSILON
-H -> var L : Δ
-Δ -> X | array Γ of X
-X -> boolean | int | char
-Γ -> [ Ω ]
-Ω -> Θ Ψ
-Θ -> number .. number
-Ψ -> , Θ | EPSILON
-C -> Q N
+READ -> read( name )
+DO -> do GUARDS od
+IF -> if GUARDS fi
+GUARDS -> GUARD NEXTGUARD
+NEXTGUARD -> □ GUARD NEXTGUARD | EPSILON
+GUARD -> EXPR → SCOPE
+ASSIGNMENT -> VARLIST ← EXPRLIST
+ARGS -> EXPRLIST | EPSILON
+EXPRLIST -> EXPR NEXTEXPR
+NEXTEXPR -> , EXPR NEXTEXPR | EPSILON
+VARLIST -> name INDICES NEXTVAR
+NEXTVAR -> , name INDICES NEXTVAR | EPSILON
+DEFINITION -> var VARLIST : DIMENSIONS
+DIMENSIONS -> TYPE | array DIMS of TYPE
+TYPE -> boolean | int | char
+DIMS -> [ INTERVALS ]
+INTERVALS -> INTERVAL NEXTINTERVAL
+INTERVAL -> number .. number
+NEXTINTERVAL -> , INTERVAL NEXTINTERVAL | EPSILON
+EXPR -> Q N
 N -> ∧ Q N | EPSILON
 Q -> Λ K
 K -> ∨ Λ K | EPSILON
@@ -33,8 +34,8 @@ E -> T A
 A -> + T A | - T A | EPSILON
 T -> F B
 B -> * F B | / F B | ^ F B | % F B | EPSILON
-F -> - F | ( C ) | V | FUNC
-V -> number | name Φ | ∞
-Φ -> [ O ] | ( R ) | EPSILON
-O -> E J
-J -> : E J | , E J | EPSILON
+F -> - F | ( EXPR ) | V | FUNC
+V -> number | name INDICES | ∞
+INDICES -> [ INDEXLIST ] | EPSILON
+INDEXLIST -> E NEXTIDX
+NEXTIDX -> : E NEXTIDX | , E NEXTIDX | EPSILON

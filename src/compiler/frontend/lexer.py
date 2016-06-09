@@ -8,7 +8,7 @@ import sys
 import codecs
 
 regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]$', 'name':r'^[a-zA-Z_]\w*$',
-         'number':r'^-?\d+$', 'eq':r'^[=]$', 'leq':u'^≤$', 'geq':u'^≥$',
+         'number':r'^\d+$', 'eq':r'^[=]$', 'leq':u'^≤$', 'geq':u'^≥$',
          'le':r'^[<]$', 'ge':r'^>$', 'plus':r'^[+]$', 'minus':'^[-]$', 'times':'^[*]$', 'mod':'^[%]$',
          'div':'^[/]$', 'neq':u'^≠$', 'not':u'^¬$', 'and':u'^∧$', 'or':u'^∨$', 'in':u'^∈$',
          'not_in':u'^∉$', 'union':u'^∪$', 'intersection':u'^∩$', 'infty':u'^∞$',
@@ -19,7 +19,8 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
 
 keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
             'for':'FOR', 'rof':'ROF', 'abort':'ABORT', 'skip':'SKIP', 'array':'ARRAY',
-            'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'boolean':'BOOLEAN', 'print':'PRINT', 'char' : 'CHAR'}
+            'of':'OF', 'var':'VAR', 'int':'INT', 'integer':'INT', 'boolean':'BOOLEAN', 'print':'PRINT', 'char' : 'CHAR',
+            'read(':'READ'}
 
 class Token(object):
    def __init__(self, token, value, l=0, col=0):
@@ -86,7 +87,7 @@ def lex(filename):
                       match_found = True
                       break
                if match_found:
-                  if name == 'name':
+                  if name == 'name' or name == 'func':
                      try:
                         last_id = keywords[word]
                      except KeyError:
