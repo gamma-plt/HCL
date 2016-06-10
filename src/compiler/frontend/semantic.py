@@ -103,245 +103,173 @@ def analyse(path):
 def process_expr(node, data, lvl, _type=None):
     #Node: Start of Expression 
     stat = 0
-    count_e = 0
+    addr = None
     typ = None
-    last_addr = None
-    last_var = None
-    last_tok = None
-    shape = [1]
+    if not isinstance(data, dict):
+       raise Exception("a")
     operators = set(inference['double'].keys()).union(inference['single'].keys())
+    exprs = expr_str(node, operators)
+    print(exprs)
     operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None, 'num':None}
     op = {'oper1':None, 'op':None, 'oper2':None}
-    limit = node.up_node()
-    # print(operators)
-    while id(node) != id(limit):
-       last_type = typ
-       if len(node.children) > 0:
-          node = node.children[0]
-       else:
-          if node.value != '':
-             last_tok = node
-             print(node.value)
-             if node.value.token == OP:
-                stat, typ, shape, scope = lookup_var(node.value, data, lvl)
-                operator['var'] = (scope, node.value)
-                operator['type'] = typ
-                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
-             elif node.value.token == NUM:
-                operator['num'] = node.value.value
-                typ = 'int'
-                operator['type'] = typ
-                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
-             elif node.value.token == INF:
-                operator['num'] = 'inf'
-                typ = 'int'
-                operator['type'] = typ
-                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
-             elif node.value.token in operators:
-                if last_var == 'oper2':
-                   operator = {'var':None, 'func':None, 'addr':last_addr, 'index':None, 'type':None}
-                   op = {'oper1':operator, 'op':None, 'oper2':None}
-                   operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
-                   last_var = None
-                   count_e = 1
-                if op['op'] is not None:
-                   op['oper2'] = {'var':None, 'func':None, 'addr':count['addr']+1, 'index':None, 'type':None}
-                   data['addresses']["addr%d" % (count['addr'])] = op
-                   last_addr = "addr%d" % (count['addr'])
-                   op = {'oper1':None, 'op':None, 'oper2':None}
-                   op['oper1'] = {'var':None, 'func':None, 'addr':last_addr, 'index':None, 'type':None}
-                   count['addr'] += 1
-                   operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
-                   count_e = 1
-                   last_var = 'oper1'#None
-                op['op'] = node.value
-                count_e += 1
-                if len(shape) > 1:
-                   if op['oper1']['index'] is None:
-                      stat = -8
-                      print("File: %s - Line: %d:%d\nBroadcasting Error: Cannot perform operations over complete or partial arrays (Variable: %s)" % (data['path'], op['oper1']['var'][1].line, op['oper1']['var'][1].col, op['oper1']['var'][1].value), file=sys.stderr)
-             elif node.value.token == LSPAREN:
-                #Array Index Referencing
-                #TODO: process_idx
-                opf = op[last_var]
-                if len(shape) == 1:
-                   stat = -10
-                   print("File: %s - Line: %d:%d\nIndex Error: Cannot reference indices over scalar variables (Variable: %s)" % (data['path'], opf['var'][1].line, opf['var'][1].col, opf['var'][1].value), file=sys.stderr)
-                else:
-                   stat, node, idx_id = process_indices(node.up_node(), data, opf, lvl)
-                   opf['index'] = idx_id
-                   operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None}
-             elif node.value.token == LRPAREN:
-                #Round Parentheses expressions
-                stat, node, addr_id, typ = process_expr(node.up_node(), data, lvl)
-                operator['type'] = typ
-                operator['addr'] = addr_id
-                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
-             elif node.value.token == FUNC:
-                stat, node, func_id, typ = process_func(node, data, lvl)
-                operator['type'] = typ
-                operator['func'] = func_id
-                stat, count_e, last_addr, last_var = process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type)
-          node = node.up_node()
-       if stat != 0:
-          break
+    if node.value.token == OP:
+       stat, typ = process_var(node, operator, exprs, data, lvl)
+       op['oper1'] = operator
+       addr = 'addr%d' % (count['addr'])
+       data['addresses'][addr] = op
+       count['addr'] += 1
+    elif node.value.token == FUNC:
+       stat, typ = process_func(node, operator, exprs, data, lvl)
+       op['oper1'] = operator
+       addr = 'addr%d' % (count['addr'])
+       data['addresses'][addr] = op
+       count['addr'] += 1
+    elif node.value.token == NUM or node.value.token == INF:
+       typ = INT
+       operator['num'] = node.value
+       op['oper1'] = operator
+       addr = 'addr%d' % (count['addr'])
+       data['addresses'][addr] = op
+       count['addr'] += 1
+    elif node.value.token in operators:
+       stat, typ = process_operand(node, op, exprs, data, lvl)
+       addr = 'addr%d' % (count['addr'])
+       data['addresses'][addr] = op
+       count['addr'] += 1
     if stat == 0:
-       #Single variable/function/index reference
-       if last_addr is None:
-          last_addr = 'addr%d' % count['addr']
-          count['addr'] += 1
-          data['addresses'][last_addr] = op 
        if _type is not None:
           if _type != typ:
-             stat = -14
-             print("File: %s - Line: %d:%d\nExpression Type Mismatch: Expression must be of type: %s, got: %s" % (data['path'], last_tok.value.line, last_tok.value.col, _type, typ), file=sys.stderr)
-    return stat, node, last_addr, typ           
+             stat = -8
+             print("File: %s - Line: %d:%d\nType Mismatch: Expression %s must be of type %s, got: %s" % (data['path'], node.value.line, node.value.col, exprs, _type, typ), file=sys.stderr)
+    return stat, typ, addr           
 
-def process_func(node, data, lvl):
+def process_operand(node, op, exprs, data, lvl):
+    if not isinstance(data, dict):
+       raise Exception("a")
+    stat = 0
+    typ = None
+    addr = None
+    op['op'] = node.value
+    op_ret = []
+    pointers = []
+    for operand in node.children:
+        stat, operand_type, operand_addr = process_expr(operand, data, lvl)
+        if stat != 0:
+           break
+        op_ret.append(operand_type)
+        pointers.append(operand_addr)
+    if stat == 0:
+       if len(op_ret) == 1:
+          try:
+            typ = inference['single'][node.value.token][op_ret[0]]
+            op['oper2'] = {'var':None, 'func':None, 'addr':pointers[0], 'index':None, 'type':None, 'num':None}
+          except KeyError:
+            stat = -10
+            print(u"File: %s - Line: %d:%d\nDimension Mismatch: Expression: %s - Operator %s is not defined for argument of type %s; Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, node.value.value, op_ret[0], ', '.join(inference['single'][node.value.token].keys())), file=sys.stderr)
+       elif len(op_ret) == 2:
+          try:
+            typ = inference['double'][node.value.token][op_ret[0]][op_ret[1]]
+            op['oper1'] = {'var':None, 'func':None, 'addr':pointers[0], 'index':None, 'type':None, 'num':None}
+            op['oper2'] = {'var':None, 'func':None, 'addr':pointers[1], 'index':None, 'type':None, 'num':None}
+          except KeyError:
+            stat = -10
+            opt = ', '.join(reduce(lambda u,v:u+v, [map(lambda y: u'('+x+', '+y+')', semantic.inference['double'][node.value.token]) for x in semantic.inference['double'][node.value.token]]))
+            print(u"File: %s - Line: %d:%d\nDimension Mismatch: Expression: %s - Operator %s is not defined for arguments of type (%s, %s); Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, node.value.value, op_ret[0], op_ret[1], opt), file=sys.stderr)       
+    return stat, typ
+
+def process_var(node, operator, exprs, data, lvl):
+    if not isinstance(data, dict):
+       raise Exception("a")
+    stat, typ, shp, scope = lookup_var(node.value, data, lvl)
+    if stat == 0:
+       operator['var'] = {'scope':scope, 'var':node.value}
+       if len(shp) == len(node.children):
+          if len(shp) > 0:
+             stat, idx = process_indices(node.children, data, lvl)
+             operator['index'] = idx
+       else:
+          stat = -7
+          print("File: %s - Line: %d:%d\nDimension Mismatch: Expression: %s - Variable must be referenced with %d indices, got %d" % (data['path'], node.value.line, node.value.col, exprs, len(shp), len(node.children)), file=sys.stderr)
+    return stat, typ
+
+def process_func(node, operator, exprs, data, lvl):
+    if not isinstance(data, dict):
+       raise Exception("a")
     #Node: Function call
     stat = 0
-    single_arg = False
-    check = True
+    func_call = {'call':None, 'args':[]}
     typ = None
-    func_id = None
-    _func = node
-    func_n = node.value.value.split('(')[0]
-    if func_n == READ:
-       single_arg = True
-       check = False
-    node = node.next
-    limit = node.next
-    _types_ = []
-    args = []
-    if check:
-       try:
-         func_description = vm.atomic.TYPES[vm.hardware.ATOMIC[func_n]]
-       except KeyError:
-         stat = -11
-         print("File: %s - Line: %d:%d\nUnknown Function: Function %s is undefined" % (data['path'], _func.value.line, _func.value.col, func_n), file=sys.stderr)
-    while id(node) != id(limit):
-       if len(node.children) > 0:
-          if node.rule == FEXPR:
-             stat, node, addr_id, typ = process_expr(node, data, lvl)
-             _types_.append(typ)
-             args.append(addr_id)
-          else:
-             node = node.children[0]
-       else:
-          node = node.up_node()
-       if stat != 0:
-          break
+    func_name = node.value.value.split('(')[0]
+    arg_types = []
+    func_desc = []
+    try:
+      func_desc = vm.atomic.TYPES[vm.hardware.ATOMIC[func_name]]
+    except KeyError:
+      stat = -9
+      print("File: %s - Line: %d:%d\nUndefined Function: Expression: %s - Function %s must be defined" % (data['path'], node.value.line, node.value.col, exprs, func_name), file=sys.stderr)
     if stat == 0:
-       __func__ = {'call':None, 'args':args}
-       if not check:
-          #If processing read function
-          if len(args) > 1:
-             stat = -12
-             print("File: %s - Line: %d:%d\nIllegal Number of Arguments: Function %s, must have only one input argument, got %d arguments instead" % (data['path'], _func.value.line, _func.value.col, func_n, len(args)), file=sys.stderr)
-          else:
-             if typ == INT or typ == BOOLEAN:
-                __func__['call'] = 'readint'
-             elif typ == CHAR:
-                __func__['call'] = 'readchr'
-             func_id = 'func%d' % count['func']
-             data['functions'] = __func__
-             count['func'] += 1
-       else:
-          #The function expects only singleton return value per function
-          #TODO: Extend to multiple return values (Broadcast arguments)
-          vm_func = [[map(lambda x: map(lambda y: VM_TYPES[y], x), func_arg[0]), VM_TYPES[func_arg[1]]] for func_arg in func_description]
-          t_types = None
-          impl_f = False
-          for impl in vm_func:
-              idx = 0
-              if len(impl[0]) == len(_types_):
-                 for arg in _types_:
-                     if impl[0][idx] == arg:
-                        idx += 1
+       args = []
+       in_types = []
+       for arg in node.children:
+           stat, arg_type, pointer = process_expr(arg, data, lvl)
+           if stat != 0:
+              break
+           args.append(pointer)
+           in_types.append(arg_type)
+       if stat == 0:
+          matches = 0
+          found = False
+          impl = ', '.join(['('+', '.join([VM_TYPES[j] for j in opt[0]])+')'+':'+VM_TYPES[opt[1]] for opt in func_desc])
+          for opt in func_desc:
+              out_typ = VM_TYPES[opt[1]]
+              if len(args) == len(opt[0]):
+                 for i in range(0, len(args)):
+                     if in_types[i] == VM_TYPES[opt[0][i]]:
+                        matches += 1
                      else:
+                        matches = 0
                         break
-              if idx == len(_types_)-1:
-                 impl_f = True
-                 t_types = impl
+              if matches == len(args):
+                 typ = out_typ
+                 found = True
                  break
-          if impl_f:
-             typ = impl[1]
-             func_id = 'func%d' % count['func']
-             data['functions'] = __func__
+          if not found:
+             stat = -9
+             print("File: %s - Line: %d:%d\nFunction Arguments Type Mismatch: Expression: %s - Function %s is not defined for arguments: %s; Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, func_name, '('+', '.join(in_types)+')', impl), file=sys.stderr)
+          else:
+             func_call['call'] = func_name
+             func_call['args'] = args
+             idx = 'func%d' % (count['func'])
              count['func'] += 1
-          else:
-             stat = -13
-             err_s = map(lambda x: reduce(lambda u, v: u+' '+str(v), x[0], ''), vm_func)
-             print("File: %s - Line: %d:%d\nIllegal Function Arguments: Function %s is not defined for arguments %s, expects: %s" % (data['path'], _func.value.line, _func.value.col, func_n, str(_types_), err_s), file=sys.stderr)
-    return stat, node, func_id, typ             
+             data['functions'][idx] = func_call
+             operator['func']= idx
+    return stat, typ             
 
 
-def process_indices(node, data, lvl):
-    #Node: Start of expression 
-    stat = 0
-    limit = node.next
-    index_l = []
-    idx_indices = None
-    while id(node) != id(limit):
-       if len(node.children) > 0:
-          if node.rule == NEXPR:
-             stat, node, addr_id, typ = process_expr(node, data, lvl, _type = INT) 
-             if stat != 0:
-                break
-             index_l.append(addr_id)
-          else:
-             node = node.children[0]
-       else:       
-          node = node.up_node()
-    if stat == 0:
-       idx_indices = 'index%d' % (count['indices'])
-       data['indices'][idx_indices] = index_l
-       count['indices'] += 1
-    return stat, node, idx_indices 
-
-def process_op(node, data, op, operator, inference, count_e, last_addr, typ, last_type):
-    stat = 0
-    # print(op)
-    if op['oper1'] is None:
-       if op['op'] is not None:
-          op['oper2'] = operator
-          try:
-            #Unary Operators processing
-            typ = inference['single'][op['op'].token][typ]
-            data['addresses']["addr%d" % (count['addr'])] = op
-            last_addr = "addr%d" % (count['addr'])
-            count['addr'] += 1
-            last_var = 'oper2'     
-          except KeyError:
-            stat = -7
-            print("File: %s - Line: %d:%d\nOperand Type Mismatch: Operand %s is undefined for arguments of type: %s" % (data['path'], node.value.line, node.value.col, op['op'].value, typ), file=sys.stderr) 
-       else:
-          op['oper1'] = operator
-          count_e += 1
-          last_var = 'oper1'
-    elif op['oper2'] is None:                              
-       #Binary Operators processing
-       try:
-          typ = inference['double'][op['op'].token][last_type][typ]
-       except KeyError:
-          stat = -9
-          print("File: %s - Line: %d:%d\nOperand Type Mismatch: Cannot perform operation %s over arguments of type %s, %s" % (data['path'], op['op'].line, op['op'].col, op['op'].value, op['oper1']['type'], op['oper2']['type']), file=sys.stderr)    
-       op['oper2'] = operator
-       data['addresses']["addr%d" % (count['addr'])] = op
-       last_addr = "addr%d" % (count['addr'])
-       count['addr'] += 1
-       last_var = 'oper2'
-       count_e += 1
-    return stat, count_e, last_addr, last_var
+def process_indices(children, data, lvl):
+    indices = []
+    for index in children:
+        stat, _, pointer = process_expr(index, data, lvl, _type=INT)
+        if stat != 0:
+           break
+        indices.append(pointer)
+    idx = 'index%d' % (count['index'])
+    data['indices'][idx] = indices 
+    count['index'] += 1
+    return stat, idx 
 
 def lookup_var(tok, data, lvl):
     stat = 0
     inf = None
+    print(tok)
+    print(lvl)
+    print(data)
     name = tok.value
     typ = None
     shp = -1
     while lvl != -1:
        try:
+         print(data['definitions'])
          inf = data['definitions'][lvl][name]
          break
        except KeyError:
@@ -355,7 +283,7 @@ def lookup_var(tok, data, lvl):
     return stat, typ, shp, lvl
 
 
-def process_var(child, data, lvl):
+def process_definition(child, data, lvl):
     #Child: Sibling of VAR
     scope = data['definitions']
     stat = 0
@@ -418,7 +346,7 @@ def process_var(child, data, lvl):
           type_tok = node.children[0].value.value
     else:
        type_tok = node.children[0].value.value
-       shape = [1]
+       shape = []
     if stat == 0:
        try:
          info = scope[lvl]
@@ -429,6 +357,23 @@ def process_var(child, data, lvl):
            info[var.value] = {'size':shape, 'type':type_tok, 'tok':var}
     return stat, node.up_node()
 
-
-
+def expr_str(node, operators, operator=False, s=u''):
+    app = u'%s'
+    if node.value.token in operators:
+       if operator:
+          app = u'(%s)'
+       if len(node.children) > 1:
+          s += app % (node.value.value.join(map(lambda x: expr_str(x, operators, True, ''), node.children)))
+       else:
+          app = node.value.value+u'%s'
+          s += app % (expr_str(node.children[0], operators, True, ''))
+    elif node.value.token == u'func':
+       s += node.value.value+u','.join(map(lambda x: expr_str(x, operators, False, ''), node.children))+u')'
+    elif node.value.token == u'name':
+       s += node.value.value
+       if len(node.children) > 0:
+          s += u'['+(u','.join(map(lambda x: expr_str(x, operators, False, ''), node.children)))+u']'
+    else:
+       s += node.value.value
+    return s
 

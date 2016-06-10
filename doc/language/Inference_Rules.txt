@@ -1,17 +1,23 @@
 plus : int x int -> int
-minus : int x int -> int
-times : int x int -> int
-mod : int x int -> int
-div : int x int -> int
-power : int x int -> int
 plus : boolean x int -> int
+plus : boolean x boolean -> int
+minus : int x int -> int
 minus : boolean x int -> int
+minus : boolean x boolean -> int
 minus : int -> int
-minus : boolean -> boolean
+minus : boolean -> int
+times : int x int -> int
 times : boolean x int -> int
+times : boolean x boolean -> int
+mod : int x int -> int
+mod : boolean x boolean -> int
 mod : boolean x int -> int
+div : int x int -> int
+div : boolean x boolean -> int
 div : boolean x int -> int
+power : int x int -> int
 power : boolean x int -> int
+power : boolean x boolean -> int
 and : boolean x boolean -> boolean
 and : int x boolean -> boolean
 and : int x int -> int

@@ -159,6 +159,9 @@ def parse(path, debug=False):
              status_code = -2
              print("File: %s - Line: %d:%d\nSyntax Error: Unexpected symbol: %s; Expected: %s" % (path, tokens[0].line, tokens[0].col, tokens[0].value, stack[0].value), file=sys.stderr)
              break
+    if status_code == 0:
+       remove_epsilon_productions(root)
+       process_expressions(tree)
     return root, status_code
 
 def output(tokens, stack):
@@ -172,13 +175,47 @@ def output(tokens, stack):
        s += '\n'+' '.join([i.value if isinstance(i, lexer.Token) else i for i in stack])
     print(s+'\n')
 
+def process_expressions(tree):
+    node = tree.children[0]
+    while id(node) != id(tree):
+       if len(node.children) > 0:
+          if node.rule == u'ASSIGNMENT':
+             process_expr_tree(node)
+             remove_parentheses(node)
+             aux_node = ParseTree('VARLIST')
+             aux_node2 = ParseTree('EXPRLIST')
+             aux_node.value = lexer.Token('DEV', u'1')
+             aux_node2.value = lexer.Token('DEV', u'2') 
+             node.children[0].parent = aux_node
+             node.children[0].next = None
+             node.children[1].next = None
+             node.children[1].parent = aux_node2
+             aux_node.children.append(node.children[0])
+             aux_node2.children.append(node.children[1])
+             node.children = [aux_node, aux_node2]
+             comma_detection(node)
+             node = node.up_node()
+          elif node.rule == u'EXPR' or node.rule == u'READ':
+             process_expr_tree(node)
+             remove_parentheses(node)
+             comma_detection(node)
+             node = node.up_node()
+          else:
+             node = node.children[0]
+       else:
+          node = node.up_node()
 
 def compress_tree(node):
     obj_node = None
     if len(node.children) == 1:
+       last_node = None
        obj_node = node.children[0]
        while len(obj_node.children) == 1:
+          last_node = obj_node
           obj_node = obj_node.children[0]
+          if obj_node.value is not None:
+             obj_node = last_node
+             break
        if len(obj_node.children) == 0:
           if obj_node.value is not None:
              node.value = obj_node.value
@@ -198,11 +235,15 @@ def remove_useless_productions(node):
           idx = node.parent.children.index(node)
           del node.parent.children[idx]
 
-def process_expr_tree(node, debug=False):
+def process_expr_tree(node, complete=True, debug=False):
     last_lvl = 0
     node.lvl = 0
     queue = [node]
     f_term = False
+    w_node = None
+    c_node = None
+    watch = False
+    compress = True
     while len(queue) > 0:
        current_node = queue.pop(0)
        lvl = current_node.lvl
@@ -211,29 +252,61 @@ def process_expr_tree(node, debug=False):
              print("--------------------")
              print("Level %d" % (lvl))
           last_lvl = lvl
+          if watch:
+             f_term = True
+             if debug:
+                print(u"Exchanging: "+unicode(c_node)+u' ; '+unicode(w_node))
+             if c_node is None:
+                current_node = w_node
+                if len(current_node.parent.parent.children) == 1:
+                   compress = False
+             else:
+                current_node = c_node
+                w_node.parent.value = w_node.value
+                idx = w_node.parent.children.index(w_node)
+                del w_node.parent.children[idx]
+             if debug:
+                print(current_node) 
+             break
        if debug:
           print(current_node)
        if current_node.value is not None:
           if current_node.value.token == u'left_rparen':
-             idx = queue.index(current_node.next.next)
-             del queue[idx]
-             current_node.parent.children = current_node.parent.children[1:-1]
-             current_node.parent.children[0].next = None
-          else:   
-            f_term = True
-            break
+             try:
+               idx = queue.index(current_node.next.next)
+               del queue[idx]
+               current_node.parent.children = current_node.parent.children[1:-1]
+               current_node.parent.children[0].next = None
+             except ValueError:
+               pass
+          elif current_node.value.token == u'minus' or current_node.value.token == u'not':
+             if debug:
+                print("Got Minus/Negation")
+             w_node = current_node
+             watch = True
+          else:
+             if watch:
+                if debug:
+                   print("Got another terminal")
+                c_node = current_node   
+             else:
+                f_term = True
+                break
        for child in current_node.children:
            child.lvl = current_node.lvl + 1
        queue += current_node.children
     if id(current_node) != id(node):
        if f_term:
-          node.value = current_node.value
-          idx = current_node.parent.children.index(current_node)
-          del current_node.parent.children[idx]
+          if node.value is None:
+             node.value = current_node.value
+             idx = current_node.parent.children.index(current_node)
+             del current_node.parent.children[idx]
        remove_useless_productions(node)
-       compress_tree(node)
-    for child in node.children:
-       process_expr_tree(child, debug)
+       if compress:
+          compress_tree(node)
+    if complete:
+       for child in node.children:
+           process_expr_tree(child, complete, debug)
 
 def remove_epsilon_productions(node, debug=False):
    last_lvl = 0
@@ -274,7 +347,7 @@ def remove_parentheses(node, debug=False):
       if debug:
          print(current_node)
       if current_node.value is not None:
-         if current_node.value.token == u'left_sparen' or current_node.value.token == u'right_sparen' or current_node.value.token == u'right_rparen':
+         if current_node.value.token == u'left_sparen' or current_node.value.token == u'right_sparen' or current_node.value.token == u'right_rparen' or current_node.value.token == u'left_rparen':
             parent = current_node.parent
             idx = parent.children.index(current_node)
             del parent.children[idx]
