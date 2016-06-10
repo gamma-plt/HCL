@@ -20,8 +20,12 @@ debug = False
 
 tree, stat = parser.parse(path)
 semantic.analyse(path)
-node = tree.children[3].children[0].children[1].children[1].children[0].children[0].children[1].children[0]
-
+node = tree.children[3].children[0].children[0].children[0].children[1]
+stat, node = semantic.process_definition(node, data, 0)
+node = node.children[0].children[0].children[1]
+stat, node = semantic.process_definition(node, data, 0)
+node = node.children[0].children[0].children[1].children[0]
+semantic.process_expr(node, data, 0)
 
 
 # node = tree.children[3].children[0].children[0].children[0].children[1]
@@ -33,4 +37,4 @@ node = tree.children[3].children[0].children[1].children[1].children[0].children
 # node = tree.children[3].children[0].children[0].children[0].children[1]
 # stat, node = semantic.process_var(node, data, 0)
 
-(((-(3-c)*(a+8))+(b*(c/(d^6))))>(f[(a*c)%(6^k),b+f,k*abs(h,i*func2(i*k,g%5))]*max(c+1,d-6,m*f[5,6,7])))∧((-g∨(¬even(n)*7))∧¬(a≠b))
+#(((-(3-c)*(a+8))+(b*(c/(d^6))))>(f[(a*c)%(6^k),b+f,k*abs(h,i*func2(i*k,g%5))]*max(c+1,d-6,m*f[5,6,7])))∧((-g∨(¬even(n)*7))∧¬(a≠b))

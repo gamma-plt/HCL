@@ -261,15 +261,15 @@ def process_indices(children, data, lvl):
 def lookup_var(tok, data, lvl):
     stat = 0
     inf = None
-    print(tok)
-    print(lvl)
-    print(data)
+    # print(tok)
+    # print(lvl)
+    # print(data)
     name = tok.value
     typ = None
     shp = -1
     while lvl != -1:
        try:
-         print(data['definitions'])
+         # print(data['definitions'])
          inf = data['definitions'][lvl][name]
          break
        except KeyError:
