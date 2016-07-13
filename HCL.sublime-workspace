@@ -1,0 +1,2734 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ass",
+				"assignment"
+			],
+			[
+				"exp",
+				"expr_addr"
+			],
+			[
+				"var",
+				"var_list"
+			],
+			[
+				"ins",
+				"instr_prototype"
+			],
+			[
+				"ex",
+				"expr_addr"
+			],
+			[
+				"expr",
+				"expr_addr"
+			],
+			[
+				"va",
+				"var_list"
+			],
+			[
+				"opera",
+				"operators"
+			],
+			[
+				"op",
+				"op_ret"
+			],
+			[
+				"proces",
+				"process_expr"
+			],
+			[
+				"func",
+				"func_call"
+			],
+			[
+				"arg",
+				"arg_type"
+			],
+			[
+				"proce",
+				"process_expr"
+			],
+			[
+				"fun",
+				"func_name"
+			],
+			[
+				"pr",
+				"process_var"
+			],
+			[
+				"is",
+				"is_var"
+			],
+			[
+				"oper",
+				"operator"
+			],
+			[
+				"ini",
+				"indices"
+			],
+			[
+				"not",
+				"not_compress"
+			],
+			[
+				"au",
+				"aux2_node"
+			],
+			[
+				"aux",
+				"aux_node"
+			],
+			[
+				"comma",
+				"comma_detection"
+			],
+			[
+				"opr",
+				"operator"
+			],
+			[
+				"c",
+				"c_node"
+			],
+			[
+				"w",
+				"w_node"
+			],
+			[
+				"chid",
+				"children"
+			],
+			[
+				"comm",
+				"comma_collection"
+			],
+			[
+				"de",
+				"debug"
+			],
+			[
+				"child",
+				"children"
+			],
+			[
+				"las",
+				"last_addr"
+			],
+			[
+				"_ty",
+				"_type"
+			],
+			[
+				"add",
+				"addresses"
+			],
+			[
+				"imp",
+				"impl"
+			],
+			[
+				"impl",
+				"impl_f"
+			],
+			[
+				"_",
+				"_types_"
+			],
+			[
+				"__t",
+				"_types_"
+			],
+			[
+				"vm",
+				"vm_func"
+			],
+			[
+				"__",
+				"__func__"
+			],
+			[
+				"sin",
+				"single_arg"
+			],
+			[
+				"inde",
+				"index_l"
+			],
+			[
+				"last",
+				"last_addr"
+			],
+			[
+				"id",
+				"idx_id"
+			],
+			[
+				"Vari",
+				"variables"
+			],
+			[
+				"operat",
+				"operators"
+			],
+			[
+				"d",
+				"double"
+			],
+			[
+				"inf",
+				"inference"
+			],
+			[
+				"IN",
+				"INFERENCE_PATH"
+			],
+			[
+				"cons",
+				"console.log()"
+			],
+			[
+				"res",
+				"repository"
+			],
+			[
+				"log",
+				"log_mon"
+			],
+			[
+				"web",
+				"websocket_handler"
+			],
+			[
+				"cl",
+				"click	.click()"
+			],
+			[
+				"def",
+				"definitions"
+			],
+			[
+				"ty",
+				"type_"
+			],
+			[
+				"proc",
+				"process_func"
+			],
+			[
+				"G",
+				"GRAMMAR_PATH"
+			],
+			[
+				"lvl",
+				"lvl_count"
+			],
+			[
+				"instr",
+				"instr_list"
+			],
+			[
+				"do",
+				"do_count"
+			],
+			[
+				"process_",
+				"process_expr"
+			],
+			[
+				"gua",
+				"guard_exec"
+			],
+			[
+				"chil",
+				"children"
+			],
+			[
+				"in",
+				"include"
+			],
+			[
+				"ana",
+				"analyse_tree"
+			],
+			[
+				"stat",
+				"status_code"
+			],
+			[
+				"val",
+				"val_2"
+			],
+			[
+				"len",
+				"length"
+			],
+			[
+				"type",
+				"type_tok"
+			],
+			[
+				"chi",
+				"children"
+			],
+			[
+				"nex",
+				"next_node"
+			],
+			[
+				"inter",
+				"intermediate"
+			],
+			[
+				"lise",
+				"listener"
+			],
+			[
+				"listen",
+				"listeners"
+			],
+			[
+				"se",
+				"sessions"
+			],
+			[
+				"pad",
+				"padding-top"
+			],
+			[
+				"padd",
+				"padding-bottom"
+			],
+			[
+				"paddi",
+				"padding-right"
+			],
+			[
+				"ab",
+				"absolute"
+			],
+			[
+				"he",
+				"height"
+			],
+			[
+				"sty",
+				"style	Attr"
+			],
+			[
+				"iframe",
+				"iframe	Tag"
+			],
+			[
+				"if",
+				"iframe	<iframe>"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"rea",
+				"ready	$(document).ready"
+			],
+			[
+				"doc",
+				"document	Document"
+			],
+			[
+				"notify",
+				"notify_client"
+			],
+			[
+				"orde",
+				"order_by"
+			],
+			[
+				"input",
+				"inputt	input - text"
+			],
+			[
+				"replace",
+				"replaceWith	.replaceWith()"
+			],
+			[
+				"noti",
+				"notify_client"
+			],
+			[
+				"CERR",
+				"CERRADA"
+			],
+			[
+				"actua",
+				"actualizar_estado_externo"
+			],
+			[
+				"lis",
+				"_listeners"
+			],
+			[
+				"pass",
+				"password	URLUtils"
+			],
+			[
+				"user",
+				"username	URLUtils"
+			],
+			[
+				"end",
+				"end_u"
+			],
+			[
+				"init",
+				"init_u"
+			],
+			[
+				"as",
+				"assets_l"
+			],
+			[
+				"num",
+				"num_seq"
+			],
+			[
+				"date",
+				"datetime"
+			],
+			[
+				"dat",
+				"datetime"
+			],
+			[
+				"stmt",
+				"stmt_1"
+			],
+			[
+				"punto",
+				"punto_atencion"
+			],
+			[
+				"client",
+				"client_str"
+			],
+			[
+				"no",
+				"nombre"
+			],
+			[
+				"tipo",
+				"tipo_p"
+			],
+			[
+				"nom",
+				"nombre_of"
+			],
+			[
+				"nm",
+				"num_documento"
+			],
+			[
+				"set",
+				"set_status"
+			],
+			[
+				"app",
+				"app_from"
+			],
+			[
+				"fecha",
+				"fecha_creacion"
+			],
+			[
+				"remove",
+				"removeClass	.removeClass()"
+			],
+			[
+				"ac",
+				"acc_old"
+			],
+			[
+				"CUENTA",
+				"CUENTA_EMPRESA"
+			],
+			[
+				"acc",
+				"acc_new"
+			],
+			[
+				"selec",
+				"selected	Attr"
+			],
+			[
+				"cuenta",
+				"cuenta_nomina"
+			],
+			[
+				"ID",
+				"ID_CLIENTE"
+			],
+			[
+				"cur",
+				"cursor"
+			],
+			[
+				"obtener_tip",
+				"obtener_tipo_operacion"
+			],
+			[
+				"ap",
+				"apellido_emp"
+			],
+			[
+				"ape",
+				"apellido_emp"
+			],
+			[
+				"nomb",
+				"nombre_emp"
+			],
+			[
+				"nombre",
+				"nombre_emp"
+			],
+			[
+				"id_",
+				"id_oficina"
+			],
+			[
+				"tip",
+				"tipo_pa"
+			],
+			[
+				"nombr",
+				"nombre_emp"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/compiler/frontend/parser.py",
+			"settings":
+			{
+				"buffer_size": 13084,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/compiler/frontend/lexer.py",
+			"settings":
+			{
+				"buffer_size": 3935,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/compiler/frontend/semantic.py",
+			"settings":
+			{
+				"buffer_size": 16963,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc/language/LL_Grammar_Description.txt",
+			"settings":
+			{
+				"buffer_size": 1277,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/vm/atomic.py",
+			"settings":
+			{
+				"buffer_size": 5839,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "def compress_tree(node):\n    obj_node = None\n    if len(node.children) == 1:\n       last_node = None\n       obj_node = node.children[0]\n       while len(obj_node.children) == 1:\n          last_node = obj_node\n          obj_node = obj_node.children[0]\n          if obj_node.value is not None:\n             obj_node = last_node\n             break\n       if len(obj_node.children) == 0:\n          if obj_node.value is not None:\n             node.value = obj_node.value\n          node.children = []\n       else:\n          node.children = obj_node.children\n          for child in node.children:\n              child.parent = node\n    # for child in node.children:\n    #    compress_tree(child)\n\ndef remove_useless_productions(node):\n    for child in node.children:\n        remove_useless_productions(child)\n    if len(node.children) == 0:\n       if node.value is None:\n          idx = node.parent.children.index(node)\n          del node.parent.children[idx]\n\n\ndef process_expr_tree(node, debug=False):\n    last_lvl = 0\n    node.lvl = 0\n    queue = [node]\n    f_term = False\n    while len(queue) > 0:\n       current_node = queue.pop(0)\n       lvl = current_node.lvl\n       if lvl != last_lvl:\n          if debug:\n             print(\"--------------------\")\n             print(\"Level %d\" % (lvl))\n          last_lvl = lvl\n       if debug:\n          print(current_node)\n       if current_node.value is not None:\n          if current_node.value.token == u'left_rparen':\n             idx = queue.index(current_node.next.next)\n             del queue[idx]\n             current_node.parent.children = current_node.parent.children[1:-1]\n             current_node.parent.children[0].next = None\n          else:   \n            f_term = True\n            break\n       for child in current_node.children:\n           child.lvl = current_node.lvl + 1\n       queue += current_node.children\n    if id(current_node) != id(node):\n       if f_term:\n          if node.value is None:\n             node.value = current_node.value\n             idx = current_node.parent.children.index(current_node)\n             del current_node.parent.children[idx]\n       remove_useless_productions(node)\n       compress_tree(node)\n    for child in node.children:\n       process_expr_tree(child, debug)\n    # else:\n    #    if node.value.token == u'left_sparen':\n    #       idx = node.parent.children.index(node)\n    #       node.parent.children = node.parent.children[1:-1]\n    #       node.parent.children[0].next = None\n    #    elif node.value.token == u'  '\n          # remove_useless_productions(node.parent)\n          # compress_tree(node.parent) \n\n\ndef remove_epsilon_productions(node, debug=False):\n   last_lvl = 0\n   node.lvl = 0\n   queue = [node]\n   while len(queue) > 0:\n      current_node = queue.pop(0)\n      lvl = current_node.lvl\n      if lvl != last_lvl:\n         if debug:\n            print(\"--------------------\")\n            print(\"Level %d\" % (lvl))\n         last_lvl = lvl\n      if debug:\n         print(current_node)\n      if current_node.value is not None:\n         if current_node.value == '':\n            parent = current_node.parent\n            idx = parent.children.index(current_node)\n            del parent.children[idx]\n            parent.children[idx-1].next = current_node.next\n      for child in current_node.children:\n          child.lvl = current_node.lvl + 1\n      queue += current_node.children\n\ndef remove_parentheses(node, debug=False):\n   last_lvl = 0\n   node.lvl = 0\n   queue = [node]\n   while len(queue) > 0:\n      current_node = queue.pop(0)\n      lvl = current_node.lvl\n      if lvl != last_lvl:\n         if debug:\n            print(\"--------------------\")\n            print(\"Level %d\" % (lvl))\n         last_lvl = lvl\n      if debug:\n         print(current_node)\n      if current_node.value is not None:\n         if current_node.value.token == u'left_sparen' or current_node.value.token == u'right_sparen' or current_node.value.token == u'right_rparen':\n            parent = current_node.parent\n            idx = parent.children.index(current_node)\n            del parent.children[idx]\n            if idx > 0:\n               parent.children[idx-1].next = current_node.next\n      for child in current_node.children:\n          child.lvl = current_node.lvl + 1\n      queue += current_node.children\n\ndef comma_detection(node, debug=False):\n   last_lvl = 0\n   node.lvl = 0\n   queue = [node]\n   while len(queue) > 0:\n      current_node = queue.pop(0)\n      lvl = current_node.lvl\n      if lvl != last_lvl:\n         if debug:\n            print(\"--------------------\")\n            print(\"Level %d\" % (lvl))\n         last_lvl = lvl\n      if debug:\n         print(current_node)\n      if current_node.value is not None:\n         if current_node.value.token == u'comma':\n            current_node.parent.children = comma_collection(current_node, [])\n            children = current_node.parent.children\n            for i in range(0, len(children)-1):\n                children[i].parent = current_node.parent\n                children[i].next = children[i+1]\n            children[-1].next = None\n            children[-1].parent = current_node.parent\n            queue = children + queue\n         else:\n            for child in current_node.children:\n                child.lvl = current_node.lvl + 1\n            queue += current_node.children \n\ndef comma_collection(node,_list=[]):\n   if node.value.token != u'comma':\n      _list.append(node)\n   else:\n      for child in node.children:\n          _list = comma_collection(child,_list)\n   return _list\n\noperators = set([u'plus', u'minus', u'times', u'div', u'mod', u'power', u'eq', u'le', u'leq', u'neq', u'ge', u'geq', u'and', u'or', u'not'])\n\ndef expr_str(node, operator=False, s=u''):\n    app = u'%s'\n    if node.value.token in operators:\n       if operator:\n          app = u'(%s)'\n       if len(node.children) > 1:\n          s += app % (node.value.value.join(map(lambda x: expr_str(x, True, ''), node.children)))\n       else:\n          app = node.value.value+u'%s'\n          s += app % (expr_str(node.children[0], True, ''))\n    elif node.value.token == u'func':\n       s += node.value.value+u','.join(map(lambda x: expr_str(x, False, ''), node.children))+u')'\n    elif node.value.token == u'name':\n       s += node.value.value\n       if len(node.children) > 0:\n          s += u'['+(u','.join(map(lambda x: expr_str(x, False, ''), node.children)))+u']'\n    else:\n       s += node.value.value\n    return s\n\n\neps_count = 0\ncurrent_node = tree.children[0]\nlimit = tree\nwhile id(current_node) != id(limit):\n   if len(current_node.children) > 0:\n      current_node = current_node.children[0]\n   else:\n      if current_node.value == '':\n         eps_count += 1\n      else:\n         print(current_node.value)\n      current_node = current_node.up_node()\n\nlast_lvl = 0\nnode.lvl = 0\nqueue = [node]\nwhile len(queue) > 0:\n   current_node = queue.pop(0)\n   lvl = current_node.lvl\n   if lvl != last_lvl:\n      print(\"--------------------\")\n      print(\"Level %d\" % (lvl))\n      last_lvl = lvl\n   print(current_node)\n   if current_node.value is not None:\n      break\n   for child in current_node.children:\n       child.lvl = current_node.lvl + 1\n   queue += current_node.children   ",
+			"settings":
+			{
+				"buffer_size": 7203,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/hcl/example1.hcl",
+			"settings":
+			{
+				"buffer_size": 483,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/semantic_test.py",
+			"settings":
+			{
+				"buffer_size": 1629,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc/language/Instruction_And_Flow_Control_Dictionaries.txt",
+			"settings":
+			{
+				"buffer_size": 1220,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt",
+			"settings":
+			{
+				"buffer_size": 2670,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/vm/hardware.py",
+			"settings":
+			{
+				"buffer_size": 32308,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc/language/TYPE_Inference_Rules.txt",
+			"settings":
+			{
+				"buffer_size": 1388,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/hcl/collatz.hcl",
+			"settings":
+			{
+				"buffer_size": 429,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "while id(node) != id(root):\n    if len(node.children) > 0:\n       node = node.children[0]\n    else:\n       if node.value != '':\n          print node\n       node = node.up_node()",
+			"settings":
+			{
+				"buffer_size": 177,
+				"line_ending": "Unix",
+				"name": "while id(node) != id(root):"
+			}
+		},
+		{
+			"file": "doc/language/Inference_Rules.txt",
+			"settings":
+			{
+				"buffer_size": 1489,
+				"line_ending": "Unix",
+				"name": "plus : int x int -> int"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/hcl/dutchflag.hcl",
+			"settings":
+			{
+				"buffer_size": 741,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/hcl/fibased.hcl",
+			"settings":
+			{
+				"buffer_size": 399,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/vm/selectionsort.vhcl",
+			"settings":
+			{
+				"buffer_size": 1326,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 201.0,
+		"last_filter": "temrin",
+		"selected_items":
+		[
+			[
+				"temrin",
+				"Terminal: Open in project folder"
+			],
+			[
+				"ssfree",
+				"Set Syntax: Free Pascal"
+			],
+			[
+				"term",
+				"Terminal: Open in project folder"
+			],
+			[
+				"ssp",
+				"Set Syntax: Python"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"ter",
+				"Terminal: Open in project folder"
+			],
+			[
+				"termn",
+				"Terminal: Open in project folder"
+			],
+			[
+				"termin",
+				"Terminal: Open in project folder"
+			],
+			[
+				"sspa",
+				"Set Syntax: Free Pascal"
+			],
+			[
+				"termon",
+				"Terminal: Open in project folder"
+			],
+			[
+				"sspython",
+				"Set Syntax: Python"
+			],
+			[
+				"sshtm",
+				"Set Syntax: HTML"
+			],
+			[
+				"sssh",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"ssfre",
+				"Set Syntax: Free Pascal"
+			],
+			[
+				"termina",
+				"Terminal: Open"
+			],
+			[
+				"gam",
+				"Set Syntax: Gams Listing"
+			],
+			[
+				"gams",
+				"Gams: Switch between code and listing"
+			],
+			[
+				"ssc",
+				"Set Syntax: C"
+			],
+			[
+				"temr",
+				"Terminal: Open in project folder"
+			],
+			[
+				"sspasc",
+				"Set Syntax: Pascal"
+			],
+			[
+				"sspas",
+				"Set Syntax: Pascal"
+			],
+			[
+				"pascal",
+				"Set Syntax: Pascal"
+			],
+			[
+				"ssgams",
+				"Set Syntax: Gams"
+			],
+			[
+				"ssgma",
+				"Set Syntax: Gams"
+			],
+			[
+				"op",
+				"Terminal: Open"
+			],
+			[
+				"open",
+				"Terminal: Open"
+			],
+			[
+				"trail",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"git delete",
+				"Git: Delete Branch"
+			],
+			[
+				"git",
+				"Github: Repository"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"css",
+				"Run CSScomb"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"prett",
+				"HTMLPrettify"
+			],
+			[
+				"sscs",
+				"Set Syntax: CSS"
+			],
+			[
+				"pretti",
+				"HTMLPrettify"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"paca",
+				"Package Control: Install Package"
+			],
+			[
+				"beautify",
+				"HTMLBeautify"
+			],
+			[
+				"iden",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"ssjs",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"hml",
+				"HTMLBeautify"
+			],
+			[
+				"sslate",
+				"Set Syntax: LaTeX"
+			],
+			[
+				"bow",
+				"bower Injector : inject dependencies"
+			],
+			[
+				"package control in",
+				"Package Control: Install Package"
+			],
+			[
+				"view",
+				"View In Browser"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"termila",
+				"Terminal: Open"
+			],
+			[
+				"sspla",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"ss",
+				"Set Syntax: Python"
+			],
+			[
+				"trai",
+				"Trailing Spaces: Toggle Trailing Spaces Highlighting"
+			],
+			[
+				"",
+				"Trailing Spaces: Toggle Trailing Spaces Highlighting"
+			],
+			[
+				"ssjava",
+				"Set Syntax: Java"
+			],
+			[
+				"termi",
+				"Terminal: Open in project folder"
+			],
+			[
+				"foll",
+				"Floobits - Follow Workspace Changes"
+			],
+			[
+				"floo",
+				"Floobits - Join Workspace"
+			],
+			[
+				"stop",
+				"Floobits - Stop Following Workspace"
+			],
+			[
+				"htm",
+				"HTMLBeautify"
+			],
+			[
+				"l",
+				"Floobits - List Users"
+			],
+			[
+				"lis",
+				"Floobits - List Users"
+			],
+			[
+				"sspyth",
+				"Set Syntax: Python"
+			],
+			[
+				"sspy",
+				"Set Syntax: Python"
+			],
+			[
+				"idento",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"html",
+				"HTMLBeautify"
+			],
+			[
+				"bea",
+				"Javascript Beautify"
+			],
+			[
+				"o",
+				"Terminal: Open"
+			],
+			[
+				"sssql",
+				"Set Syntax: SQL"
+			],
+			[
+				"ident",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"beaut",
+				"HTMLBeautify"
+			],
+			[
+				"ssja",
+				"Set Syntax: Java"
+			],
+			[
+				"java",
+				"Javascript Beautify"
+			],
+			[
+				"beau",
+				"HTMLBeautify"
+			],
+			[
+				"packe",
+				"Package Control: Install Package"
+			],
+			[
+				"python",
+				"User: Python PEP8 Autoformat"
+			],
+			[
+				"ja",
+				"Javascript Beautify"
+			],
+			[
+				"flo",
+				"Floobits - List Users"
+			],
+			[
+				"li",
+				"Floobits - List Users"
+			],
+			[
+				"diff",
+				"Git: Diff Tool All"
+			],
+			[
+				"set syntax: C",
+				"Set Syntax: C++11"
+			],
+			[
+				"set syntax: C++",
+				"Set Syntax: C++"
+			],
+			[
+				"jva",
+				"Javascript Beautify"
+			],
+			[
+				"f",
+				"Floobits - Join Workspace"
+			],
+			[
+				"javas",
+				"Javascript Beautify"
+			],
+			[
+				"be",
+				"Javascript Beautify"
+			],
+			[
+				"follow",
+				"Floobits - Follow Workspace Changes"
+			],
+			[
+				"fl",
+				"Floobits - Join Workspace"
+			],
+			[
+				"Lis",
+				"Floobits - List Users"
+			],
+			[
+				"follo",
+				"Floobits - Stop Following Workspace"
+			],
+			[
+				"users",
+				"Floobits - List Users"
+			],
+			[
+				"h",
+				"HTMLBeautify"
+			],
+			[
+				"t",
+				"Terminal: Open"
+			],
+			[
+				"git pull",
+				"Git: Pull"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"sql",
+				"Set Syntax: PL/SQL (Oracle)"
+			],
+			[
+				"console",
+				"Package Control: Install Package"
+			],
+			[
+				"hm",
+				"HTMLBeautify"
+			],
+			[
+				"identation",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"ht",
+				"HTMLBeautify"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"dired",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"user",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"Pa",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"python main.py",
+			"import numpy as np",
+			"tes",
+			"test",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm"
+	],
+	"file_history":
+	[
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language/LL_Grammar_Description.txt",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/lexer.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language/Instruction_And_Flow_Control_Dictionaries.txt",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/example4.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/hardware.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/tabulate.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/info.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/main.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/utilities.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/atomic.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/semantic.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/parser.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/ll_table.py",
+		"/home/andfoy/Documentos/github-webhooks/main.py",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Circuitos/ECG/Out.csv",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Circuitos/ECG/INA.csv",
+		"/home/andfoy/Mapping/Colombia/Bogotá/data/edges.csv",
+		"/home/andfoy/Mapping/Colombia/Bogotá/data/nodes.csv",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Laboratorios/Lab_6/Files/shortest_path.lst",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Laboratorios/Lab_6/Files/shortest_path.gms",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/test.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/collatz.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/vm/collatz.vhcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/example1.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/example3.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/__init__.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/__init__.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/__init__.py",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Laboratorios/Lab_5/Files/shortest_path.gms",
+		"/home/andfoy/pattern.c",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/TODO.txt",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/__init__.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/.gitignore",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/eratosthenes.hcl~",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Exámenes/Examen_2/Multi_Objective/Shortest_Path.txt",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Proyecto/E1/Assets/data.gms",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Exámenes/Examen_2/Multi_Objective/shortestPath_Multiobjective.gms",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Proyecto/E1/Assets/data_2.gms",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Exámenes/Examen_2/Multi_Objective/shortestPath_Multiobjective.lst",
+		"/home/andfoy/Descargas/ejercicioArchivos_4.GMS",
+		"/home/andfoy/Descargas/ejercicioArchivos_3.GMS",
+		"/home/andfoy/Descargas/ejercicioArchivos_2.GMS",
+		"/home/andfoy/Descargas/ejercicioArchivos_plantilla.GMS",
+		"/home/andfoy/Streaming/streaming/media/test.png",
+		"/home/andfoy/LaTeX_Editor/dist/css/AdminLTE.css",
+		"/home/andfoy/Documentos/Art Nouveau.tex",
+		"/home/andfoy/Documentos/Universidad/2016/V Semestre/Optimización/Laboratorios/Lab_4/Files/ex_2.gms",
+		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Laboratorios/Lab_4/Files/ex_2.lst",
+		"/home/andfoy/Descargas/ejemplo_2.c",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Estructuras/Talleres_201610/Taller_4/Scraps/extract.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Estructuras/Talleres_201610/Taller_1/src/taller/mundo/SudokuLib.java",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Estructuras/Talleres_201610/Taller_1/docs/enunciado_Taller_1.tex",
+		"/home/andfoy/winetricks",
+		"/home/andfoy/IDEAM.txt",
+		"/home/andfoy/.config/sublime-text-3/Packages/TrailingSpaces/trailing_spaces.sublime-settings",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/listaOperaciones.html",
+		"/home/andfoy/.cache/.fr-IFNzJf/BancAndes/src/co/edu/uniandes/bancAndes/dao/ConsultaDAO.java",
+		"/home/andfoy/.cache/.fr-86luPx/BancAndes/src/fachada/BancAndes.java",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/queue_client/client.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/web_socket.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/registrarOperacionCuentaCajero.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/web_sockets.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/schema.sql",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/registrarOperacionCuenta1.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/misc/operation_script.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Estructuras/Proyecto_3/data/info/arcos.csv",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Estructuras/Proyecto_3/data/info/centros_acopio.csv",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/sendemail.php",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/queue_client/__init__.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/__init__.py",
+		"/run/user/1000/gvfs/sftp:host=margffoy-tuay.com,user=root/var/www/testsite/blog/static/js/angular-shiro.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/punto_atencion.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/misc/table_population.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/lab.sql",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/js_ext/angular-shiro/dist/angular-shiro.min2.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/js_ext/angular-shiro/dist/angular-shiro.min.js",
+		"/home/andfoy/apps.json",
+		"/home/andfoy/storm.json",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/modules/login/login.controller.spec.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/js/services.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Maratones/Quasi/Cuadrados.java",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/js/controllers.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Maratones/Quasi/Illuminati.java",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/js/app.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/modules/login/login.controller.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/modules/login/login.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/modules/register/register.view.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/modules/login/login.view.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/modules/app.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/index.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/js/custom.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/test/java/co/edu/uniandes/myso/serviceTest/BookTest.java",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/test/java/co/edu/uniandes/myso/functionalTest/BookFunctionalIT.java",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/target/jacoco/index.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/target/myso.web-0.0.1-SNAPSHOT/src/js/app.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/cdnjs/.git/config",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/misc/integrity_tests.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/registrarNomina.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/registro_nomina.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Desarrollo/myso-main-repository/src/myso.web/src/main/webapp/src/modules/login.view.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/registrarEmpleado.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/listaOficinas.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/main.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/cajero-menu.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/registrarOperacionPrestamo1.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/goficina_menu.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/registro_cuenta",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/registro_cuenta.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/registrarOperacionCuenta2.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/admin-menu.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/listaEmpleados.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/informacionEmpleado.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/registrarOficina.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/tables.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/oficinas.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/vos/prestamo.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/prestamos.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/registro_oficina.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/vos/oficina.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/vos/puntos_atencion.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/listaPuntosAtencion.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/selector.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/borrow.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/forms.js",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/cerrarPrestamo.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/informacionOficina.html",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/registro_empleado.py",
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/dao/consulta_dao_catalogo.py"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"stat =",
+			"stat",
+			"ASSIGNMENT",
+			"exprs",
+			"lookup_var",
+			";",
+			"OP",
+			"print",
+			"Λ",
+			"process_expr_tree(node, debug=False)",
+			"M",
+			"C",
+			"R",
+			"J",
+			"O",
+			"Φ",
+			"Δ",
+			"Z",
+			"L",
+			"Γ",
+			"X",
+			"Ψ",
+			"Ω",
+			"Θ",
+			"CONTINUATION",
+			"GUARDCONT",
+			"Ĺ",
+			"GUARD",
+			"Ô",
+			"G",
+			"W",
+			"Π",
+			"ζ",
+			"Ξ",
+			"D",
+			"I",
+			"S",
+			"ASSIGN",
+			"H",
+			"print",
+			"count",
+			"count$",
+			"->",
+			"$",
+			"	",
+			"^.*[a-z]\\t",
+			"	",
+			"^.*[a-z]\\t",
+			"$",
+			"	",
+			"^.*[a-z]\\t",
+			"$",
+			"	",
+			"^.*[a-z]\\t",
+			"$",
+			"	",
+			"^.*[a-z]\\t",
+			"$",
+			"	",
+			"^.*[a-z]\\t",
+			"$",
+			"	",
+			"^.*[a-z]\\t",
+			"^{.*[a-z]}",
+			".*[a-z]\\t",
+			"	",
+			"$",
+			"	",
+			"$",
+			".",
+			"\\t",
+			",",
+			"$",
+			"	",
+			",",
+			"%",
+			"	",
+			",",
+			"	",
+			"$",
+			"	",
+			",",
+			"%",
+			"$",
+			",",
+			"	",
+			"%",
+			",",
+			"	",
+			"$",
+			",",
+			"%",
+			"	",
+			"$",
+			"[(].*[)]",
+			",",
+			"	",
+			",",
+			"	",
+			",",
+			"	",
+			"%",
+			",",
+			"$",
+			"\\t",
+			"atomic_pow",
+			"read",
+			"_readint",
+			"^\\w",
+			"\\t",
+			"$",
+			")",
+			"$",
+			")",
+			"($",
+			"$",
+			"%",
+			"\\t",
+			"$",
+			"%",
+			"	",
+			",",
+			")",
+			".",
+			"$",
+			"($",
+			"\\t",
+			"$"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			",",
+			".",
+			"",
+			"-",
+			"   ",
+			"  ",
+			"",
+			"\\\\",
+			"\\n",
+			", ",
+			"",
+			"\\n",
+			"",
+			";",
+			" =",
+			"=",
+			" = ",
+			"= ",
+			" = ",
+			"[.].* = .*",
+			"this.",
+			"",
+			"self.logger",
+			"logger.info",
+			"logger",
+			"log",
+			"pika.log",
+			"",
+			"\n",
+			"",
+			"\n",
+			"",
+			");",
+			"",
+			"src=\"{{ static_url(",
+			"expr_s",
+			"parseFloat",
+			"'#result'",
+			"\n		cmp[extracted_chunks], eax",
+			"offset_s",
+			"\\d",
+			"",
+			"VAR_REGEX",
+			"FUNC_REGEX",
+			"FUNCREGEX",
+			"main_list -> length"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/compiler/frontend/parser.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13084,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5829,
+								5829
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3287.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/compiler/frontend/lexer.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3935,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								493,
+								493
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 114.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/compiler/frontend/semantic.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16963,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3331,
+								3331
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"history_list_is_closing": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 3,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2160.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "doc/language/LL_Grammar_Description.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1277,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								814,
+								814
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/vm/atomic.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 5839,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								552,
+								552
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3363.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 20,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7203,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								440,
+								440
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 3,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "examples/hcl/example1.hcl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 483,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								303,
+								303
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "doc/language/LL_Grammar_Description.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1277,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								911,
+								911
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 399.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/semantic_test.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1629,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								86,
+								86
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "doc/language/Instruction_And_Flow_Control_Dictionaries.txt",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1220,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								308,
+								308
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 741.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2670,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								447,
+								447
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 76.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/vm/atomic.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5839,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2052.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/vm/hardware.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 32308,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								115,
+								115
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 171.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "doc/language/TYPE_Inference_Rules.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1388,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								87,
+								87
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"history_list_is_closing": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "examples/hcl/collatz.hcl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 429,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								386,
+								386
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 177,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								177,
+								177
+							]
+						],
+						"settings":
+						{
+							"auto_name": "while id(node) != id(root):",
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "doc/language/Inference_Rules.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1489,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								631,
+								631
+							]
+						],
+						"settings":
+						{
+							"auto_name": "plus : int x int -> int",
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 285.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "examples/hcl/dutchflag.hcl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 741,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								650,
+								650
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "examples/hcl/fibased.hcl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 399,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								220,
+								220
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "examples/vm/selectionsort.vhcl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1326,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1322,
+								1322
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 98.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.45810564663,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.astyle_error_message":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 124.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 124.0
+	},
+	"pinned_build_system": "Packages/Python/Python.sublime-build",
+	"project": "HCL.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt"
+			],
+			[
+				"dic",
+				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
+			],
+			[
+				"semna",
+				"src/semantic_test.py"
+			],
+			[
+				"exa",
+				"examples/hcl/example1.hcl"
+			],
+			[
+				"col",
+				"examples/hcl/collatz.hcl"
+			],
+			[
+				"iner",
+				"doc/language/Inference_Rules.txt"
+			],
+			[
+				"h",
+				"src/vm/hardware.py"
+			],
+			[
+				"ato",
+				"src/vm/atomic.py"
+			],
+			[
+				"ll",
+				"doc/language/LL_Grammar_Description.txt"
+			],
+			[
+				"infe",
+				"doc/language/Inference_Rules.txt"
+			],
+			[
+				"infer",
+				"doc/language/Inference_Rules.txt"
+			],
+			[
+				"sort",
+				"examples/vm/selectionsort.vhcl"
+			],
+			[
+				"du",
+				"examples/hcl/dutchflag.hcl"
+			],
+			[
+				"des",
+				"doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt"
+			],
+			[
+				"sem",
+				"src/compiler/frontend/semantic.py"
+			],
+			[
+				"hard",
+				"src/vm/hardware.py"
+			],
+			[
+				"sema",
+				"src/compiler/frontend/semantic.py"
+			],
+			[
+				"info",
+				"src/vm/info.py"
+			],
+			[
+				"vm",
+				"src/vm/main.py"
+			],
+			[
+				"parse",
+				"src/compiler/frontend/parser.py"
+			],
+			[
+				"atom",
+				"src/vm/atomic.py"
+			],
+			[
+				"infere",
+				"doc/language/Inference_Rules.txt"
+			],
+			[
+				"se",
+				"src/compiler/frontend/semantic.py"
+			],
+			[
+				"lexer",
+				"src/compiler/frontend/lexer.py"
+			],
+			[
+				"tab",
+				"src/vm/tabulate.py"
+			],
+			[
+				"main",
+				"src/vm/main.py"
+			],
+			[
+				"uti",
+				"src/vm/utilities.py"
+			],
+			[
+				"ea",
+				"examples/hcl/example4.hcl"
+			],
+			[
+				"example4",
+				"examples/hcl/example4.hcl"
+			],
+			[
+				"lex",
+				"src/compiler/frontend/lexer.py"
+			],
+			[
+				"par",
+				"src/compiler/frontend/parser.py"
+			],
+			[
+				"pa",
+				"src/compiler/frontend/parser.py"
+			],
+			[
+				"ty",
+				"doc/language/TYPE_Inference_Rules.txt"
+			],
+			[
+				"colla",
+				"examples/hcl/collatz.hcl"
+			],
+			[
+				"descr",
+				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
+			],
+			[
+				"duth",
+				"examples/hcl/dutchflag.hcl"
+			],
+			[
+				"har",
+				"src/vm/hardware.py"
+			],
+			[
+				"instr",
+				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
+			],
+			[
+				"test",
+				"examples/hcl/test.hcl"
+			],
+			[
+				"in",
+				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
+			],
+			[
+				"te",
+				"examples/hcl/test.hcl"
+			],
+			[
+				"ins",
+				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
+			],
+			[
+				"tes",
+				"examples/hcl/test.hcl"
+			],
+			[
+				"le",
+				"src/compiler/frontend/lexer.py"
+			],
+			[
+				"seman",
+				"src/compiler/frontend/semantic.py"
+			],
+			[
+				"example",
+				"examples/hcl/example1.hcl"
+			],
+			[
+				"lexe",
+				"src/compiler/frontend/lexer.py"
+			],
+			[
+				"ex",
+				"examples/hcl/example1.hcl"
+			],
+			[
+				"smea",
+				"src/compiler/frontend/semantic.py"
+			],
+			[
+				"llta",
+				"src/compiler/frontend/ll_table.py"
+			],
+			[
+				"todo",
+				"TODO.txt"
+			],
+			[
+				"examp",
+				"examples/hcl/example1.hcl"
+			],
+			[
+				"example1",
+				"examples/hcl/example1.hcl"
+			],
+			[
+				"re",
+				"README.md"
+			],
+			[
+				"admin",
+				"dist/css/AdminLTE.css"
+			],
+			[
+				"parser",
+				"src/compiler/frontend/parser.py"
+			],
+			[
+				"web_s",
+				"model/request_handler/web_socket.py"
+			],
+			[
+				"tables",
+				"static/js/tables.js"
+			],
+			[
+				"web",
+				"static/js/websockets.js"
+			],
+			[
+				"lista",
+				"static/listaOperaciones.html"
+			],
+			[
+				"oper",
+				"model/vos/operacion.py"
+			],
+			[
+				"consul",
+				"model/dao/consulta_dao.py"
+			],
+			[
+				"cons",
+				"model/dao/consulta_dao.py"
+			],
+			[
+				"opera",
+				"model/request_handler/operacion.py"
+			],
+			[
+				"table",
+				"static/js/tables.js"
+			],
+			[
+				"lis",
+				"static/listaPuntosAtencion.html"
+			],
+			[
+				"tabl",
+				"static/js/tables.js"
+			],
+			[
+				"operac",
+				"model/request_handler/operacion.py"
+			],
+			[
+				"list",
+				"static/listaOperaciones.html"
+			],
+			[
+				"publis",
+				"model/queue_client/publisher.py"
+			],
+			[
+				"banca",
+				"model/fachada/bancandes.py"
+			],
+			[
+				"clien",
+				"model/queue_client/client.py"
+			],
+			[
+				"pag",
+				"static/pagoNomina.html"
+			],
+			[
+				"pago",
+				"static/pagoNomina.html"
+			],
+			[
+				"selec",
+				"static/js/selector.js"
+			],
+			[
+				"registrarno",
+				"static/registrarNomina.html"
+			],
+			[
+				"forms",
+				"static/js/forms.js"
+			],
+			[
+				"registraroperacionca",
+				"static/registrarOperacionCuentaCajero.html"
+			],
+			[
+				"registraropera",
+				"static/registrarOperacionCuenta2.html"
+			],
+			[
+				"schema",
+				"schema.sql"
+			],
+			[
+				"registaroperacion",
+				"static/registrarOperacionCuentaCajero.html"
+			],
+			[
+				"registraroper",
+				"static/registrarOperacionCuenta1.html"
+			],
+			[
+				"operaciones",
+				"static/listaOperaciones.html"
+			],
+			[
+				"consulta",
+				"model/dao/consulta_dao.py"
+			],
+			[
+				"main.",
+				"static/js/main.js"
+			],
+			[
+				"wb",
+				"model/request_handler/web_socket.py"
+			],
+			[
+				"dao",
+				"model/dao/consulta_dao.py"
+			],
+			[
+				"sche",
+				"schema.sql"
+			],
+			[
+				"mai",
+				"static/js/main.js"
+			],
+			[
+				"publs",
+				"model/queue_client/publisher.py"
+			],
+			[
+				"client",
+				"model/queue_client/client.py"
+			],
+			[
+				"cliente",
+				"static/cliente-menu.html"
+			],
+			[
+				"registro_",
+				"model/request_handler/registrar_op_cuenta.py"
+			],
+			[
+				"services",
+				"src/myso.web/src/main/webapp/src/js/services.js"
+			],
+			[
+				"cont",
+				"src/myso.web/src/main/webapp/src/js/controllers.js"
+			],
+			[
+				"emplea",
+				"model/vos/empleado.py"
+			],
+			[
+				"cuenta",
+				"model/vos/cuenta.py"
+			],
+			[
+				"operan",
+				"model/vos/operacion.py"
+			],
+			[
+				"operacion",
+				"model/request_handler/operacion.py"
+			],
+			[
+				"listacons",
+				"static/listConsignaciones.html"
+			],
+			[
+				"inter",
+				"misc/integrity_tests.py"
+			],
+			[
+				"bac",
+				"model/fachada/bancandes.py"
+			],
+			[
+				"reali",
+				"static/registrarPuntoAtencion.html"
+			],
+			[
+				"puntos",
+				"model/vos/puntos_atencion.py"
+			],
+			[
+				"oficinas",
+				"model/request_handler/oficinas.py"
+			],
+			[
+				"pun",
+				"model/request_handler/puntos_atencion.py"
+			],
+			[
+				"punto_atencion",
+				"model/request_handler/punto_atencion.py"
+			],
+			[
+				"sele",
+				"static/js/selector.js"
+			],
+			[
+				"ope",
+				"model/request_handler/operacion.py"
+			],
+			[
+				"g",
+				"static/ggeneral-menu.html"
+			],
+			[
+				"index",
+				"static/index.html"
+			],
+			[
+				"operacione",
+				"static/listaOperaciones.html"
+			],
+			[
+				"app.",
+				"src/myso.web/src/main/webapp/src/modules/app.js"
+			],
+			[
+				"login.view",
+				"src/myso.web/src/main/webapp/src/modules/login/login.view.html"
+			],
+			[
+				"app",
+				"src/myso.web/src/main/webapp/src/js/app.js"
+			],
+			[
+				"index.",
+				"src/myso.web/target/jacoco/index.html"
+			],
+			[
+				"custom",
+				"src/myso.web/src/main/webapp/src/js/custom.js"
+			],
+			[
+				"ma",
+				"src/myso.web/target/myso.web-0.0.1-SNAPSHOT/src/js/app.js"
+			],
+			[
+				"ser",
+				"src/myso.web/src/main/webapp/src/js/services.js"
+			],
+			[
+				"register.",
+				"src/myso.web/src/main/webapp/src/modules/register/register.view.html"
+			],
+			[
+				"login",
+				"src/myso.web/src/main/webapp/src/modules/login/login.view.html"
+			],
+			[
+				"registro_n",
+				"model/request_handler/registro_cuenta.py"
+			],
+			[
+				"presta",
+				"model/vos/prestamo.py"
+			],
+			[
+				"nomina",
+				"model/request_handler/nomina.py"
+			],
+			[
+				"operaco",
+				"model/vos/operacion.py"
+			],
+			[
+				"banc",
+				"model/fachada/bancandes.py"
+			],
+			[
+				"pres",
+				"model/vos/prestamo.py"
+			],
+			[
+				"pre",
+				"model/request_handler/prestamos.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 268.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

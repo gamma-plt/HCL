@@ -7,16 +7,33 @@ Optimize print, read for atoms and arrays
 Ompitmize printing strings with spaces
 Dynamic memory allocation via set command
 
+Milestones
+-----------
+0. Definition of low level assembly language
+1. First version of a functional VM
 
 
 Compiler
 --------
-0. Documentation and Cleanup
-1. Implement Semantic Analysis
-   1.1 Expression Translation and Three-Adress Code
-   1.2 Type Checking 
-2. Intermediate and final Code Generation
+0. Documentation and Cleanup 
+1. Final Code Generation
+   1.1 Unoptimized code generation
+   1.2 Optimization (TBD)
+       1.2.1 Loop unrolling
+       1.2.2 Repeated expressions
+       1.2.3 Expression order evaluation
 
+Milestones
+-----------
+1 Definition of the Language in terms of a LL(1) Grammar
+2. Generic algorithms for LL(1) grammar manipulation
+   2.1 Abstract Syntax Tree definition and simplification
+   2.2 Expression detection and transformation into a binary tree representation
+3. Semantic Analysis
+   3.1 Inference rules for expression correction and verification introduced
+   3.2 Symbol table definition (Intermediate representation)
+   3.3 Scope and type checking of expressions and variables
+   3.4 Generation and emission of symbol tables
 
 compile_do(doblock, level):
 	guards = doblock.guards

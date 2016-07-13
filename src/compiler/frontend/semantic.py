@@ -37,33 +37,32 @@ FEXPR = u'C'
 ASSIGNMENT = u'ASSIGNMENT'
 GUARDS = u'GUARDS'
 GUARD = u'GUARD'
+DEFINITION = u'DEFINITION'
 
-
-# operators = []
 inference = {'single':{}, 'double':{}}
-count = {'addr':0, 'lvl':-1, 'index':0, 'func':0, 'assign':0, 'guard':0}
+count = {'addr':0, 'lvl':0, 'index':0, 'func':0, 'assign':0, 'guard':0}
 
 VM_TYPES = {'INTEGER':INT, 'BOOLEAN':BOOLEAN, 'CHAR':CHAR}
 
 def analyse(path):
-    # global operators
     tree, status_code = parser.parse(path)
     if status_code != 0:
        print("Compiler exited with status %d" % (status_code), file=sys.stderr)
        return None, status_code
     lvl = -1
+    
     scope = {}
     definitions = {}
-    program = {}
+    indices = {}
     guards = {}
     instructions = {}
     func = {}
     addresses = {}
-    indices = {}
     assignments = {}
     data = {'path':path, 'scope':scope, 'definitions': definitions,
-            'program': program, 'guards':guards, 'instructions':instructions,
+            'guards':guards, 'instructions':instructions,
             'functions':func, 'addresses':addresses, 'indices':indices, 'assignments':assignments}
+
     root = tree
     node = tree.children[3]
 
@@ -100,10 +99,36 @@ def analyse(path):
            op_res[t2] = res
         else:
            info[t[0]] = res
-        # operators.append(op)
-    # operators = list(set(operators)) 
+      
+    stat, scope = process_program(node, data, lvl)
+    return stat, tree, data
 
-    # status_code, node = analyse_tree(node, root, data)
+def process_program(node, data, lvl):
+    #Node - Rule: SCOPE
+    stat = 0
+    n_lvl = count['lvl']
+    data['scope'][n_lvl] = {'inside':lvl}
+    count['lvl'] += 1
+    data['instructions'][n_lvl] = []
+    limit = node.up_node()
+    while id(node) != id(limit):
+       if node.rule is not None:
+          if node.rule in [DO, IF]:
+             stat, node = process_do_if(node, data, n_lvl)
+          elif node.rule == ASSIGNMENT:
+             stat, node = process_assignment(node, data, n_lvl)
+          elif node.rule == DEFINITION:
+             stat, node = process_definition(node.children[1], data, n_lvl)
+          else:
+             if len(node.children) > 0:
+                node = node.children[0]
+             else:
+                node = node.up_node()
+       else:
+          node = node.up_node()
+       if stat != 0:
+          break
+    return stat, n_lvl
 
 def process_do_if(node, data, lvl):
     #Node: Rule - DO or IF
@@ -119,23 +144,28 @@ def process_do_if(node, data, lvl):
     data['guards'][key] = []
     node = node.children[1]
     limit = node.up_node()
-    node = root.children[0]
+    # node = root.children[0]
     while id(node) != id(limit):
        if node.rule is not None:
           if node.rule == GUARD:
-             stat, _, expr_addr = process_expr(node.children[0], data, lvl)
+             stat, _, expr_addr = process_expr(node.children[0], data, lvl, _type=BOOLEAN)
              if stat != 0:
                 break
-             stat, scope = process_program(node.children[2], data)
+             stat, scope = process_program(node.children[2], data, lvl)
              if stat != 0:
                 break
              conditions = data['guards'][key]
              conditions.append({'expr':expr_addr, 'scope':scope})
              node = node.up_node()
           else:
-             node = node.children[0]
+             if len(node.children) > 0:
+                node = node.children[0]
+             else:
+                node = node.up_node()
        else:
           node = node.up_node()
+    if stat == 0:
+       data['instructions'][lvl].append(instr)
     return stat, node.up_node() 
 
 
