@@ -9,14 +9,17 @@ guards = {}
 instructions = {}
 func = {}
 addresses = {}
+assignments = {}
 data = {'path':path, 'scope':scope, 'definitions': definitions,
         'program': program, 'guards':guards, 'instructions':instructions,
-        'functions':func, 'addresses':addresses, 'indices':indices}
+        'functions':func, 'addresses':addresses, 'indices':indices, 'assignments':assignments}
 
 data['scope'][0] = {'inside':-1}
 lvl = 0
 complete = True
 debug = False
+
+data['instructions'][lvl] = []
 
 tree, stat = parser.parse(path)
 semantic.analyse(path)
@@ -25,7 +28,9 @@ stat, node = semantic.process_definition(node, data, 0)
 node = node.children[0].children[0].children[1]
 stat, node = semantic.process_definition(node, data, 0)
 node = node.children[0].children[0].children[1].children[0]
-semantic.process_expr(node, data, 0)
+node = node.parent.parent
+semantic.process_assignment(node, data, lvl)
+# semantic.process_expr(node, data, 0)
 
 
 # node = tree.children[3].children[0].children[0].children[0].children[1]

@@ -19,6 +19,7 @@ ARRAY = u'ARRAY'
 NUM = u'number'
 COMMA = u'comma'
 DO = u'DO'
+IF = u'IF'
 GUARD_SEP = u'guard_sep'
 GUARD_EXEC = u'guard_exec'
 INT = u'int'
@@ -33,9 +34,14 @@ INF = u'infty'
 NEXPR = u'E'
 FEXPR = u'C'
 
+ASSIGNMENT = u'ASSIGNMENT'
+GUARDS = u'GUARDS'
+GUARD = u'GUARD'
+
+
 # operators = []
 inference = {'single':{}, 'double':{}}
-count = {'if':0, 'do':0, 'addr':0, 'lvl':-1, 'index':0, 'func':0}
+count = {'addr':0, 'lvl':-1, 'index':0, 'func':0, 'assign':0, 'guard':0}
 
 VM_TYPES = {'INTEGER':INT, 'BOOLEAN':BOOLEAN, 'CHAR':CHAR}
 
@@ -54,9 +60,10 @@ def analyse(path):
     func = {}
     addresses = {}
     indices = {}
+    assignments = {}
     data = {'path':path, 'scope':scope, 'definitions': definitions,
             'program': program, 'guards':guards, 'instructions':instructions,
-            'functions':func, 'addresses':addresses, 'indices':indices}
+            'functions':func, 'addresses':addresses, 'indices':indices, 'assignments':assignments}
     root = tree
     node = tree.children[3]
 
@@ -98,7 +105,79 @@ def analyse(path):
 
     # status_code, node = analyse_tree(node, root, data)
 
+def process_do_if(node, data, lvl):
+    #Node: Rule - DO or IF
+    stat = 0
+    root = node
+    instr = {'do':None, 'if':None, 'assignment':None}
+    key = 'guard%d' % (count['guard'])
+    count['guard'] += 1
+    if node.rule == DO:
+       instr['do'] = key
+    elif node.rule == IF:
+       instr['if'] = key 
+    data['guards'][key] = []
+    node = node.children[1]
+    limit = node.up_node()
+    node = root.children[0]
+    while id(node) != id(limit):
+       if node.rule is not None:
+          if node.rule == GUARD:
+             stat, _, expr_addr = process_expr(node.children[0], data, lvl)
+             if stat != 0:
+                break
+             stat, scope = process_program(node.children[2], data)
+             if stat != 0:
+                break
+             conditions = data['guards'][key]
+             conditions.append({'expr':expr_addr, 'scope':scope})
+             node = node.up_node()
+          else:
+             node = node.children[0]
+       else:
+          node = node.up_node()
+    return stat, node.up_node() 
 
+
+def process_assignment(node, data, lvl):
+    #Node: Assignment root symbol (Rule:ASSIGNMENT)
+    stat = 0
+    var_list = node.children[0]
+    expr_list = node.children[1]
+    if len(var_list.children) > 0 and len(expr_list.children) == 1:
+       stat, expr_typ, expr_addr = process_expr(expr_list.children[0], data, lvl) 
+       if stat == 0:
+          for var in var_list.children:
+              instr_prototype = {'do':None, 'if':None, 'assignment':None}
+              stat, typ, addr = process_expr(var, data, lvl, _type=expr_typ)
+              if stat != 0:
+                 break
+              key = 'assignment%d' % (count['assign'])
+              data['assignments'][key] = {'var':addr, 'value':expr_addr}
+              instr_prototype['assignment'] = key
+              count['assign'] += 1
+              data['instructions'][lvl].append(instr_prototype)
+    elif len(var_list.children) == len(expr_list.children):
+       for var, expr in zip(var_list.children, expr_list.children):
+           instr_prototype = {'do':None, 'if':None, 'assignment':None}
+           stat, var_typ, var_addr = process_expr(var, data, lvl)
+           if stat != 0:
+              break
+           stat, expr_typ, expr_addr = process_expr(expr, data, lvl, _type=var_typ)
+           if stat != 0:
+              break
+           key = 'assignment%d' % (count['assign'])
+           data['assignments'][key] = {'var':var_addr, 'value':expr_addr}
+           instr_prototype['assignment'] = key
+           count['assign'] += 1
+           data['instructions'][lvl].append(instr_prototype)
+    elif len(var_list.children) > len(expr_list.children):
+       stat = -11
+       print("File: %s - Line: %d:%d\nAssignment Broadcasting Mismatch: The number of variables (%d) to assign, outnumber the total number of expressions available (%d)" % (data['path'], node.value.line, node.value.col, len(var_list.children), len(expr_list.children)), file=sys.stderr)
+    else:
+       stat = -12
+       print("File: %s - Line: %d:%d\nAssignment Broadcasting Mismatch: The number of expressions (%d) available, outnumber the total number of variables to assign (%d)" % (data['path'], node.value.line, node.value.col, len(expr_list.children), len(var_list.children)), file=sys.stderr)
+    return stat, node.up_node()
 
 def process_expr(node, data, lvl, _type=None):
     #Node: Start of Expression 
@@ -109,7 +188,7 @@ def process_expr(node, data, lvl, _type=None):
        raise Exception("a")
     operators = set(inference['double'].keys()).union(inference['single'].keys())
     exprs = expr_str(node, operators)
-    print(exprs)
+    #print(exprs)
     operator = {'var':None, 'func':None, 'addr':None, 'index':None, 'type':None, 'num':None}
     op = {'oper1':None, 'op':None, 'oper2':None}
     if node.value.token == OP:

@@ -183,7 +183,9 @@ def process_expressions(tree):
              process_expr_tree(node)
              remove_parentheses(node)
              aux_node = ParseTree('VARLIST')
+             aux_node.parent = node
              aux_node2 = ParseTree('EXPRLIST')
+             aux_node2.parent = node
              aux_node.value = lexer.Token('DEV', u'1')
              aux_node2.value = lexer.Token('DEV', u'2') 
              node.children[0].parent = aux_node

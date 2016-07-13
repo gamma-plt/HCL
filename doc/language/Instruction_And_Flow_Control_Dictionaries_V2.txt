@@ -10,7 +10,17 @@ scope = {
 
 -----------------------------------------------
 
-#Keys reference scope existance
+instructions = {
+    scope1:[instr1, instr2, ..., instrN],
+    scope2:[instr1, instr2, ..., instrN],
+    ...
+}
+
+Where:
+instrN = {'do':<Pointer to Guards Table>, 'if':<Pointer to Guards Table>, 'assignment':<Pointer to Assignment Table>}
+
+-----------------------------------------------
+
 definitions = {
      scope1: {
 	       var1 : {'size':shape, 'type':type_tok, 'tok':var},
@@ -72,7 +82,8 @@ Conditions:
 ----------------------------------------------
 
 functions = {
-	func1:{'call':<Function Name>, 'args':[<Pointer to addresses table>, <Pointer to addresses table>, ...]}
+	func1:{'call':<Function Name>, 'args':[<Pointer to addresses table>, <Pointer to addresses table>, ...]},
+	...
 }
 
 Conditions:
@@ -83,6 +94,31 @@ TODO: User function definition
 
 ----------------------------------------------
 
+assignments = {
+	assignment1:{'var':<Pointer to Addresses>, 'value':<Pointer to Addresses>},
+	...
+}
+
+Conditions:
+'var' not None
+'value' not None
+
+----------------------------------------------
+
+guards = {
+	guard1:[cond1, cond2, ..., condN],
+	...
+}
+
+Where:
+condN = {'expr':<Pointer to addresses>, 'scope':<Pointer to scope number>}
+
+Conditions:
+condN not None
+'expr' not None
+'scope' not None
+
+----------------------------------------------
 
 
 
