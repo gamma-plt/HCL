@@ -1,7 +1,7 @@
 import os
 import sys
-import parser
 import lexer
+import parser
 import semantic
 
 __all__ = ["lexer", "parser", "semantic"]

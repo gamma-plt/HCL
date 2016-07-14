@@ -17,7 +17,12 @@ instructions = {
 }
 
 Where:
-instrN = {'do':<Pointer to Guards Table>, 'if':<Pointer to Guards Table>, 'assignment':<Pointer to Assignment Table>}
+instrN = {'do':<Pointer to Guards Table>, 'if':<Pointer to Guards Table>, 'assignment':<Pointer to Assignment Table>, 'read':<Read Dict>, 'print':<Pointer to Addresses>}
+
+read_dict = {'read':<Name of read function>, 'var':<Variable Token>, 'scope':<Pointer to scope Table>} 
+
+Relations:
+'do' is not None ←→ 'if' is None ←→ 'assignment' is None ←→ 'read' is None ←→ 'print' is None
 
 -----------------------------------------------
 
