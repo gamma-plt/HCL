@@ -7,6 +7,7 @@ import debugger
 import globalenv
 import utilities
 
+QUITTER = True
 DEBUGGING = info.DEBUGGING
 MEMORY_SIZE = globalenv.MEMORY_SIZE
 WORD_SIZE = globalenv.WORD_SIZE
@@ -384,8 +385,10 @@ class HCLVirtualMachine(object):
 			except:
 				# No existe ese arreglo
 				print 'ERROR: VAR002_ERROR', var_name
-				quit()
-
+				if QUITTER: 
+					quit()
+				else:
+					return
 
 			if dimension == 1:
 				
@@ -414,7 +417,10 @@ class HCLVirtualMachine(object):
 				except:
 					# No existe la variable
 					print 'ERROR: VAR001_ERROR', variable
-					quit()
+					if QUITTER: 
+						quit()
+					else:
+						return
 
 		return atomic_type, address
 
@@ -504,7 +510,10 @@ class HCLVirtualMachine(object):
 
 			if i == len(self.memory):
 				print 'ERROR: MEM001_ERROR'
-				quit()
+				if QUITTER: 
+					quit()
+				else:
+					return
 
 			curr_word = self.memory[i] 
 			self.memory[i] = self._negate_occupation_bit(curr_word)
@@ -633,7 +642,10 @@ class HCLVirtualMachine(object):
 
 		if var_type.split('#')[0] not in types + map(lambda x : x.upper(), types):
 			print 'ERROR: TYPE001_ERROR'
-			quit()
+			if QUITTER: 
+				quit()
+			else:
+				return
 
 		var_type = var_type.upper()
 
@@ -680,7 +692,10 @@ class HCLVirtualMachine(object):
 
 		except:
 			print 'ERROR: VAR001_ERROR', variable
-			quit()
+			if QUITTER: 
+				quit()
+			else:
+				return
 
 
 	def _and(self, variable, operator):
@@ -972,7 +987,10 @@ class HCLVirtualMachine(object):
 		else:
 			# Undeclared function
 			print 'ERROR: CALL001_ERROR'
-			quit()
+			if QUITTER: 
+				quit()
+			else:
+				return
 
 	def _free(self, variable):
 		'''Sets to unocuppied the memory location of variable, the variable
@@ -1151,7 +1169,10 @@ class HCLVirtualMachine(object):
 			if debugging:
 				pass 
 			else:
-				quit()
+				if QUITTER: 
+					quit()
+				else:
+					return
 
 	def process_syntax_tree(self, syntax_tree):
 
