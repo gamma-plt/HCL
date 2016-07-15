@@ -1,5 +1,5 @@
 '''Set to True to turn on debugging mode.'''
-DEBUGGING = False
+DEBUGGING = True
 
 def print_usage():
 	print 'USAGE: vhcl <option> file_name'

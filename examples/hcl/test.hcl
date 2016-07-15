@@ -1,7 +1,6 @@
 program collatz
 begin
-	var n : int
-	n ← ¬even(n) ∧ n > 1
-	do 1 → i ← i+1
-	od
+	var g,a,b,c,d,i : int
+	var f : array[0 .. 5] of int
+	g ← (-a+b*f[i])/max(c,d)+(3*8)
 end
