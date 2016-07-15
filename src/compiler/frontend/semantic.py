@@ -38,6 +38,8 @@ ASSIGNMENT = u'ASSIGNMENT'
 GUARDS = u'GUARDS'
 GUARD = u'GUARD'
 DEFINITION = u'DEFINITION'
+PRINT = u'PRINT'
+READ_R = READ.upper()
 
 inference = {'single':{}, 'double':{}}
 count = {'addr':0, 'lvl':0, 'index':0, 'func':0, 'assign':0, 'guard':0}
@@ -119,6 +121,10 @@ def process_program(node, data, lvl):
              stat, node = process_assignment(node, data, n_lvl)
           elif node.rule == DEFINITION:
              stat, node = process_definition(node.children[1], data, n_lvl)
+          elif node.rule == READ_R:
+             stat, node = process_read(node, data, n_lvl)
+          elif node.rule == PRINT:
+             stat, node = process_print(node, data, n_lvl)
           else:
              if len(node.children) > 0:
                 node = node.children[0]
@@ -130,11 +136,32 @@ def process_program(node, data, lvl):
           break
     return stat, n_lvl
 
+def process_print(node, data, lvl):
+    stat = 0
+    stat, typ, addr = process_expr(node.children[1], data, lvl)
+    if stat == 0:
+       instr_prototype = {'do':None, 'if':None, 'assignment':None, 'read':None, 'print':None}
+       instr_prototype['print'] = addr
+       data['instructions'][lvl].append(instr_prototype)
+    return stat, node.up_node()
+
+def process_read(node, data, lvl):
+    stat = 0
+    stat, typ, shp, var_lvl = lookup_var(node.children[0].value, data, lvl)
+    if stat == 0:
+       instr_prototype = {'do':None, 'if':None, 'assignment':None, 'read':None, 'print':None}
+       read_f = 'readint'
+       if typ == CHAR:
+          read_f = 'readchr'
+       instr_prototype['read'] = {'read':read_f, 'var':node.children[0].value, 'scope':var_lvl}
+       data['instructions'][lvl].append(instr_prototype)
+    return stat, node.up_node()
+
 def process_do_if(node, data, lvl):
     #Node: Rule - DO or IF
     stat = 0
     root = node
-    instr = {'do':None, 'if':None, 'assignment':None}
+    instr = {'do':None, 'if':None, 'assignment':None, 'read':None, 'print':None}
     key = 'guard%d' % (count['guard'])
     count['guard'] += 1
     if node.rule == DO:
@@ -178,7 +205,7 @@ def process_assignment(node, data, lvl):
        stat, expr_typ, expr_addr = process_expr(expr_list.children[0], data, lvl) 
        if stat == 0:
           for var in var_list.children:
-              instr_prototype = {'do':None, 'if':None, 'assignment':None}
+              instr_prototype = {'do':None, 'if':None, 'assignment':None, 'read':None, 'print':None}
               stat, typ, addr = process_expr(var, data, lvl, _type=expr_typ)
               if stat != 0:
                  break
@@ -189,7 +216,7 @@ def process_assignment(node, data, lvl):
               data['instructions'][lvl].append(instr_prototype)
     elif len(var_list.children) == len(expr_list.children):
        for var, expr in zip(var_list.children, expr_list.children):
-           instr_prototype = {'do':None, 'if':None, 'assignment':None}
+           instr_prototype = {'do':None, 'if':None, 'assignment':None, 'read':None, 'print':None}
            stat, var_typ, var_addr = process_expr(var, data, lvl)
            if stat != 0:
               break

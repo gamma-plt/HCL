@@ -1,5 +1,0 @@
-E -> T A
-A -> + T A | - T A | EPSILON
-T -> F B
-B -> * F B | / F B | ^ F B | EPSILON
-F -> - F | ( E ) | num | name
