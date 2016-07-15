@@ -7,7 +7,7 @@ import debugger
 import globalenv
 import utilities
 
-QUITTER = True
+QUITTER = False
 DEBUGGING = info.DEBUGGING
 MEMORY_SIZE = globalenv.MEMORY_SIZE
 WORD_SIZE = globalenv.WORD_SIZE
@@ -388,7 +388,7 @@ class HCLVirtualMachine(object):
 				if QUITTER: 
 					quit()
 				else:
-					return
+					return False, False
 
 			if dimension == 1:
 				
@@ -420,7 +420,7 @@ class HCLVirtualMachine(object):
 					if QUITTER: 
 						quit()
 					else:
-						return
+						return False, False
 
 		return atomic_type, address
 
@@ -548,6 +548,7 @@ class HCLVirtualMachine(object):
 
 		if not(i.isdigit()):
 			_, add = self._fetch(i)
+			if _ == False: return
 			value = self._value_of(add)
 			i = Integer(value).convert()
 
@@ -559,6 +560,7 @@ class HCLVirtualMachine(object):
 
 			if not(j.isdigit()):
 				_, add = self._fetch(j)
+				if _ == False: return
 				value = self._value_of(add)
 				j = Integer(value).convert()
 
@@ -598,6 +600,7 @@ class HCLVirtualMachine(object):
 	def _get_binary_pair(self, variable, operator):
 		isvalue = utilities.isbinarystring(operator)
 		_, mem_address1 = self._fetch(variable)
+		if _ == False: return
 		val1 = self._value_of(mem_address1)
 		val2 = ''
 
@@ -606,6 +609,7 @@ class HCLVirtualMachine(object):
 
 		else:			
 			_, mem_address2 = self._fetch(operator)
+			if _ == False: return
 			val2 = self._value_of(mem_address2)
 
 		val1 = val1.zfill(WORD_SIZE)
@@ -645,7 +649,7 @@ class HCLVirtualMachine(object):
 			if QUITTER: 
 				quit()
 			else:
-				return
+				return False
 
 		var_type = var_type.upper()
 
@@ -664,6 +668,7 @@ class HCLVirtualMachine(object):
 	def _mov(self, variable, operator):
 		isvalue = utilities.isbinarystring(operator)
 		_, mem_address1 = self._fetch(variable)
+		if _ == False: return
 		value = None
 
 		if isvalue:
@@ -671,6 +676,7 @@ class HCLVirtualMachine(object):
 
 		else:			
 			_, mem_address2 = self._fetch(operator)
+			if _ == False: return
 			value = self._value_of(mem_address2)
 
 		value = '1' + value.zfill(WORD_SIZE)		
@@ -683,6 +689,7 @@ class HCLVirtualMachine(object):
 
 		try:
 			_, mem_address = self._fetch(variable)
+			if _ == False: return
 
 			value = self._value_of(mem_address)
 			value = ''.join(['0' if bit == '1' else '1' for bit in value])
@@ -846,6 +853,7 @@ class HCLVirtualMachine(object):
 			val1 = operator1
 		else:
 			type1, mem_address = self._fetch(operator1)
+			if _ == False: return
 			val1 = self._value_of(mem_address)
 
 		val2 = ''
@@ -855,6 +863,7 @@ class HCLVirtualMachine(object):
 			val2 = operator2
 		else:
 			type2, mem_address = self._fetch(operator2)
+			if _ == False: return
 			val2 = self._value_of(mem_address)
 
 		val1 = val1.zfill(WORD_SIZE)
@@ -905,6 +914,7 @@ class HCLVirtualMachine(object):
 		else:
 
 			type_name, mem_address = self._fetch(variable)
+			if _ == False: return
 			value = self._value_of(mem_address)
 
 			msg = fetch_atomic_value(type_name, value)
@@ -925,6 +935,7 @@ class HCLVirtualMachine(object):
 		else:
 
 			type_name, address = self._fetch(argument)
+			if _ == False: return
 			value = self.memory[int(address, 0)]
 			self.args.push((type_name, address))
 
@@ -939,6 +950,7 @@ class HCLVirtualMachine(object):
 
 		for fnrg in fnrgs:
 			_, mem_address = self._fetch(fnrg)
+			if _ == False: return
 			self._set_value(mem_address, '1' + '0')
 		
 		if name in ATOMIC:
@@ -971,6 +983,7 @@ class HCLVirtualMachine(object):
 				if result:
 					proper_register, conv_function = ret_rgs[return_type]
 					_, mem_address = self._fetch(proper_register)
+					if _ == False: return
 					result = conv_function(result)
 					
 					self._set_value(mem_address, '1' + result)
@@ -1036,6 +1049,7 @@ class HCLVirtualMachine(object):
 
 		for guard in guards:
 			guard_type, guard_address = self._fetch(guard)
+			if _ == False: return
 			guard_value = self._value_of(guard_address)
 			guard_value = fetch_atomic_value(guard_type, guard_value)
 			if guard_value:
