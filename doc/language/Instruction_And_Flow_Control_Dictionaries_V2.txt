@@ -87,13 +87,15 @@ Conditions:
 ----------------------------------------------
 
 functions = {
-	func1:{'call':<Function Name>, 'args':[<Pointer to addresses table>, <Pointer to addresses table>, ...]},
+	func1:{'call':<Function Name>, 'args':[<Pointer to addresses table>, <Pointer to addresses table>, ...],
+	type:<Return type of function call>},
 	...
 }
 
 Conditions:
 'call' not None
 'args' not None
+'type' not None
 |'args'| > 0 : All system defined functions must define input arguments.
 TODO: User function definition
 
