@@ -242,8 +242,20 @@ def process_expression(addr, data, lines, ident, index=False):
        if addr_info[OP1] is None:
           #Case 2: Negative/Negated Single Variable/Number/Function Call
           var_info = addr_info[OP2]
-          
+          lines, expr_reg = process_simple_operand(var_info, data, lines, ident, index)
+          _reg = expr_reg['value']
+          if not expr_reg['register']:
+
+          lines.append(_ident(ident)+'%s %s' % (NOT, expr_reg['value']))
+          lines.append(_ident(ident)+'%s %s' % (INC, expr_reg['value']))
+       else:
+          #Case 3: General 3AC operations
+          lines, expr_reg = process_general_operation(addr_info, data, lines, ident)
     return lines, expr_reg
+
+def process_general_operation(addr_info, data, lines, ident):
+    #TODO: Implement cases 3.1 - 3.4
+    return None
 
 def process_simple_operand(var_info, data, lines, ident, index):
     if var_info[NUM] is not None:
