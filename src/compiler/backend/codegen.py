@@ -7,7 +7,6 @@ import os
 import re
 import sys
 import random
-import compiler.frontend
 
 SET = 'set'
 MOV = 'mov'
@@ -64,18 +63,26 @@ SCOPE = 'scope'
 INDEX = 'index'
 FUNC = 'func'
 
+RET_INT = '..retint'
+RET_BOOL = '..retbol'
+RET_CHR = '..retchr'
+
+func_ret_regs = {'int':RET_INT, 'char':RET_CHAR, 'boolean':RET_BOOL} 
+
 type_equivalence = {'int':INT, BOOL:BOOL, CHAR:CHAR}
 
 initialization = {}
-allocation = {}
 free_registers = {}
+auxiliar_vars = {}
+
+count = {'aux':0}
 
 for _type in ['int', 'chr', 'bol']:
     for i in range(1, 6):
         free_registers['.r%d%s' % (i, _type)] = True
-    free_registers['..ret%s' % (_type)] = True
+    # free_registers['..ret%s' % (_type)] = True
 
-def code_generation(data, tree):
+def code_generation(data):
     stat = 0
     lines = []
     path = data['path']
@@ -122,7 +129,27 @@ def _ident(lvl):
     return '\t'*lvl
 
 def recover_free_register():
-    return random.choice(filter(lambda x: free_registers[x], free_registers))
+    reg = None
+    available = filter(lambda x: free_registers[x], free_registers)
+    if len(available) > 0:
+       reg = random.choice(available)
+    return reg
+
+def free_registers_aux(free, lines):
+    for _var in free:
+        if _var in free_registers:
+           free_registers[_var] = True
+        if _var in auxiliar_vars:
+           lines.append(_ident(ident)+'%s %s' % (FREE, _var))
+           del auxiliar_vars[_var]
+    return lines
+
+def alloc_aux_var(_type):
+    alloc_reg = '_sysaux%d' % (count['aux'])
+    count['aux'] += 1
+    auxiliar_vars[alloc_reg] = True
+    lines.append(_ident(ident)+'%s %s %s' % (SET, alloc_reg, _type))
+    return alloc_reg
 
 def program_generation(data, lines, scope=0, ident=0):
     stat = 0
@@ -205,31 +232,85 @@ def read_generation(read_info, data, lines, ident=0):
 
 
 def process_expression(addr, data, lines, ident, index=False):
-    stat = 0
-    reg = ''
+    #Return: {'value':reg, 'register':reg_alloc, 'free':free}
     addr_info = data['addresses'][addr]
     if addr_info[OPER] is None:
-       #Case 1
+       #Case 1: Single Variable/Number/Function Call
        var_info = addr_info[OP1]
-       if var_info[NUM] is not None:
-          if index:
-             reg = str(var_info[NUM].value)
-          else:
-             reg = bin(var_info[NUM].value)[2:]
-       elif var_info[VAR] is not None:
-          var_d = var_info[VAR]
-          var_name = var_d[VAR]
-          scope = var_d[SCOPE]
-          reg = '%s%d' % (var_name.value, scope)
-          if var_info[INDEX] is None:
-             if not initialization[reg]:
-                print("File: %s - Line: %d:%d\nWarning: Variable %s (Scope %d) has not been initialized" % (data['path'], var_name.line, var_name.col, var_name.value, scope), file=sys.stderr)
-                lines.append(_ident(ident)+';;Warning - Variable %s%d without initialization, using default values' % (var_name.value, scope))
-          else:
-             index_key = var_info[INDEX]
-             for ad in data['indices'][index_key]:
-                 reg_i = process_expression(ad, data, lines, ident, index=True)
-                 reg += '[%s]' % (reg_i)
-       elif var_info[FUNC] is not None:         
-          #TODO: Process functions and register allocation
-          pass
+       lines, expr_reg = process_simple_operand(var_info, data, lines, ident, index)
+    else:
+       if addr_info[OP1] is None:
+          #Case 2: Negative/Negated Single Variable/Number/Function Call
+          var_info = addr_info[OP2]
+          
+    return lines, expr_reg
+
+def process_simple_operand(var_info, data, lines, ident, index):
+    if var_info[NUM] is not None:
+       expr_reg = process_single_constant(var_info, index)
+    elif var_info[VAR] is not None:
+       lines, expr_reg = process_single_var(var_info, data, lines, ident)
+    elif var_info[FUNC] is not None:         
+       lines, expr_reg = process_single_func(var_info, data, lines, ident)
+    return lines, expr_reg
+
+def process_single_constant(var_info, index):
+    free = []
+    reg = ''
+    reg_alloc = False
+    expr_reg = {'value':reg, 'register':reg_alloc, 'free':free}
+    if index:
+       reg = str(var_info[NUM].value)
+    else:
+       reg = bin(var_info[NUM].value)[2:]
+    expr_reg['value'] = reg
+    return expr_reg
+
+def process_single_var(var_info, data, lines, ident):
+    var_d = var_info[VAR]
+    var_name = var_d[VAR]
+    scope = var_d[SCOPE]
+    reg = '%s%d' % (var_name.value, scope)
+    if var_info[INDEX] is None:
+       if not initialization[reg]:
+          print("File: %s - Line: %d:%d\nWarning: Variable %s (Scope %d) has not been initialized" % (data['path'], var_name.line, var_name.col, var_name.value, scope), file=sys.stderr)
+          lines.append(_ident(ident)+';;Warning - Variable %s%d without initialization, using default values' % (var_name.value, scope))
+    else:
+       index_key = var_info[INDEX]
+       for ad in data['indices'][index_key]:
+           reg_i = process_expression(ad, data, lines, ident, index=True)
+           if reg_i['register']:
+              free.append(reg_i['value'])
+           if reg_i['value'] in auxiliar_vars:
+              free.append(reg_i['value'])
+           reg += '[%s]' % (reg_i['value'])
+    expr_reg['value'] = reg
+    expr_reg['free'] = free
+    return lines, expr_reg
+
+
+def process_single_func(var_info, data, lines, ident):
+    func_key = var_info[FUNC]
+    func_info = data['functions'][func_key]
+    func_call = func_info['call']
+    func_type = func_info['type']
+    for arg in func_info['args']:
+        arg_calc = process_expression(arg, data, lines, ident)
+        lines.append(_ident(ident)+'%s %s' % (PUSH, arg_calc['value']))
+        if arg_calc['register']:
+           free.append(arg_calc['value'])
+        free += arg_calc['free']
+    lines.append(_ident(ident)+'%s %s' % (CALL, func_call))
+    ret_reg = func_ret_regs[func_type]
+    alloc_reg = recover_free_register()
+    reg_alloc = True
+    if alloc_reg is None:
+       reg_alloc = False
+       alloc_reg = alloc_aux_var(type_equivalence[func_type])
+    lines.append(_ident(ident)+'%s %s %s' % (MOV, alloc_reg, ret_reg))
+    lines = free_registers_aux(free, lines)
+    free = []
+    expr_reg['value'] = alloc_reg
+    expr_reg['register'] = reg_alloc
+    expr_reg['free'] = free 
+    return lines, expr_reg   

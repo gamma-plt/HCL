@@ -373,6 +373,7 @@ def process_func(node, operator, exprs, data, lvl):
              stat = -9
              print("File: %s - Line: %d:%d\nFunction Arguments Type Mismatch: Expression: %s - Function %s is not defined for arguments: %s; Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, func_name, '('+', '.join(in_types)+')', impl), file=sys.stderr)
           else:
+             func_call['type'] = typ
              func_call['call'] = func_name
              func_call['args'] = args
              idx = 'func%d' % (count['func'])
