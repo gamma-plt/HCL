@@ -853,7 +853,7 @@ class HCLVirtualMachine(object):
 			val1 = operator1
 		else:
 			type1, mem_address = self._fetch(operator1)
-			if _ == False: return
+			if type1 == False: return
 			val1 = self._value_of(mem_address)
 
 		val2 = ''
@@ -863,7 +863,7 @@ class HCLVirtualMachine(object):
 			val2 = operator2
 		else:
 			type2, mem_address = self._fetch(operator2)
-			if _ == False: return
+			if type2 == False: return
 			val2 = self._value_of(mem_address)
 
 		val1 = val1.zfill(WORD_SIZE)
@@ -914,7 +914,7 @@ class HCLVirtualMachine(object):
 		else:
 
 			type_name, mem_address = self._fetch(variable)
-			if _ == False: return
+			if type_name == False: return
 			value = self._value_of(mem_address)
 
 			msg = fetch_atomic_value(type_name, value)
@@ -935,7 +935,7 @@ class HCLVirtualMachine(object):
 		else:
 
 			type_name, address = self._fetch(argument)
-			if _ == False: return
+			if type_name == False: return
 			value = self.memory[int(address, 0)]
 			self.args.push((type_name, address))
 
@@ -1049,7 +1049,7 @@ class HCLVirtualMachine(object):
 
 		for guard in guards:
 			guard_type, guard_address = self._fetch(guard)
-			if _ == False: return
+			if guard_type == False: return
 			guard_value = self._value_of(guard_address)
 			guard_value = fetch_atomic_value(guard_type, guard_value)
 			if guard_value:
