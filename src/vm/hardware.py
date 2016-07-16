@@ -177,19 +177,20 @@ class Boolean(object):
 	def __init__(self, binrep):
 		'''Initializes a Boolean object with the binary string given in binrep.'''
 
-		self.binrep = binrep
+		self.sign = binrep[0]
+		self.binrep = binrep[1:]
 
 	def convert(self):
 		'''Converts the object to a boolean value as understood by humans'''
 
 		power = 0
-		ans = 0
+		ans = 0 - int(self.sign) * 2 ** (len(self.binrep))
 
 		for bit in reversed(self.binrep):
 			ans += (int(bit) * 2 ** power)
 			power += 1
 
-		return False if ans == 0 else True
+		return False if ans <= 0 else True
 
 class Char(object):
 	'''The Char class, represents the internal representation
