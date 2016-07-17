@@ -494,7 +494,7 @@ def process_single_var(var_info, data, lines, ident):
     if var_info[INDEX] is None:
        if not initialization[reg]:
           print("File: %s - Line: %d:%d\nWarning: Variable %s (Scope %d) has not been initialized" % (data['path'], var_name.line, var_name.col, var_name.value, scope), file=sys.stderr)
-          lines.append(_ident(ident)+';;Warning - Variable %s%d without initialization, using default values' % (var_name.value, scope))
+          # lines.append(_ident(ident)+';;Warning - Variable %s%d without initialization, using default values' % (var_name.value, scope))
     else:
        index_key = var_info[INDEX]
        for ad in data['indices'][index_key]:
