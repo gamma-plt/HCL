@@ -27,6 +27,7 @@ CALL = 'call'
 FREE = 'free'
 HALT = 'halt'
 PRINT = 'print'
+POW = 'pow'
 
 DO = 'do'
 IF = 'if'
@@ -36,8 +37,10 @@ CLC = 'clc'
 GSS = 'gss'
 EQU = 'equ'
 NEQ = 'neq'
-GE = 'sgt'
-LE = 'slt'
+GE = 'ge'
+GE_L = 'sgt'
+LE = 'le'
+LE_L = 'slt'
 GEQ = 'geq'
 LEQ = 'leq'
 ACT = 'act'
@@ -54,6 +57,7 @@ INT = 'integer'
 BOOL = 'boolean'
 CHAR = 'char'
 
+OP = 'op'
 OP1 = 'oper1'
 OP2 = 'oper2'
 OPER = 'op'
@@ -67,7 +71,20 @@ RET_INT = '..retint'
 RET_BOOL = '..retbol'
 RET_CHR = '..retchr'
 
-func_ret_regs = {'int':RET_INT, 'char':RET_CHAR, 'boolean':RET_BOOL} 
+MINUS = 'minus'
+PLUS = 'plus'
+TIMES = 'times'
+POWER = 'power'
+EQ = 'eq'
+NEQ = 'neq'
+
+comp_operators = {x:True for x in [EQ, NEQ, GE, LE, GEQ, LEQ]}
+conmutative_operators = {x:True for x in [PLUS, TIMES, EQ, NEQ, AND, OR]}
+operator_instr = {PLUS:ADD, MINUS:SUB, TIMES:MUL, DIV:DIV, MOD:MOD, AND:AND, OR:OR}
+cmp_inst = {EQ:EQU, NEQ:NEQ, GEQ:GEQ, LEQ:LEQ, LE:LE_L, GE:GE_L}
+cmp_opposite = {EQ:NEQ, NEQ:EQU, GEQ:LE_L, LEQ:GE_L, GE:LEQ, LE:GEQ}
+
+func_ret_regs = {'int':RET_INT, 'char':RET_CHR, 'boolean':RET_BOOL} 
 
 type_equivalence = {'int':INT, BOOL:BOOL, CHAR:CHAR}
 
@@ -75,7 +92,7 @@ initialization = {}
 free_registers = {}
 auxiliar_vars = {}
 
-count = {'aux':0}
+count = {'aux':0, 'do':0, 'if':0}
 
 for _type in ['int', 'chr', 'bol']:
     for i in range(1, 6):
@@ -95,16 +112,23 @@ def code_generation(data):
     stat, lines = variable_declaration(data, lines)
     if stat == 0:
        lines.append('\n;; General program execution routine\n')
-       stat, lines = program_generation(data, lines)
+       lines = program_generation(data, lines)
+       lines.append('%s' % (HALT))
+       with open(folder+'/'+output_file, 'wb') as fp:
+          fp.write('\n'.join(lines))
     return stat, lines
 
 def variable_declaration(data, lines):
     stat = 0
     lines.append(';; Auxiliar character defintion')
-    lines.append('%s %s %s  ;; Space character' % (SET, SPACE, CHAR))
-    lines.append('%s %s %s  ;; New Line character' % (SET, NEWLINE, CHAR))
-    lines.append('%s %s %s  ;; Space character initialization' % (MOV, SPACE, SPACE_VAL))
-    lines.append('%s %s %s  ;; New Line character initialization\n' % (MOV, NEWLINE, NEWLINE_VAL))
+    lines.append(";; Space character")
+    lines.append('%s %s %s' % (SET, SPACE, CHAR))
+    lines.append(';; New Line character')
+    lines.append('%s %s %s' % (SET, NEWLINE, CHAR))
+    lines.append(';; Space character initialization')
+    lines.append('%s %s %s' % (MOV, SPACE, SPACE_VAL))
+    lines.append(';; New Line character initialization')
+    lines.append('%s %s %s\n' % (MOV, NEWLINE, NEWLINE_VAL))
     lines.append(';; General variable defintion')
     
     for scope in sorted(data['definitions'].keys()):
@@ -135,7 +159,7 @@ def recover_free_register():
        reg = random.choice(available)
     return reg
 
-def free_registers_aux(free, lines):
+def free_registers_aux(free, lines, ident):
     for _var in free:
         if _var in free_registers:
            free_registers[_var] = True
@@ -144,28 +168,111 @@ def free_registers_aux(free, lines):
            del auxiliar_vars[_var]
     return lines
 
-def alloc_aux_var(_type):
+def alloc_aux_var(_type, lines, ident):
     alloc_reg = '_sysaux%d' % (count['aux'])
     count['aux'] += 1
     auxiliar_vars[alloc_reg] = True
     lines.append(_ident(ident)+'%s %s %s' % (SET, alloc_reg, _type))
-    return alloc_reg
+    return lines, alloc_reg
+
+def allocate_register_aux(_type, lines, ident):
+    reg_alloc = True
+    reg = recover_free_register()
+    if reg is None:
+       reg_alloc = False
+       lines, reg = alloc_aux_var(_type, lines, ident)
+    return lines, reg_alloc, reg
 
 def program_generation(data, lines, scope=0, ident=0):
-    stat = 0
     for instruction in data['instructions'][scope]:
         instruction_type = [key for key in instruction if instruction[key] is not None][0]
         if instruction_type == READ:
-           stat, lines = read_generation(instruction['read'], data, lines, ident)
-    return stat, lines
+           lines = read_generation(instruction['read'], data, lines, ident)
+        elif instruction_type == ASSIGNMENT:
+           lines = assignment_gen(instruction[ASSIGNMENT], data, lines, ident)
+        elif instruction_type == DO:
+           lines = do_gen(instruction[DO], data, lines, ident)
+        elif instruction_type == IF:
+           lines = if_gen(instruction[IF], data, lines, ident)
+        elif instruction_type == PRINT:
+           lines = print_gen(instruction[PRINT], data, lines, ident)
+    return lines
 
-def read_generation(read_info, data, lines, ident=0):
-    stat = 0
+def print_gen(addr, data, lines, ident):
+    lines, op_reg = process_expression(addr, data, lines, ident)
+    lines.append(_ident(ident)+'%s %s' % (PRINT, op_reg['value']))
+    lines.append(_ident(ident)+'%s %s' % (PRINT, NEWLINE))
+    op_reg['free'].append(op_reg['value'])
+    lines = free_registers_aux(op_reg['free'], lines, ident)
+    return lines
+
+def if_gen(guard_key, data, lines, ident):
+    guards_info = data['guards'][guard_key]
+    lines.append(_ident(ident)+'%s:' % (IF))
+    ident += 1
+    guard_list = []
+    for i in range(0, len(guards_info)): 
+        guard_name = '_if%dguard%d' % (count['if'], i)
+        guard_list.append(guard_name)
+    count['if'] += 1
+    lines.append(_ident(ident)+'%s %s' % (GSS, ' '.join(guard_list)))
+    for guard_name, guard in zip(guard_list, guards_info):
+        lines.append(_ident(ident)+';; Calculating %s' % (guard_name))
+        lines, guard_reg = process_expression(guard['expr'], data, lines, ident)
+        lines.append(_ident(ident)+'%s %s %s' % (MOV, guard_name, guard_reg['value']))
+        guard_reg['free'].append(guard_reg['value'])
+        lines = free_registers_aux(guard_reg['free'], lines, ident)
+    for guard_name, guard in zip(guard_list, guards_info):
+        lines.append(_ident(ident)+'%s %s:' % (ACT, guard_name))
+        lines = program_generation(data, lines, guard['scope'], ident+1)
+    lines = free_registers_aux(guard_reg['free'], lines, ident)
+    return lines
+
+def do_gen(guard_key, data, lines, ident):
+    # print(guard_key)
+    guards_info = data['guards'][guard_key]
+    # print(guards_info)
+    lines.append(_ident(ident)+'%s:' % (DO))
+    ident += 1
+    guard_list = []
+    for i in range(0, len(guards_info)): 
+        guard_name = '_do%dguard%d' % (count['do'], i)
+        guard_list.append(guard_name)
+    # print(guard_list)
+    count['do'] += 1
+    lines.append(_ident(ident)+'%s %s' % (GSS, ' '.join(guard_list)))
+    lines.append(_ident(ident)+'%s:' % (CLC))
+    ident += 1
+    for guard_name, guard in zip(guard_list, guards_info):
+        # lines.append(_ident(ident)+';; Calculating %s' % (guard_name))
+        lines, guard_reg = process_expression(guard['expr'], data, lines, ident)
+        lines.append(_ident(ident)+'%s %s %s' % (MOV, guard_name, guard_reg['value']))
+        guard_reg['free'].append(guard_reg['value'])
+        lines = free_registers_aux(guard_reg['free'], lines, ident)
+    ident -= 1
+    for guard_name, guard in zip(guard_list, guards_info):
+        lines.append(_ident(ident)+'%s %s:' % (ACT, guard_name))
+        lines = program_generation(data, lines, guard['scope'], ident+1)
+    lines = free_registers_aux(guard_reg['free'], lines, ident)
+    return lines
+
+def assignment_gen(assign_key, data, lines, ident):
+    assign_info = data['assignments'][assign_key]
+    lines, var_reg = process_expression(assign_info['var'], data, lines, ident)
+    lines, expr_reg = process_expression(assign_info['value'], data, lines, ident)
+    lines.append(_ident(ident)+'%s %s %s' % (MOV, var_reg['value'], expr_reg['value']))
+    var_reg['free'] += expr_reg['free']
+    var_reg['free'].append(expr_reg['value'])
+    lines = free_registers_aux(var_reg['free'], lines, ident)
+    initialization[var_reg['value']] = True
+    return lines
+
+def read_generation(read_info, data, lines, ident):
     var_tok = read_info['var']
     scope = read_info['scope']
     read_func = read_info['read']
     size = data['definitions'][scope][var_tok.value]['size']
-    lines.append(';; Reading variable %s (Scope %d) of size %s' % (var_tok.value, scope, 'x'.join(map(str,size))))
+    # lines.append(';; Reading variable %s (Scope %d) of size %s' % (var_tok.value, scope, 'x'.join(map(str,size))))
     if len(size) == 0:
        lines.append(_ident(ident)+'%s %s%d' % (read_func, var_tok.value, scope))
     elif len(size) == 1:
@@ -178,9 +285,9 @@ def read_generation(read_info, data, lines, ident=0):
        ident += 1
        bin_size = bin(size[0])[2:]
        lines.append(_ident(ident)+'%s %s %s' % (CMP, '_sysidx1', bin_size))
-       lines.append(_ident(ident)+'%s:' % (LE))
-       ident += 1
-       lines.append(_ident(ident)+'%s %s %s' % (MOV, '_sysguard1', TRUE))
+       lines.append(_ident(ident)+'%s:' % (LE_L))
+       ident += _L1
+       lines.app_Lend(_ident(ident)+'%s %s %s' % (MOV, '_sysguard1', TRUE))
        ident -= 2
        lines.append(_ident(ident)+'%s %s:' % (ACT, '_sysguard1'))
        ident += 1
@@ -200,9 +307,9 @@ def read_generation(read_info, data, lines, ident=0):
        dim_1 = bin(size[0])[2:]
        ident += 1
        lines.append(_ident(ident)+'%s %s %s' % (CMP, '_sysidx1', dim_1))
-       lines.append(_ident(ident)+'%s:' % (LE))
-       ident += 1
-       lines.append(_ident(ident)+'%s %s %s' % (MOV, '_sysguard1', TRUE))
+       lines.append(_ident(ident)+'%s:' % (LE_L))
+       ident += _L1
+       lines.app_Lend(_ident(ident)+'%s %s %s' % (MOV, '_sysguard1', TRUE))
        ident -= 2
        lines.append(_ident(ident)+'%s %s:' % (ACT, '_sysguard1'))
        ident += 1
@@ -214,9 +321,9 @@ def read_generation(read_info, data, lines, ident=0):
        dim_2 = bin(size[1])[2:]
        ident += 1
        lines.append(_ident(ident)+'%s %s %s' % (CMP, '_sysidx2', dim_2))
-       lines.append(_ident(ident)+'%s:' % (LE))
-       ident += 1
-       lines.append(_ident(ident)+'%s %s %s' % (MOV, '_sysguard2', TRUE))
+       lines.append(_ident(ident)+'%s:' % (LE_L))
+       ident += _L1
+       lines.app_Lend(_ident(ident)+'%s %s %s' % (MOV, '_sysguard2', TRUE))
        ident -= 2
        lines.append(_ident(ident)+'%s %s:' % (ACT, '_sysguard2'))
        ident += 1
@@ -228,36 +335,132 @@ def read_generation(read_info, data, lines, ident=0):
        lines.append(_ident(ident)+'%s %s' % (FREE, '_sysidx1'))
        lines.append(_ident(ident)+'%s %s' % (FREE, '_sysidx2'))
     initialization['%s%d' % (var_tok.value, scope)] = True
-    return stat, lines
-
+    return lines
 
 def process_expression(addr, data, lines, ident, index=False):
     #Return: {'value':reg, 'register':reg_alloc, 'free':free}
     addr_info = data['addresses'][addr]
     if addr_info[OPER] is None:
        #Case 1: Single Variable/Number/Function Call
+       # print(addr)
        var_info = addr_info[OP1]
        lines, expr_reg = process_simple_operand(var_info, data, lines, ident, index)
     else:
        if addr_info[OP1] is None:
           #Case 2: Negative/Negated Single Variable/Number/Function Call
           var_info = addr_info[OP2]
-          lines, expr_reg = process_simple_operand(var_info, data, lines, ident, index)
+          if var_info['addr'] is not None:
+             lines, expr_reg = process_expression(var_info['addr'], data, lines, ident)
+          else:
+             lines, expr_reg = process_simple_operand(var_info, data, lines, ident, index)
           _reg = expr_reg['value']
           if not expr_reg['register']:
-
-          lines.append(_ident(ident)+'%s %s' % (NOT, expr_reg['value']))
-          lines.append(_ident(ident)+'%s %s' % (INC, expr_reg['value']))
+             if expr_reg['value'] not in auxiliar_vars:
+                _aux = recover_free_register()
+                if _aux is None:
+                   _aux = alloc_aux_var(type_equivalence[addr_info['type']], lines, ident)
+                lines.append(_ident(ident)+'%s %s %s' % (MOV, _aux, _reg))
+                lines = free_registers_aux(expr_reg['free'], lines, ident)
+                expr_reg['free'] = []
+                _reg = _aux
+                expr_reg['value'] = _reg
+          lines.append(_ident(ident)+'%s %s' % (NOT, _reg))
+          lines.append(_ident(ident)+'%s %s' % (INC, _reg))
        else:
           #Case 3: General 3AC operations
           lines, expr_reg = process_general_operation(addr_info, data, lines, ident)
     return lines, expr_reg
 
+
 def process_general_operation(addr_info, data, lines, ident):
     #TODO: Implement cases 3.1 - 3.4
-    return None
+    free = []
+    reg = ''
+    reg_alloc = False
+    expr_reg = {'value':reg, 'register':reg_alloc, 'free':free}
+
+    op1_addr = addr_info[OP1]['addr']
+    op2_addr = addr_info[OP2]['addr']
+    op_name = addr_info[OP].token
+    _type = addr_info['type']
+
+    lines, expr1_reg = process_expression(op1_addr, data, lines, ident)
+    lines, expr2_reg = process_expression(op2_addr, data, lines, ident)
+    
+    free += expr1_reg['free']
+    free += expr2_reg['free']
+
+    if expr1_reg['register'] or expr1_reg['value'] in auxiliar_vars:
+       #Case 1: Op1 is a Register/Auxiliar Variable
+       reg_alloc = expr1_reg['register']
+       reg = expr1_reg['value']
+       if expr2_reg['value'] in auxiliar_vars:
+          #Op2 is an auxiliar variable      
+          free.append(expr2_reg['value'])
+    elif expr2_reg['register'] or expr2_reg['value'] in auxiliar_vars:
+       #Case 2: Op2 is a Register/Auxiliar Variable
+       if op_name in conmutative_operators:
+          #2.1 Operator is conmutative, switch arguments
+          reg_alloc = expr2_reg['register']
+          reg = expr2_reg['value']
+          if expr1_reg['value'] in auxiliar_vars:      
+             free.append(expr1_reg['value'])
+          expr1_reg, expr2_reg = expr2_reg, expr1_reg
+       else:
+          #2.2 Operator is non conmutative, allocate new register
+          lines, reg_alloc, reg = allocate_register_aux(_type, lines, ident)
+          free.append(expr2_reg['value'])
+          free.append(expr1_reg['value'])
+    else:
+       #Case 3: Op1 and Op2 are simple operands
+       lines, reg_alloc, reg = allocate_register_aux(_type, lines, ident)    
+    
+    lines = process_operation(expr1_reg, expr2_reg, op_name, reg, lines, ident)
+    lines = free_registers_aux(free, lines, ident)
+
+    expr_reg['value'] = reg
+    expr_reg['register'] = reg_alloc
+      
+    return lines, expr_reg 
+
+def process_operation(expr1_reg, expr2_reg, op_name, reg, lines, ident):
+    if op_name == POWER:
+       lines = process_pow(expr1_reg, expr2_reg, reg, lines, ident)
+    elif op_name in comp_operators:
+       lines = process_comp(expr1_reg, expr2_reg, op_name, reg, lines, ident)
+    else:
+       lines = process_conventional_op(expr1_reg, expr2_reg, op_name, reg, lines, ident)
+    return lines
+
+def process_comp(expr1_reg, expr2_reg, op_name, reg, lines, ident):
+    lines.append(_ident(ident)+'%s %s %s' % (CMP, expr1_reg['value'], expr2_reg['value']))
+    lines.append(_ident(ident)+'%s:' % (cmp_inst[op_name]))
+    ident += 1
+    lines.append(_ident(ident)+'%s %s %s' % (MOV, reg, TRUE))
+    ident -= 1
+    lines.append(_ident(ident)+'%s:' % (cmp_opposite[op_name]))
+    ident += 1
+    lines.append(_ident(ident)+'%s %s %s' % (MOV, reg, FALSE))
+    ident -= 1
+    return lines
+
+def process_conventional_op(expr1_reg, expr2_reg, op_name, reg, lines, ident):
+    if expr1_reg['value'] == reg:
+       lines.append(_ident(ident)+'%s %s %s' % (operator_instr[op_name], expr1_reg['value'], expr2_reg['value']))
+    else:
+       lines.append(_ident(ident)+'%s %s %s' % (MOV, reg, expr1_reg['value']))
+       lines.append(_ident(ident)+'%s %s %s' % (operator_instr[op_name], reg, expr2_reg['value']))
+    return lines
+
+def process_pow(expr1_reg, expr2_reg, reg, lines, ident):
+    lines.append(_ident(ident)+'%s %s' % (PUSH, expr1_reg['value']))
+    lines.append(_ident(ident)+'%s %s' % (PUSH, expr2_reg['value']))
+    lines.append(_ident(ident)+'%s %s' % (CALL, POW))
+    lines.append(_ident(ident)+'%s %s %s' % (MOV, reg, RET_INT))
+    return lines
 
 def process_simple_operand(var_info, data, lines, ident, index):
+    # print(var_info)
     if var_info[NUM] is not None:
        expr_reg = process_single_constant(var_info, index)
     elif var_info[VAR] is not None:
@@ -274,11 +477,16 @@ def process_single_constant(var_info, index):
     if index:
        reg = str(var_info[NUM].value)
     else:
-       reg = bin(var_info[NUM].value)[2:]
+       reg = bin(int(var_info[NUM].value))[2:]
     expr_reg['value'] = reg
     return expr_reg
 
 def process_single_var(var_info, data, lines, ident):
+    free = []
+    reg = ''
+    reg_alloc = False
+    expr_reg = {'value':reg, 'register':reg_alloc, 'free':free}
+    
     var_d = var_info[VAR]
     var_name = var_d[VAR]
     scope = var_d[SCOPE]
@@ -290,7 +498,7 @@ def process_single_var(var_info, data, lines, ident):
     else:
        index_key = var_info[INDEX]
        for ad in data['indices'][index_key]:
-           reg_i = process_expression(ad, data, lines, ident, index=True)
+           lines, reg_i = process_expression(ad, data, lines, ident, index=True)
            if reg_i['register']:
               free.append(reg_i['value'])
            if reg_i['value'] in auxiliar_vars:
@@ -302,12 +510,17 @@ def process_single_var(var_info, data, lines, ident):
 
 
 def process_single_func(var_info, data, lines, ident):
+    free = []
+    reg = ''
+    reg_alloc = False
+    expr_reg = {'value':reg, 'register':reg_alloc, 'free':free}
+
     func_key = var_info[FUNC]
     func_info = data['functions'][func_key]
     func_call = func_info['call']
     func_type = func_info['type']
     for arg in func_info['args']:
-        arg_calc = process_expression(arg, data, lines, ident)
+        lines, arg_calc = process_expression(arg, data, lines, ident)
         lines.append(_ident(ident)+'%s %s' % (PUSH, arg_calc['value']))
         if arg_calc['register']:
            free.append(arg_calc['value'])
@@ -318,9 +531,9 @@ def process_single_func(var_info, data, lines, ident):
     reg_alloc = True
     if alloc_reg is None:
        reg_alloc = False
-       alloc_reg = alloc_aux_var(type_equivalence[func_type])
+       lines, alloc_reg = alloc_aux_var(type_equivalence[func_type], lines, ident)
     lines.append(_ident(ident)+'%s %s %s' % (MOV, alloc_reg, ret_reg))
-    lines = free_registers_aux(free, lines)
+    lines = free_registers_aux(free, lines, ident)
     free = []
     expr_reg['value'] = alloc_reg
     expr_reg['register'] = reg_alloc

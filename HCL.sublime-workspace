@@ -4,28 +4,200 @@
 		"selected_items":
 		[
 			[
-				"ass",
-				"assignment"
+				"LE",
+				"LEQ"
 			],
 			[
-				"exp",
-				"expr_addr"
+				"GE",
+				"GE_L"
 			],
 			[
-				"var",
-				"var_list"
-			],
-			[
-				"ins",
-				"instr_prototype"
+				"cmp",
+				"cmp_inst"
 			],
 			[
 				"ex",
-				"expr_addr"
+				"expr2_reg"
+			],
+			[
+				"oper",
+				"operator_instr"
+			],
+			[
+				"boo",
+				"boolean_operators"
+			],
+			[
+				"op",
+				"op_name"
+			],
+			[
+				"exp",
+				"expr_reg"
 			],
 			[
 				"expr",
-				"expr_addr"
+				"expr1_reg"
+			],
+			[
+				"all",
+				"allocate_register_aux"
+			],
+			[
+				"ax",
+				"auxiliar_vars"
+			],
+			[
+				"MO",
+				"MOD"
+			],
+			[
+				"T",
+				"TIMES"
+			],
+			[
+				"free",
+				"free_registers_aux"
+			],
+			[
+				"RE",
+				"RET_INT"
+			],
+			[
+				"POW",
+				"POWER"
+			],
+			[
+				"pro",
+				"process_simple_operand"
+			],
+			[
+				"por",
+				"process_single_constant"
+			],
+			[
+				"index",
+				"index_store"
+			],
+			[
+				"fun",
+				"func_type"
+			],
+			[
+				"fre",
+				"free_registers_aux"
+			],
+			[
+				"proc",
+				"process_single_var"
+			],
+			[
+				"pr",
+				"process_simple_operand"
+			],
+			[
+				"reg",
+				"reg_alloc"
+			],
+			[
+				"ret",
+				"ret_reg"
+			],
+			[
+				"aux",
+				"auxiliar_vars"
+			],
+			[
+				"ty",
+				"type_equivalence"
+			],
+			[
+				"func",
+				"func_type"
+			],
+			[
+				"arg",
+				"arg_calc"
+			],
+			[
+				"RET",
+				"RET_INT"
+			],
+			[
+				"var",
+				"var_info"
+			],
+			[
+				"IN",
+				"INDEX"
+			],
+			[
+				"add",
+				"addr_info"
+			],
+			[
+				"read",
+				"read_func"
+			],
+			[
+				"bin",
+				"bin_size"
+			],
+			[
+				"fr",
+				"free_registers"
+			],
+			[
+				"ins",
+				"instruction"
+			],
+			[
+				"in",
+				"instruction"
+			],
+			[
+				"instr",
+				"instruction"
+			],
+			[
+				"ini",
+				"initialization"
+			],
+			[
+				"scop",
+				"scope_variables"
+			],
+			[
+				"N",
+				"NEWLINE_VAL"
+			],
+			[
+				"SPA",
+				"SPACE_VAL"
+			],
+			[
+				"var_",
+				"var_lvl"
+			],
+			[
+				"_read",
+				"_readint"
+			],
+			[
+				"inst",
+				"instr_prototype"
+			],
+			[
+				"proces",
+				"process_definition"
+			],
+			[
+				"proce",
+				"process_assignment"
+			],
+			[
+				"ass",
+				"assignment"
 			],
 			[
 				"va",
@@ -36,44 +208,8 @@
 				"operators"
 			],
 			[
-				"op",
-				"op_ret"
-			],
-			[
-				"proces",
-				"process_expr"
-			],
-			[
-				"func",
-				"func_call"
-			],
-			[
-				"arg",
-				"arg_type"
-			],
-			[
-				"proce",
-				"process_expr"
-			],
-			[
-				"fun",
-				"func_name"
-			],
-			[
-				"pr",
-				"process_var"
-			],
-			[
 				"is",
 				"is_var"
-			],
-			[
-				"oper",
-				"operator"
-			],
-			[
-				"ini",
-				"indices"
 			],
 			[
 				"not",
@@ -82,10 +218,6 @@
 			[
 				"au",
 				"aux2_node"
-			],
-			[
-				"aux",
-				"aux_node"
 			],
 			[
 				"comma",
@@ -126,10 +258,6 @@
 			[
 				"_ty",
 				"_type"
-			],
-			[
-				"add",
-				"addresses"
 			],
 			[
 				"imp",
@@ -188,10 +316,6 @@
 				"inference"
 			],
 			[
-				"IN",
-				"INFERENCE_PATH"
-			],
-			[
 				"cons",
 				"console.log()"
 			],
@@ -216,24 +340,12 @@
 				"definitions"
 			],
 			[
-				"ty",
-				"type_"
-			],
-			[
-				"proc",
-				"process_func"
-			],
-			[
 				"G",
 				"GRAMMAR_PATH"
 			],
 			[
 				"lvl",
 				"lvl_count"
-			],
-			[
-				"instr",
-				"instr_list"
 			],
 			[
 				"do",
@@ -250,10 +362,6 @@
 			[
 				"chil",
 				"children"
-			],
-			[
-				"in",
-				"include"
 			],
 			[
 				"ana",
@@ -406,114 +514,6 @@
 			[
 				"date",
 				"datetime"
-			],
-			[
-				"dat",
-				"datetime"
-			],
-			[
-				"stmt",
-				"stmt_1"
-			],
-			[
-				"punto",
-				"punto_atencion"
-			],
-			[
-				"client",
-				"client_str"
-			],
-			[
-				"no",
-				"nombre"
-			],
-			[
-				"tipo",
-				"tipo_p"
-			],
-			[
-				"nom",
-				"nombre_of"
-			],
-			[
-				"nm",
-				"num_documento"
-			],
-			[
-				"set",
-				"set_status"
-			],
-			[
-				"app",
-				"app_from"
-			],
-			[
-				"fecha",
-				"fecha_creacion"
-			],
-			[
-				"remove",
-				"removeClass	.removeClass()"
-			],
-			[
-				"ac",
-				"acc_old"
-			],
-			[
-				"CUENTA",
-				"CUENTA_EMPRESA"
-			],
-			[
-				"acc",
-				"acc_new"
-			],
-			[
-				"selec",
-				"selected	Attr"
-			],
-			[
-				"cuenta",
-				"cuenta_nomina"
-			],
-			[
-				"ID",
-				"ID_CLIENTE"
-			],
-			[
-				"cur",
-				"cursor"
-			],
-			[
-				"obtener_tip",
-				"obtener_tipo_operacion"
-			],
-			[
-				"ap",
-				"apellido_emp"
-			],
-			[
-				"ape",
-				"apellido_emp"
-			],
-			[
-				"nomb",
-				"nombre_emp"
-			],
-			[
-				"nombre",
-				"nombre_emp"
-			],
-			[
-				"id_",
-				"id_oficina"
-			],
-			[
-				"tip",
-				"tipo_pa"
-			],
-			[
-				"nombr",
-				"nombre_emp"
 			]
 		]
 	},
@@ -536,18 +536,99 @@
 			}
 		},
 		{
-			"file": "src/compiler/frontend/semantic.py",
+			"file": "doc/language/HDL_BNF_Description.txt",
 			"settings":
 			{
-				"buffer_size": 16963,
+				"buffer_size": 1306,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "doc/language/LL_Grammar_Description.txt",
+			"file": "src/compiler/frontend/semantic.py",
 			"settings":
 			{
-				"buffer_size": 1277,
+				"buffer_size": 19186,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/compiler/backend/codegen.py",
+			"settings":
+			{
+				"buffer_size": 16765,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": ";; test.vhcl : Autogenerated file by HCL Compiler v1.0\n\n;; Auxiliar character defintion\nset space char  ;; Space character\nset nl char  ;; New Line character\nmov space 100000  ;; Space character initialization\nmov nl 001010  ;; New Line character initialization\n\n;; General variable defintion\nset a0 integer\nset c0 integer\nset b0 integer\nset d0 integer\nset g0 integer\nset f0 integer#6\nset i0 integer\n\n;; General program execution routine\n\n;;Warning - Variable a0 without initialization, using default values\nmov .r3chr a0\nnot .r3chr\ninc .r3chr\n;;Warning - Variable b0 without initialization, using default values\n;;Warning - Variable i0 without initialization, using default values\nmov .r5chr b0\nmul .r5chr f0[i0]\nadd .r5chr .r3chr\n;;Warning - Variable c0 without initialization, using default values\npush c0\n;;Warning - Variable d0 without initialization, using default values\npush d0\ncall max\nmov .r5int ..retint\ndiv .r5chr .r5int\nmov .r3bol 11\nmul .r3bol 1000\n;;Warning - Variable b0 without initialization, using default values\nmov .r5bol 111\nsub .r5bol f0[b0]\npush .r5bol\ncall abs\nmov .r3chr ..retint\npush .r3bol\npush .r3chr\ncall pow\nmov .r3bol ..retint\nadd .r5chr .r3bol\n",
+			"settings":
+			{
+				"buffer_size": 1177,
+				"line_ending": "Unix",
+				"name": ";; test.vhcl : Autogenerated file by HCL Compiler"
+			}
+		},
+		{
+			"file": "src/compiler/frontend/__init__.py",
+			"settings":
+			{
+				"buffer_size": 187,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/compiler/backend/__init__.py",
+			"settings":
+			{
+				"buffer_size": 140,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/hcl/example3.hcl",
+			"settings":
+			{
+				"buffer_size": 537,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/vm/unoptimized/collatz.vhcl",
+			"settings":
+			{
+				"buffer_size": 644,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt",
+			"settings":
+			{
+				"buffer_size": 2987,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/vm/example3.vhcl",
+			"settings":
+			{
+				"buffer_size": 1403,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc/language/Inference_Rules.txt",
+			"settings":
+			{
+				"buffer_size": 1489,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "examples/hcl/test.hcl",
+			"settings":
+			{
+				"buffer_size": 123,
 				"line_ending": "Unix"
 			}
 		},
@@ -560,115 +641,10 @@
 			}
 		},
 		{
-			"contents": "def compress_tree(node):\n    obj_node = None\n    if len(node.children) == 1:\n       last_node = None\n       obj_node = node.children[0]\n       while len(obj_node.children) == 1:\n          last_node = obj_node\n          obj_node = obj_node.children[0]\n          if obj_node.value is not None:\n             obj_node = last_node\n             break\n       if len(obj_node.children) == 0:\n          if obj_node.value is not None:\n             node.value = obj_node.value\n          node.children = []\n       else:\n          node.children = obj_node.children\n          for child in node.children:\n              child.parent = node\n    # for child in node.children:\n    #    compress_tree(child)\n\ndef remove_useless_productions(node):\n    for child in node.children:\n        remove_useless_productions(child)\n    if len(node.children) == 0:\n       if node.value is None:\n          idx = node.parent.children.index(node)\n          del node.parent.children[idx]\n\n\ndef process_expr_tree(node, debug=False):\n    last_lvl = 0\n    node.lvl = 0\n    queue = [node]\n    f_term = False\n    while len(queue) > 0:\n       current_node = queue.pop(0)\n       lvl = current_node.lvl\n       if lvl != last_lvl:\n          if debug:\n             print(\"--------------------\")\n             print(\"Level %d\" % (lvl))\n          last_lvl = lvl\n       if debug:\n          print(current_node)\n       if current_node.value is not None:\n          if current_node.value.token == u'left_rparen':\n             idx = queue.index(current_node.next.next)\n             del queue[idx]\n             current_node.parent.children = current_node.parent.children[1:-1]\n             current_node.parent.children[0].next = None\n          else:   \n            f_term = True\n            break\n       for child in current_node.children:\n           child.lvl = current_node.lvl + 1\n       queue += current_node.children\n    if id(current_node) != id(node):\n       if f_term:\n          if node.value is None:\n             node.value = current_node.value\n             idx = current_node.parent.children.index(current_node)\n             del current_node.parent.children[idx]\n       remove_useless_productions(node)\n       compress_tree(node)\n    for child in node.children:\n       process_expr_tree(child, debug)\n    # else:\n    #    if node.value.token == u'left_sparen':\n    #       idx = node.parent.children.index(node)\n    #       node.parent.children = node.parent.children[1:-1]\n    #       node.parent.children[0].next = None\n    #    elif node.value.token == u'  '\n          # remove_useless_productions(node.parent)\n          # compress_tree(node.parent) \n\n\ndef remove_epsilon_productions(node, debug=False):\n   last_lvl = 0\n   node.lvl = 0\n   queue = [node]\n   while len(queue) > 0:\n      current_node = queue.pop(0)\n      lvl = current_node.lvl\n      if lvl != last_lvl:\n         if debug:\n            print(\"--------------------\")\n            print(\"Level %d\" % (lvl))\n         last_lvl = lvl\n      if debug:\n         print(current_node)\n      if current_node.value is not None:\n         if current_node.value == '':\n            parent = current_node.parent\n            idx = parent.children.index(current_node)\n            del parent.children[idx]\n            parent.children[idx-1].next = current_node.next\n      for child in current_node.children:\n          child.lvl = current_node.lvl + 1\n      queue += current_node.children\n\ndef remove_parentheses(node, debug=False):\n   last_lvl = 0\n   node.lvl = 0\n   queue = [node]\n   while len(queue) > 0:\n      current_node = queue.pop(0)\n      lvl = current_node.lvl\n      if lvl != last_lvl:\n         if debug:\n            print(\"--------------------\")\n            print(\"Level %d\" % (lvl))\n         last_lvl = lvl\n      if debug:\n         print(current_node)\n      if current_node.value is not None:\n         if current_node.value.token == u'left_sparen' or current_node.value.token == u'right_sparen' or current_node.value.token == u'right_rparen':\n            parent = current_node.parent\n            idx = parent.children.index(current_node)\n            del parent.children[idx]\n            if idx > 0:\n               parent.children[idx-1].next = current_node.next\n      for child in current_node.children:\n          child.lvl = current_node.lvl + 1\n      queue += current_node.children\n\ndef comma_detection(node, debug=False):\n   last_lvl = 0\n   node.lvl = 0\n   queue = [node]\n   while len(queue) > 0:\n      current_node = queue.pop(0)\n      lvl = current_node.lvl\n      if lvl != last_lvl:\n         if debug:\n            print(\"--------------------\")\n            print(\"Level %d\" % (lvl))\n         last_lvl = lvl\n      if debug:\n         print(current_node)\n      if current_node.value is not None:\n         if current_node.value.token == u'comma':\n            current_node.parent.children = comma_collection(current_node, [])\n            children = current_node.parent.children\n            for i in range(0, len(children)-1):\n                children[i].parent = current_node.parent\n                children[i].next = children[i+1]\n            children[-1].next = None\n            children[-1].parent = current_node.parent\n            queue = children + queue\n         else:\n            for child in current_node.children:\n                child.lvl = current_node.lvl + 1\n            queue += current_node.children \n\ndef comma_collection(node,_list=[]):\n   if node.value.token != u'comma':\n      _list.append(node)\n   else:\n      for child in node.children:\n          _list = comma_collection(child,_list)\n   return _list\n\noperators = set([u'plus', u'minus', u'times', u'div', u'mod', u'power', u'eq', u'le', u'leq', u'neq', u'ge', u'geq', u'and', u'or', u'not'])\n\ndef expr_str(node, operator=False, s=u''):\n    app = u'%s'\n    if node.value.token in operators:\n       if operator:\n          app = u'(%s)'\n       if len(node.children) > 1:\n          s += app % (node.value.value.join(map(lambda x: expr_str(x, True, ''), node.children)))\n       else:\n          app = node.value.value+u'%s'\n          s += app % (expr_str(node.children[0], True, ''))\n    elif node.value.token == u'func':\n       s += node.value.value+u','.join(map(lambda x: expr_str(x, False, ''), node.children))+u')'\n    elif node.value.token == u'name':\n       s += node.value.value\n       if len(node.children) > 0:\n          s += u'['+(u','.join(map(lambda x: expr_str(x, False, ''), node.children)))+u']'\n    else:\n       s += node.value.value\n    return s\n\n\neps_count = 0\ncurrent_node = tree.children[0]\nlimit = tree\nwhile id(current_node) != id(limit):\n   if len(current_node.children) > 0:\n      current_node = current_node.children[0]\n   else:\n      if current_node.value == '':\n         eps_count += 1\n      else:\n         print(current_node.value)\n      current_node = current_node.up_node()\n\nlast_lvl = 0\nnode.lvl = 0\nqueue = [node]\nwhile len(queue) > 0:\n   current_node = queue.pop(0)\n   lvl = current_node.lvl\n   if lvl != last_lvl:\n      print(\"--------------------\")\n      print(\"Level %d\" % (lvl))\n      last_lvl = lvl\n   print(current_node)\n   if current_node.value is not None:\n      break\n   for child in current_node.children:\n       child.lvl = current_node.lvl + 1\n   queue += current_node.children   ",
+			"file": "src/vm/info.py",
 			"settings":
 			{
-				"buffer_size": 7203,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "examples/hcl/example1.hcl",
-			"settings":
-			{
-				"buffer_size": 483,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/semantic_test.py",
-			"settings":
-			{
-				"buffer_size": 1629,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "doc/language/Instruction_And_Flow_Control_Dictionaries.txt",
-			"settings":
-			{
-				"buffer_size": 1220,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt",
-			"settings":
-			{
-				"buffer_size": 2670,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/vm/hardware.py",
-			"settings":
-			{
-				"buffer_size": 32308,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "doc/language/TYPE_Inference_Rules.txt",
-			"settings":
-			{
-				"buffer_size": 1388,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "examples/hcl/collatz.hcl",
-			"settings":
-			{
-				"buffer_size": 429,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "while id(node) != id(root):\n    if len(node.children) > 0:\n       node = node.children[0]\n    else:\n       if node.value != '':\n          print node\n       node = node.up_node()",
-			"settings":
-			{
-				"buffer_size": 177,
-				"line_ending": "Unix",
-				"name": "while id(node) != id(root):"
-			}
-		},
-		{
-			"file": "doc/language/Inference_Rules.txt",
-			"settings":
-			{
-				"buffer_size": 1489,
-				"line_ending": "Unix",
-				"name": "plus : int x int -> int"
-			}
-		},
-		{
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "examples/hcl/dutchflag.hcl",
-			"settings":
-			{
-				"buffer_size": 741,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "examples/hcl/fibased.hcl",
-			"settings":
-			{
-				"buffer_size": 399,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "examples/vm/selectionsort.vhcl",
-			"settings":
-			{
-				"buffer_size": 1326,
+				"buffer_size": 196,
 				"line_ending": "Unix"
 			}
 		}
@@ -696,20 +672,32 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 201.0,
-		"last_filter": "temrin",
+		"height": 392.0,
+		"last_filter": "ssfr",
 		"selected_items":
 		[
 			[
-				"temrin",
+				"ssfr",
+				"Set Syntax: Free Pascal"
+			],
+			[
+				"termin",
 				"Terminal: Open in project folder"
+			],
+			[
+				"term",
+				"Terminal: Open in project folder"
+			],
+			[
+				"ssfre",
+				"Set Syntax: Free Pascal"
 			],
 			[
 				"ssfree",
 				"Set Syntax: Free Pascal"
 			],
 			[
-				"term",
+				"ter",
 				"Terminal: Open in project folder"
 			],
 			[
@@ -717,19 +705,15 @@
 				"Set Syntax: Python"
 			],
 			[
+				"temrin",
+				"Terminal: Open in project folder"
+			],
+			[
 				"pa",
 				"Package Control: Install Package"
 			],
 			[
-				"ter",
-				"Terminal: Open in project folder"
-			],
-			[
 				"termn",
-				"Terminal: Open in project folder"
-			],
-			[
-				"termin",
 				"Terminal: Open in project folder"
 			],
 			[
@@ -751,10 +735,6 @@
 			[
 				"sssh",
 				"Set Syntax: Shell Script (Bash)"
-			],
-			[
-				"ssfre",
-				"Set Syntax: Free Pascal"
 			],
 			[
 				"termina",
@@ -1113,7 +1093,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 392.0
+		"width": 328.0
 	},
 	"console":
 	{
@@ -1138,25 +1118,43 @@
 	},
 	"expanded_folders":
 	[
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/vm",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/backend",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm"
 	],
 	"file_history":
 	[
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/atomic.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/collatz.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/test.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/semantic_test.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/hardware.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/info.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/vm/commands.txt",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/vm/collatz.vhcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/example1.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/__init__.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/__init__.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/backend/__init__.py",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/vm/selectionsort.vhcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/TODO.txt",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/fibased.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/dutchflag.hcl",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language/Inference_Rules.txt",
+		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language/TYPE_Inference_Rules.txt",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language/LL_Grammar_Description.txt",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/lexer.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/doc/language/Instruction_And_Flow_Control_Dictionaries.txt",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/example4.hcl",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/hardware.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/tabulate.py",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/info.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/main.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/utilities.py",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/atomic.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/semantic.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/parser.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/ll_table.py",
@@ -1167,17 +1165,10 @@
 		"/home/andfoy/Mapping/Colombia/Bogotá/data/nodes.csv",
 		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Laboratorios/Lab_6/Files/shortest_path.lst",
 		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Laboratorios/Lab_6/Files/shortest_path.gms",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/test.hcl",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/collatz.hcl",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/vm/collatz.vhcl",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/example1.hcl",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/example3.hcl",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/frontend/__init__.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/vm/__init__.py",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/compiler/__init__.py",
 		"/home/andfoy/Documentos/Universidad/2016/V_Semestre/Optimización/Laboratorios/Lab_5/Files/shortest_path.gms",
 		"/home/andfoy/pattern.c",
-		"/home/andfoy/Documentos/Universidad/GUIA/HCL/TODO.txt",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/src/__init__.py",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/.gitignore",
 		"/home/andfoy/Documentos/Universidad/GUIA/HCL/examples/hcl/eratosthenes.hcl~",
@@ -1266,15 +1257,7 @@
 		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/prestamos.py",
 		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/registro_oficina.py",
 		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/vos/oficina.py",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/vos/puntos_atencion.py",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/listaPuntosAtencion.html",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/selector.js",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/borrow.js",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/js/forms.js",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/cerrarPrestamo.html",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/static/informacionOficina.html",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/request_handler/registro_empleado.py",
-		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/dao/consulta_dao_catalogo.py"
+		"/home/andfoy/Documentos/Universidad/2015/IV Semestre/Sistrans/sis-fibo/model/vos/puntos_atencion.py"
 	],
 	"find":
 	{
@@ -1292,6 +1275,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"process_simple_operand",
+			"free_registers_aux",
+			"LE",
+			"allocation",
+			"SUB",
+			"ident(",
+			";",
+			"read",
 			"stat =",
 			"stat",
 			"ASSIGNMENT",
@@ -1411,15 +1402,7 @@
 			"%",
 			"\\t",
 			"$",
-			"%",
-			"	",
-			",",
-			")",
-			".",
-			"$",
-			"($",
-			"\\t",
-			"$"
+			"%"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1477,7 +1460,7 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": false
 	},
 	"groups":
@@ -1514,7 +1497,7 @@
 						"translation.y": 3287.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
@@ -1542,131 +1525,32 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 114.0,
+						"translation.y": 456.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "src/compiler/frontend/semantic.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16963,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3331,
-								3331
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"history_list_is_closing": true,
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 3,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2160.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "doc/language/LL_Grammar_Description.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1277,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								814,
-								814
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 19,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/vm/atomic.py",
+					"file": "doc/language/HDL_BNF_Description.txt",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 5839,
+						"buffer_size": 1306,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								552,
-								552
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3363.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 20,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 5,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7203,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								440,
-								440
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 3,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1676,78 +1560,141 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "examples/hcl/example1.hcl",
+					"buffer": 3,
+					"file": "src/compiler/frontend/semantic.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 483,
+						"buffer_size": 19186,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								303,
-								303
+								11987,
+								11987
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage"
+							"history_list_is_closing": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5618.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/compiler/backend/codegen.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16765,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12156,
+								12156
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6498.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1177,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								808,
+								808
+							]
+						],
+						"settings":
+						{
+							"auto_name": ";; test.vhcl : Autogenerated file by HCL Compiler",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 684.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/compiler/frontend/__init__.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 187,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								187,
+								187
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "doc/language/LL_Grammar_Description.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1277,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								911,
-								911
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 399.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
 					"buffer": 7,
-					"file": "src/semantic_test.py",
+					"file": "src/compiler/backend/__init__.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1629,
+						"buffer_size": 140,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								86,
-								86
+								139,
+								139
 							]
 						],
 						"settings":
@@ -1759,177 +1706,34 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 14,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 5,
+			"sheets":
+			[
 				{
 					"buffer": 8,
-					"file": "doc/language/Instruction_And_Flow_Control_Dictionaries.txt",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1220,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								308,
-								308
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 741.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt",
+					"file": "examples/hcl/example3.hcl",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2670,
+						"buffer_size": 537,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								447,
-								447
+								350,
+								350
 							]
 						],
 						"settings":
 						{
-							"auto_name": "",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 76.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/vm/atomic.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5839,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2052.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "src/vm/hardware.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 32308,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								115,
-								115
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 171.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 18,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "doc/language/TYPE_Inference_Rules.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1388,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								87,
-								87
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"history_list_is_closing": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "examples/hcl/collatz.hcl",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 429,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								386,
-								386
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
 							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -1941,36 +1745,96 @@
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 9,
+					"file": "examples/vm/unoptimized/collatz.vhcl",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 177,
+						"buffer_size": 644,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								177,
-								177
+								83,
+								83
 							]
 						],
 						"settings":
 						{
-							"auto_name": "while id(node) != id(root):",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 10,
+					"file": "doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2987,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2310,
+								2310
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 358.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "examples/vm/example3.vhcl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1403,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								152,
+								152
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 114.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
 					"file": "doc/language/Inference_Rules.txt",
 					"semi_transient": false,
 					"settings":
@@ -1982,43 +1846,41 @@
 						"selection":
 						[
 							[
-								631,
-								631
+								1142,
+								1142
 							]
 						],
 						"settings":
 						{
-							"auto_name": "plus : int x int -> int",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 285.0,
+						"translation.y": 570.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 13,
+					"file": "examples/hcl/test.hcl",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 123,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								123,
+								123
 							]
 						],
 						"settings":
 						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -2028,91 +1890,60 @@
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "examples/hcl/dutchflag.hcl",
+					"buffer": 14,
+					"file": "src/vm/atomic.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 741,
+						"buffer_size": 5839,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								650,
-								650
+								4538,
+								4538
 							]
 						],
 						"settings":
 						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage",
+							"syntax": "Packages/Python/Python.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3205.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
-					"file": "examples/hcl/fibased.hcl",
+					"buffer": 15,
+					"file": "src/vm/info.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 399,
+						"buffer_size": 196,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								220,
-								220
+								196,
+								196
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Pascal Snippets/Free Pascal.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Python/Python.sublime-syntax"
 						},
-						"translation.x": 0.0,
+						"translation.x": 70.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 18,
-					"file": "examples/vm/selectionsort.vhcl",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1326,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1322,
-								1322
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 98.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
@@ -2120,7 +1951,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 26.0
 	},
 	"input":
 	{
@@ -2146,7 +1977,7 @@
 		"cols":
 		[
 			0.0,
-			0.45810564663,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -2176,7 +2007,7 @@
 	"project": "HCL.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -2186,8 +2017,68 @@
 		"selected_items":
 		[
 			[
+				"tes",
+				"examples/hcl/test.hcl"
+			],
+			[
+				"aot",
+				"src/vm/atomic.py"
+			],
+			[
+				"inf",
+				"src/vm/info.py"
+			],
+			[
+				"infer",
+				"doc/language/Inference_Rules.txt"
+			],
+			[
+				"har",
+				"src/vm/hardware.py"
+			],
+			[
 				"",
 				"doc/language/Instruction_And_Flow_Control_Dictionaries_V2.txt"
+			],
+			[
+				"ato",
+				"src/vm/atomic.py"
+			],
+			[
+				"te",
+				"examples/hcl/test.hcl"
+			],
+			[
+				"col",
+				"examples/hcl/collatz.hcl"
+			],
+			[
+				"hard",
+				"src/vm/hardware.py"
+			],
+			[
+				"co",
+				"examples/hcl/collatz.hcl"
+			],
+			[
+				"colla",
+				"examples/vm/collatz.vhcl"
+			],
+			[
+				"exa",
+				"examples/hcl/example3.hcl"
+			],
+			[
+				"smea",
+				"src/semantic_test.py"
+			],
+			[
+				"ha",
+				"src/vm/hardware.py"
+			],
+			[
+				"test",
+				"src/semantic_test.py"
 			],
 			[
 				"dic",
@@ -2198,14 +2089,6 @@
 				"src/semantic_test.py"
 			],
 			[
-				"exa",
-				"examples/hcl/example1.hcl"
-			],
-			[
-				"col",
-				"examples/hcl/collatz.hcl"
-			],
-			[
 				"iner",
 				"doc/language/Inference_Rules.txt"
 			],
@@ -2214,19 +2097,11 @@
 				"src/vm/hardware.py"
 			],
 			[
-				"ato",
-				"src/vm/atomic.py"
-			],
-			[
 				"ll",
 				"doc/language/LL_Grammar_Description.txt"
 			],
 			[
 				"infe",
-				"doc/language/Inference_Rules.txt"
-			],
-			[
-				"infer",
 				"doc/language/Inference_Rules.txt"
 			],
 			[
@@ -2244,10 +2119,6 @@
 			[
 				"sem",
 				"src/compiler/frontend/semantic.py"
-			],
-			[
-				"hard",
-				"src/vm/hardware.py"
 			],
 			[
 				"sema",
@@ -2318,10 +2189,6 @@
 				"doc/language/TYPE_Inference_Rules.txt"
 			],
 			[
-				"colla",
-				"examples/hcl/collatz.hcl"
-			],
-			[
 				"descr",
 				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
 			],
@@ -2330,32 +2197,16 @@
 				"examples/hcl/dutchflag.hcl"
 			],
 			[
-				"har",
-				"src/vm/hardware.py"
-			],
-			[
 				"instr",
 				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
-			],
-			[
-				"test",
-				"examples/hcl/test.hcl"
 			],
 			[
 				"in",
 				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
 			],
 			[
-				"te",
-				"examples/hcl/test.hcl"
-			],
-			[
 				"ins",
 				"doc/language/Instruction_And_Flow_Control_Dictionaries.txt"
-			],
-			[
-				"tes",
-				"examples/hcl/test.hcl"
 			],
 			[
 				"le",
@@ -2376,10 +2227,6 @@
 			[
 				"ex",
 				"examples/hcl/example1.hcl"
-			],
-			[
-				"smea",
-				"src/compiler/frontend/semantic.py"
 			],
 			[
 				"llta",
@@ -2680,22 +2527,6 @@
 			[
 				"nomina",
 				"model/request_handler/nomina.py"
-			],
-			[
-				"operaco",
-				"model/vos/operacion.py"
-			],
-			[
-				"banc",
-				"model/fachada/bancandes.py"
-			],
-			[
-				"pres",
-				"model/vos/prestamo.py"
-			],
-			[
-				"pre",
-				"model/request_handler/prestamos.py"
 			]
 		],
 		"width": 0.0

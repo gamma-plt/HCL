@@ -299,6 +299,7 @@ def process_operand(node, op, exprs, data, lvl):
           try:
             typ = inference['single'][node.value.token][op_ret[0]]
             op['oper2'] = {'var':None, 'func':None, 'addr':pointers[0], 'index':None, 'type':None, 'num':None}
+            op['type'] = typ
           except KeyError:
             stat = -10
             print(u"File: %s - Line: %d:%d\nDimension Mismatch: Expression: %s - Operator %s is not defined for argument of type %s; Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, node.value.value, op_ret[0], ', '.join(inference['single'][node.value.token].keys())), file=sys.stderr)
@@ -307,6 +308,7 @@ def process_operand(node, op, exprs, data, lvl):
             typ = inference['double'][node.value.token][op_ret[0]][op_ret[1]]
             op['oper1'] = {'var':None, 'func':None, 'addr':pointers[0], 'index':None, 'type':None, 'num':None}
             op['oper2'] = {'var':None, 'func':None, 'addr':pointers[1], 'index':None, 'type':None, 'num':None}
+            op['type'] = typ
           except KeyError:
             stat = -10
             opt = ', '.join(reduce(lambda u,v:u+v, [map(lambda y: u'('+x+', '+y+')', semantic.inference['double'][node.value.token]) for x in semantic.inference['double'][node.value.token]]))

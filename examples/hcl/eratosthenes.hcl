@@ -1,13 +1,13 @@
 program eratosthenes
 begin
-	var n, i, j : int;
-	n, i, j ← 30, 2, 0;
-	var A : array[2 .. n] of boolean;
+	var n, i, j : int
+	n, i, j ← 30, 2, 0
+	var A : array[2 .. 30] of boolean
 	do i * i < n →
 		if A[i] → 
-			j ← i * i;
+			j ← i * i
 			do j < n →
-				A[j] ← false;
+				A[j] ← 0;
 				j ← j + i
 			od;
 		fi
