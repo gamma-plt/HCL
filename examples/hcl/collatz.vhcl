@@ -17,35 +17,34 @@ set n0 integer
 
 readint n0
 do:
-	gss _do2guard0 _do2guard1
+	gss _do0guard0 _do0guard1
 	clc:
 		push n0
 		call even
-		mov .r4bol ..retbol
-		mov _do2guard0 .r4bol
+		mov .r5int ..retbol
+		mov _do0guard0 .r5int
 		push n0
 		call even
-		mov .r2chr ..retbol
-		not .r2chr
-		inc .r2chr
+		mov .r2int ..retbol
+		not .r2int
 		cmp n0 1
 		sgt:
-			mov .r3int 0001
+			mov .r1chr 0001
 		leq:
-			mov .r3int 0000
-		and .r2chr .r3int
-		mov _do2guard1 .r2chr
-	act _do2guard0:
-		mov .r1chr n0
-		div .r1chr 10
-		mov n0 .r1chr
+			mov .r1chr 0000
+		and .r2int .r1chr
+		mov _do0guard1 .r2int
+	act _do0guard0:
+		mov .r4chr n0
+		div .r4chr 10
+		mov n0 .r4chr
 		print n0
 		print nl
-	act _do2guard1:
-		mov .r4int 11
-		mul .r4int n0
-		add .r4int 1
-		mov n0 .r4int
+	act _do0guard1:
+		mov .r3bol 11
+		mul .r3bol n0
+		add .r3bol 1
+		mov n0 .r3bol
 		print n0
 		print nl
 halt
