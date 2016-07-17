@@ -365,7 +365,7 @@ def process_expression(addr, data, lines, ident, index=False):
                 _reg = _aux
                 expr_reg['value'] = _reg
           lines.append(_ident(ident)+'%s %s' % (NOT, _reg))
-          lines.append(_ident(ident)+'%s %s' % (INC, _reg))
+          # lines.append(_ident(ident)+'%s %s' % (INC, _reg))
        else:
           #Case 3: General 3AC operations
           lines, expr_reg = process_general_operation(addr_info, data, lines, ident)
