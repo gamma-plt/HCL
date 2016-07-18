@@ -1,0 +1,28 @@
+set space char
+set nl char
+mov space 100000
+mov nl 001010
+set i0 integer
+set sum0 integer
+set n0 integer
+mov n0 0
+mov sum0 0
+mov i0 0
+readint n0
+do:
+	gss _do0guard0
+	clc:
+		cmp i0 n0
+		slt:
+			mov .r2bol 0001
+		geq:
+			mov .r2bol 0000
+		mov _do0guard0 .r2bol
+	act _do0guard0:
+		mov .r2int sum0
+		add .r2int i0
+		mov sum0 .r2int
+		mov .r3int i0
+		add .r3int 1
+		mov i0 .r3int
+halt

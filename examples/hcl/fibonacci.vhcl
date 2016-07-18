@@ -23,24 +23,25 @@ readint n0
 mov f00 0
 mov f10 1
 mov i0 0
+mov ft0 0
 do:
 	gss _do0guard0
 	clc:
 		cmp i0 n0
 		slt:
-			mov .r4int 0001
+			mov .r2bol 0001
 		geq:
-			mov .r4int 0000
-		mov _do0guard0 .r4int
+			mov .r2bol 0000
+		mov _do0guard0 .r2bol
 	act _do0guard0:
-		mov .r3chr f00
-		add .r3chr f10
-		mov ft0 .r3chr
+		mov .r1bol f00
+		add .r1bol f10
+		mov ft0 .r1bol
 		mov f00 f10
 		mov f10 ft0
-		mov .r4bol i0
-		add .r4bol 1
-		mov i0 .r4bol
+		mov .r3int i0
+		add .r3int 1
+		mov i0 .r3int
 print f00
 print nl
 print f10
