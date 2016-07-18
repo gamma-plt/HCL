@@ -37,7 +37,7 @@ A -> + T A | - T A | EPSILON
 T -> F B
 B -> * F B | / F B | ^ F B | % F B | EPSILON
 F -> ¬ F | - F | ( EXPR ) | V | FUNC
-V -> number | name INDICES | ∞
+V -> false | true | number | name INDICES | ∞
 INDICES -> [ INDEXLIST ] | EPSILON
 INDEXLIST -> E NEXTIDX
 NEXTIDX -> : E NEXTIDX | , E NEXTIDX | EPSILON

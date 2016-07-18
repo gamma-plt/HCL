@@ -7,14 +7,14 @@ begin
 		if A[i] → 
 			j ← i * i
 			do j < n →
-				A[j] ← 0
+				A[j] ← false
 				j ← j + i
-			od;
+			od
 		fi
 		i ← i + 1
 	od
 
-	i ← 2;
+	i ← 2
 	do i < n →
 		if A[i] → print i
 		fi

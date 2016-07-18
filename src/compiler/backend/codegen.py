@@ -50,8 +50,8 @@ NEWLINE = 'nl'
 SPACE_VAL = '100000'
 NEWLINE_VAL = '001010'
 
-FALSE = '0000'
-TRUE = '0001'
+FALSE = '0'
+TRUE = '1'
 
 INT = 'integer'
 BOOL = 'boolean'
@@ -217,7 +217,7 @@ def if_gen(guard_key, data, lines, ident):
     count['if'] += 1
     lines.append(_ident(ident)+'%s %s' % (GSS, ' '.join(guard_list)))
     for guard_name, guard in zip(guard_list, guards_info):
-        lines.append(_ident(ident)+';; Calculating %s' % (guard_name))
+        # lines.append(_ident(ident)+';; Calculating %s' % (guard_name))
         lines, guard_reg = process_expression(guard['expr'], data, lines, ident)
         lines.append(_ident(ident)+'%s %s %s' % (MOV, guard_name, guard_reg['value']))
         guard_reg['free'].append(guard_reg['value'])
@@ -474,10 +474,17 @@ def process_single_constant(var_info, index):
     reg = ''
     reg_alloc = False
     expr_reg = {'value':reg, 'register':reg_alloc, 'free':free}
-    if index:
-       reg = str(var_info[NUM].value)
+    if var_info[NUM].token == 'infty':
+       reg = '..infty_pos' 
+    elif var_info[NUM].token == 'true':
+       reg = '1'
+    elif var_info[NUM].token == 'false':
+       reg = '0'
     else:
-       reg = bin(int(var_info[NUM].value))[2:]
+       if index:
+          reg = str(var_info[NUM].value)
+       else:
+          reg = bin(int(var_info[NUM].value))[2:]
     expr_reg['value'] = reg
     return expr_reg
 

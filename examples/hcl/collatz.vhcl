@@ -21,30 +21,30 @@ do:
 	clc:
 		push n0
 		call even
-		mov .r4chr ..retbol
-		mov _do0guard0 .r4chr
+		mov .r4bol ..retbol
+		mov _do0guard0 .r4bol
 		push n0
 		call even
-		mov .r3int ..retbol
-		not .r3int
+		mov .r3chr ..retbol
+		not .r3chr
 		cmp n0 1
 		sgt:
-			mov .r1int 0001
+			mov .r2bol 1
 		leq:
-			mov .r1int 0000
-		and .r3int .r1int
-		mov _do0guard1 .r3int
+			mov .r2bol 0
+		and .r3chr .r2bol
+		mov _do0guard1 .r3chr
 	act _do0guard0:
-		mov .r5int n0
-		div .r5int 10
-		mov n0 .r5int
+		mov .r4bol n0
+		div .r4bol 10
+		mov n0 .r4bol
 		print n0
 		print nl
 	act _do0guard1:
-		mov .r4bol 11
-		mul .r4bol n0
-		add .r4bol 1
-		mov n0 .r4bol
+		mov .r2int 11
+		mul .r2int n0
+		add .r2int 1
+		mov n0 .r2int
 		print n0
 		print nl
 halt
