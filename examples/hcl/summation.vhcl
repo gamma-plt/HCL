@@ -33,17 +33,17 @@ do:
 	clc:
 		cmp i0 n0
 		leq:
-			mov .r4int 1
+			mov .r3chr 1
 		sgt:
-			mov .r4int 0
-		mov _do0guard0 .r4int
+			mov .r3chr 0
+		mov _do0guard0 .r3chr
 	act _do0guard0:
-		mov .r1bol sum0
-		add .r1bol i0
-		mov sum0 .r1bol
-		mov .r2bol i0
-		add .r2bol 1
-		mov i0 .r2bol
+		mov .r5chr sum0
+		add .r5chr i0
+		mov sum0 .r5chr
+		mov .r1int i0
+		add .r1int 1
+		mov i0 .r1int
 mov r0 1010010
 mov e0 1100101
 mov s0 1110011
