@@ -2,13 +2,13 @@
 
 ;; Auxiliar character defintion
 ;; Space character
-set space char
+set _sysspace char
 ;; New Line character
-set nl char
+set _sysnl char
 ;; Space character initialization
-mov space 100000
+mov _sysspace 100000
 ;; New Line character initialization
-mov nl 001010
+mov _sysnl 001010
 
 ;; General variable defintion
 set f00 integer
@@ -29,21 +29,21 @@ do:
 	clc:
 		cmp i0 n0
 		slt:
-			mov .r2bol 0001
+			mov .r5chr 1
 		geq:
-			mov .r2bol 0000
-		mov _do0guard0 .r2bol
+			mov .r5chr 0
+		mov _do0guard0 .r5chr
 	act _do0guard0:
 		mov .r1bol f00
 		add .r1bol f10
 		mov ft0 .r1bol
 		mov f00 f10
 		mov f10 ft0
-		mov .r3int i0
-		add .r3int 1
-		mov i0 .r3int
-print f00
-print nl
-print f10
-print nl
+		mov .r1chr i0
+		add .r1chr 1
+		mov i0 .r1chr
+		print f00
+		print _sysspace
+		print f10
+		print _sysnl
 halt

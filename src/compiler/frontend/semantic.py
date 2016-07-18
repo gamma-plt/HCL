@@ -43,17 +43,14 @@ READ_R = READ.upper()
 
 TRUE = 'true'
 FALSE = 'false'
+CHARACTER = 'character'
 
 inference = {'single':{}, 'double':{}}
 count = {'addr':0, 'lvl':0, 'index':0, 'func':0, 'assign':0, 'guard':0}
 
 VM_TYPES = {'INTEGER':INT, 'BOOLEAN':BOOLEAN, 'CHAR':CHAR}
 
-def analyse(path):
-    tree, status_code = parser.parse(path)
-    if status_code != 0:
-       print("Compiler exited with status %d" % (status_code), file=sys.stderr)
-       return None, status_code
+def analyse(tree, path):
     lvl = -1
     
     scope = {}
@@ -106,7 +103,7 @@ def analyse(path):
            info[t[0]] = res
       
     stat, scope = process_program(node, data, lvl)
-    return stat, tree, data
+    return stat, data
 
 def process_program(node, data, lvl):
     #Node - Rule: SCOPE
@@ -277,6 +274,13 @@ def process_expr(node, data, lvl, _type=None):
        addr = 'addr%d' % (count['addr'])
        data['addresses'][addr] = op
        count['addr'] += 1
+    elif node.value.token == CHARACTER:
+       typ = CHAR
+       operator['num'] = node.value
+       op['oper1'] = operator
+       addr = 'addr%d' % (count['addr'])
+       data['addresses'][addr] = op
+       count['addr'] += 1
     elif node.value.token in operators:
        stat, typ = process_operand(node, op, exprs, data, lvl)
        addr = 'addr%d' % (count['addr'])
@@ -312,7 +316,7 @@ def process_operand(node, op, exprs, data, lvl):
             op['type'] = typ
           except KeyError:
             stat = -10
-            print(u"File: %s - Line: %d:%d\nDimension Mismatch: Expression: %s - Operator %s is not defined for argument of type %s; Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, node.value.value, op_ret[0], ', '.join(inference['single'][node.value.token].keys())), file=sys.stderr)
+            print(u"File: %s - Line: %d:%d\nType Mismatch: Expression: %s - Operator %s is not defined for argument of type %s; Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, node.value.value, op_ret[0], ', '.join(inference['single'][node.value.token].keys())), file=sys.stderr)
        elif len(op_ret) == 2:
           try:
             typ = inference['double'][node.value.token][op_ret[0]][op_ret[1]]
@@ -321,8 +325,8 @@ def process_operand(node, op, exprs, data, lvl):
             op['type'] = typ
           except KeyError:
             stat = -10
-            opt = ', '.join(reduce(lambda u,v:u+v, [map(lambda y: u'('+x+', '+y+')', semantic.inference['double'][node.value.token]) for x in semantic.inference['double'][node.value.token]]))
-            print(u"File: %s - Line: %d:%d\nDimension Mismatch: Expression: %s - Operator %s is not defined for arguments of type (%s, %s); Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, node.value.value, op_ret[0], op_ret[1], opt), file=sys.stderr)       
+            opt = ', '.join(reduce(lambda u,v:u+v, [map(lambda y: u'('+x+', '+y+')', inference['double'][node.value.token]) for x in inference['double'][node.value.token]]))
+            print(u"File: %s - Line: %d:%d\nType Mismatch: Expression: %s - Operator %s is not defined for arguments of type (%s, %s); Expected: %s" % (data['path'], node.value.line, node.value.col, exprs, node.value.value, op_ret[0], op_ret[1], opt), file=sys.stderr)       
     return stat, typ
 
 def process_var(node, operator, exprs, data, lvl):

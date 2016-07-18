@@ -24,49 +24,49 @@ mov j0 0
 do:
 	gss _do0guard0
 	clc:
-		mov .r4int i0
-		mul .r4int i0
-		cmp .r4int n0
+		mov .r4chr i0
+		mul .r4chr i0
+		cmp .r4chr n0
 		slt:
-			mov .r4int 1
+			mov .r4chr 1
 		geq:
-			mov .r4int 0
-		mov _do0guard0 .r4int
+			mov .r4chr 0
+		mov _do0guard0 .r4chr
 	act _do0guard0:
 		if:
 			gss _if0guard0
 			mov _if0guard0 A0[i0]
 			act _if0guard0:
-				mov .r2int i0
-				mul .r2int i0
-				mov j0 .r2int
+				mov .r2chr i0
+				mul .r2chr i0
+				mov j0 .r2chr
 				do:
 					gss _do1guard0
 					clc:
 						cmp j0 n0
 						slt:
-							mov .r1int 1
+							mov .r1bol 1
 						geq:
-							mov .r1int 0
-						mov _do1guard0 .r1int
+							mov .r1bol 0
+						mov _do1guard0 .r1bol
 					act _do1guard0:
 						mov A0[j0] 0
-						mov .r5bol j0
-						add .r5bol i0
-						mov j0 .r5bol
-		mov .r5chr i0
-		add .r5chr 1
-		mov i0 .r5chr
+						mov .r1int j0
+						add .r1int i0
+						mov j0 .r1int
+		mov .r5int i0
+		add .r5int 1
+		mov i0 .r5int
 mov i0 10
 do:
 	gss _do2guard0
 	clc:
 		cmp i0 n0
 		slt:
-			mov .r3chr 1
+			mov .r5int 1
 		geq:
-			mov .r3chr 0
-		mov _do2guard0 .r3chr
+			mov .r5int 0
+		mov _do2guard0 .r5int
 	act _do2guard0:
 		if:
 			gss _if1guard0
@@ -74,7 +74,7 @@ do:
 			act _if1guard0:
 				print i0
 				print nl
-		mov .r4int i0
-		add .r4int 1
-		mov i0 .r4int
+		mov .r2chr i0
+		add .r2chr 1
+		mov i0 .r2chr
 halt
