@@ -16,7 +16,8 @@ begin
 
 	i ← 2
 	do i < n →
-		if A[i] → print i fi
+		if A[i] → print i
+		fi
 		i ← i + 1
 	od;
 end
