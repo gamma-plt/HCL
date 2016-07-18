@@ -41,6 +41,9 @@ DEFINITION = u'DEFINITION'
 PRINT = u'PRINT'
 READ_R = READ.upper()
 
+TRUE = 'true'
+FALSE = 'false'
+
 inference = {'single':{}, 'double':{}}
 count = {'addr':0, 'lvl':0, 'index':0, 'func':0, 'assign':0, 'guard':0}
 
@@ -262,6 +265,13 @@ def process_expr(node, data, lvl, _type=None):
        count['addr'] += 1
     elif node.value.token == NUM or node.value.token == INF:
        typ = INT
+       operator['num'] = node.value
+       op['oper1'] = operator
+       addr = 'addr%d' % (count['addr'])
+       data['addresses'][addr] = op
+       count['addr'] += 1
+    elif node.value.token == TRUE or node.value.token == FALSE:
+       typ = BOOLEAN
        operator['num'] = node.value
        op['oper1'] = operator
        addr = 'addr%d' % (count['addr'])
