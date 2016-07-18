@@ -12,69 +12,90 @@ mov nl 001010
 
 ;; General variable defintion
 set i0 integer
-set A0 boolean#29
+set A0 boolean#99
 set j0 integer
 set n0 integer
 
 ;; General program execution routine
 
-mov n0 11110
-mov i0 10
+mov n0 0
+mov i0 0
 mov j0 0
+readint n0
+push n0
+push 1011010
+call max
+mov .r4bol ..retint
+mov n0 .r4bol
 do:
 	gss _do0guard0
 	clc:
-		mov .r4int i0
-		mul .r4int i0
-		cmp .r4int n0
+		cmp i0 n0
 		slt:
 			mov .r4int 1
 		geq:
 			mov .r4int 0
 		mov _do0guard0 .r4int
 	act _do0guard0:
+		mov A0[i0] 1
+		mov .r2chr i0
+		add .r2chr 1
+		mov i0 .r2chr
+mov i0 10
+do:
+	gss _do1guard0
+	clc:
+		mov .r2chr i0
+		mul .r2chr i0
+		cmp .r2chr n0
+		slt:
+			mov .r2chr 1
+		geq:
+			mov .r2chr 0
+		mov _do1guard0 .r2chr
+	act _do1guard0:
 		if:
 			gss _if0guard0
 			mov _if0guard0 A0[i0]
 			act _if0guard0:
-				mov .r2int i0
-				mul .r2int i0
-				mov j0 .r2int
+				mov .r1int i0
+				mul .r1int i0
+				mov j0 .r1int
 				do:
-					gss _do1guard0
+					gss _do2guard0
 					clc:
 						cmp j0 n0
 						slt:
-							mov .r1int 1
+							mov .r3chr 1
 						geq:
-							mov .r1int 0
-						mov _do1guard0 .r1int
-					act _do1guard0:
+							mov .r3chr 0
+						mov _do2guard0 .r3chr
+					act _do2guard0:
 						mov A0[j0] 0
-						mov .r5bol j0
-						add .r5bol i0
-						mov j0 .r5bol
-		mov .r5chr i0
-		add .r5chr 1
-		mov i0 .r5chr
+						mov .r3chr j0
+						add .r3chr i0
+						mov j0 .r3chr
+		mov .r2int i0
+		add .r2int 1
+		mov i0 .r2int
 mov i0 10
 do:
-	gss _do2guard0
+	gss _do3guard0
 	clc:
 		cmp i0 n0
 		slt:
 			mov .r3chr 1
 		geq:
 			mov .r3chr 0
-		mov _do2guard0 .r3chr
-	act _do2guard0:
+		mov _do3guard0 .r3chr
+	act _do3guard0:
 		if:
 			gss _if1guard0
 			mov _if1guard0 A0[i0]
 			act _if1guard0:
 				print i0
 				print nl
-		mov .r4int i0
-		add .r4int 1
-		mov i0 .r4int
+		mov .r5bol i0
+		add .r5bol 1
+		mov i0 .r5bol
 halt

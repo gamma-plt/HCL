@@ -1,8 +1,16 @@
 program eratosthenes
 begin
 	var n, i, j : int
-	n, i, j ← 30, 2, 0
-	var A : array[2 .. 30] of boolean
+	n, i, j ← 0, 0, 0
+	read(n)
+	var A : array[2 .. 100] of boolean
+	
+	do i < n →
+		A[i] ← true
+		i ← i + 1
+	od;
+
+	i ← 2
 	do i * i < n →
 		if A[i] → 
 			j ← i * i
@@ -16,8 +24,7 @@ begin
 
 	i ← 2
 	do i < n →
-		if A[i] → print i
-		fi
+		if A[i] → print i fi
 		i ← i + 1
 	od;
 end
