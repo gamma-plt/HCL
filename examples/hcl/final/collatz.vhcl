@@ -2,13 +2,13 @@
 
 ;; Auxiliar character defintion
 ;; Space character
-set space char
+set _sysspace char
 ;; New Line character
-set nl char
+set _sysnl char
 ;; Space character initialization
-mov space 100000
+mov _sysspace 100000
 ;; New Line character initialization
-mov nl 001010
+mov _sysnl 001010
 
 ;; General variable defintion
 set n0 integer
@@ -21,30 +21,28 @@ do:
 	clc:
 		push n0
 		call even
-		mov .r3chr ..retbol
-		mov _do0guard0 .r3chr
+		mov .r3int ..retbol
+		mov _do0guard0 .r3int
 		push n0
 		call even
-		mov .r2chr ..retbol
-		not .r2chr
+		mov .r3bol ..retbol
+		not .r3bol
 		cmp n0 1
 		sgt:
-			mov .r5bol 1
+			mov .r4int 1
 		leq:
-			mov .r5bol 0
-		and .r2chr .r5bol
-		mov _do0guard1 .r2chr
+			mov .r4int 0
+		and .r3bol .r4int
+		mov _do0guard1 .r3bol
 	act _do0guard0:
-		mov .r4int n0
-		div .r4int 10
-		mov n0 .r4int
+		mov .r4chr n0
+		div .r4chr 10
+		mov n0 .r4chr
 		print n0
-		print nl
 	act _do0guard1:
-		mov .r1chr 11
-		mul .r1chr n0
-		add .r1chr 1
-		mov n0 .r1chr
+		mov .r3bol 11
+		mul .r3bol n0
+		add .r3bol 1
+		mov n0 .r3bol
 		print n0
-		print nl
 halt
