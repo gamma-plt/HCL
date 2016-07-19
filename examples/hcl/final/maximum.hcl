@@ -2,6 +2,9 @@ program maximum
 begin
 	var n, i, max, curr : int
 	var a : array[0 .. 20] of int
+	var newline, space : char
+	newline ← "\n"
+    space ← " "
 
 	read(n)
 
@@ -19,5 +22,7 @@ begin
 		i ← i + 1
 	od
 
+	print newline
 	print max
+	print newline
 end

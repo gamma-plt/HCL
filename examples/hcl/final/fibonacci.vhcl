@@ -32,19 +32,19 @@ do:
 	clc:
 		cmp i0 n0
 		slt:
-			mov .r3chr 1
+			mov .r4int 1
 		geq:
-			mov .r3chr 0
-		mov _do0guard0 .r3chr
+			mov .r4int 0
+		mov _do0guard0 .r4int
 	act _do0guard0:
-		mov .r1int f00
-		add .r1int f10
-		mov ft0 .r1int
+		mov .r3int f00
+		add .r3int f10
+		mov ft0 .r3int
 		mov f00 f10
 		mov f10 ft0
-		mov .r4bol i0
-		add .r4bol 1
-		mov i0 .r4bol
+		mov .r3chr i0
+		add .r3chr 1
+		mov i0 .r3chr
 		print f00
 		print newline0
 halt

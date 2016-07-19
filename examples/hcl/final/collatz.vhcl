@@ -11,38 +11,46 @@ mov _sysspace 100000
 mov _sysnl 001010
 
 ;; General variable defintion
+set newline0 char
+set space0 char
 set n0 integer
 
 ;; General program execution routine
 
+mov newline0 _sysnl
+mov space0 _sysspace
 readint n0
+print newline0
 do:
 	gss _do0guard0 _do0guard1
 	clc:
 		push n0
 		call even
-		mov .r3int ..retbol
-		mov _do0guard0 .r3int
+		mov .r5int ..retbol
+		mov _do0guard0 .r5int
 		push n0
 		call even
-		mov .r3bol ..retbol
-		not .r3bol
+		mov .r1bol ..retbol
+		not .r1bol
 		cmp n0 1
 		sgt:
-			mov .r4int 1
+			mov .r5chr 1
 		leq:
-			mov .r4int 0
-		and .r3bol .r4int
-		mov _do0guard1 .r3bol
+			mov .r5chr 0
+		and .r1bol .r5chr
+		mov _do0guard1 .r1bol
 	act _do0guard0:
-		mov .r4chr n0
-		div .r4chr 10
-		mov n0 .r4chr
+		mov .r4int n0
+		div .r4int 10
+		mov n0 .r4int
 		print n0
+		print space0
 	act _do0guard1:
-		mov .r3bol 11
-		mul .r3bol n0
-		add .r3bol 1
-		mov n0 .r3bol
+		mov .r1chr 11
+		mul .r1chr n0
+		add .r1chr 1
+		mov n0 .r1chr
 		print n0
+		print space0
+print newline0
 halt
