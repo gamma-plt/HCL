@@ -2,35 +2,28 @@
 
 ;; Auxiliar character defintion
 ;; Space character
-set space char
+set _sysspace char
 ;; New Line character
-set nl char
+set _sysnl char
 ;; Space character initialization
-mov space 100000
+mov _sysspace 100000
 ;; New Line character initialization
-mov nl 001010
+mov _sysnl 001010
 
 ;; General variable defintion
+set e0 char
 set i0 integer
-set a0 integer
 set sum0 integer
-set b0 integer
+set l0 char
 set n0 integer
+set s0 char
+set r0 char
+set u0 char
+set t0 char
+set colon0 char
 
 ;; General program execution routine
 
-mov a0 0
-mov b0 1
-print a0
-print nl
-print b0
-print nl
-mov a0 b0
-mov b0 a0
-print a0
-print nl
-print b0
-print nl
 mov n0 0
 mov sum0 0
 mov i0 0
@@ -38,21 +31,34 @@ readint n0
 do:
 	gss _do0guard0
 	clc:
-		mov .r2chr n0
-		add .r2chr 1
-		cmp i0 .r2chr
-		slt:
-			mov .r4int 1
-		geq:
-			mov .r4int 0
-		mov _do0guard0 .r4int
+		cmp i0 n0
+		leq:
+			mov .r2bol 1
+		sgt:
+			mov .r2bol 0
+		mov _do0guard0 .r2bol
 	act _do0guard0:
-		mov .r5chr sum0
-		add .r5chr i0
-		mov sum0 .r5chr
-		mov .r5chr i0
-		add .r5chr 1
-		mov i0 .r5chr
+		mov .r1bol sum0
+		add .r1bol i0
+		mov sum0 .r1bol
+		mov .r3int i0
+		add .r3int 1
+		mov i0 .r3int
+mov r0 1010010
+mov e0 1100101
+mov s0 1110011
+mov u0 1110101
+mov l0 1101100
+mov t0 1110100
+mov colon0 111010
+print r0
+print e0
+print s0
+print u0
+print l0
+print t0
+print colon0
+print _sysspace
 print sum0
-print nl
+print _sysnl
 halt

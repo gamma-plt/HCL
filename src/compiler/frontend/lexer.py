@@ -15,7 +15,7 @@ regex = {'comma':'^[,]$', 'semicolon':'^[;]$', 'colon':'^[:]$', 'slice':'^[.][.]
          'empty':u'^∅$', 'guard_sep':u'^□$', 'left_rparen':r'^[(]$',
          'right_rparen':r'^[)]$', 'left_sparen':r'^[[]$', 'right_sparen':r'^[]]$',
          'assignment':u'^←$', 'guard_exec':u'^→$', 'comment':r'[{].*', 'power':r'^\^$',
-         'func':r'^[a-zA-Z_]\w*[(]$'}
+         'func':r'^[a-zA-Z_]\w*[(]$', 'character':r'^["][\\]?[a-zA-Z0-9_!"#$%&/()=?\'\-+\*\[\]\{\}/~\^@,.:;<>|¬` ]["]$'}
 
 keywords = {'program':'PROGRAM', 'begin':'BEGIN' ,'if':'IF', 'fi':'FI', 'begin':'BEGIN', 'end':'END', 'do':'DO', 'od':'OD',
             'for':'FOR', 'rof':'ROF', 'abort':'ABORT', 'skip':'SKIP', 'array':'ARRAY',
@@ -68,9 +68,7 @@ def remove_trailing_spaces(s):
        comp = s[init_idx:end_idx+1]
     return comp
 
-def lex(filename):
-    with codecs.open(filename, 'rb', 'utf-8') as fp:
-       lines = fp.readlines()
+def lex(lines, filename):
     status_code = 0
     tokens = []
     for lc, line in enumerate(lines):
@@ -105,15 +103,32 @@ def lex(filename):
                      i -= 1
                   else:
                      if word != '.':
-                        print("File: %s - Line: %d:%d\nSyntax Error: Unrecognized or invalid symbol: %s" % (filename, lc+1, i+1, word), file=sys.stderr)
-                        status_code = -1
+                        fault = True
+                        if '"' in word:
+                           increm = 3
+                           if i+1 <= len(line):
+                              if line[i+1] == '\\':
+                                 increm = 4
+                           word = line[i:i+increm]
+                           # print(word)
+                           if len(re.findall(regex['character'], word)) > 0:
+                              tokens.append(Token('character', word, lc+1, i+1))
+                              fault = False
+                              word = ''
+                              last_id = None
+                              i += increm+1 
+                           else:
+                              word = line[i]
+                        if fault:
+                           print("File: %s - Line: %d:%d\nSyntax Error: Unrecognized or invalid symbol: %s" % (filename, lc+1, i+1, word), file=sys.stderr)
+                           status_code = -1
             else:
                if last_id is not None:
                   tokens.append(Token(last_id, word, lc+1, i+1))
                word = ''
                last_id = None
             i += 1
-    return tokens, status_code
+    return status_code, tokens
 
 
 

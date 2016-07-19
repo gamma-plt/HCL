@@ -13,15 +13,15 @@ begin
 	od
 
 	do n ≠ N ∧ c ≠ 2 → 
-		if X[n] = 0 → c ← c + 1 g ← a
+		if X[n] = 0 → c ← c + 1
 	     □ X[n] ≠ 0 → skip
 	    fi
 	    n ← n + 1
 	od;
 
+    var s, t, r : int
 	if c < 2 → r ← ∞
 	 □ c = 2 → 
-	 		var s, t, r : int
 	 		s ← 0
 	 		do X[s] ≠ 0 → s ← s + 1 od
 	 		t ← s + 1

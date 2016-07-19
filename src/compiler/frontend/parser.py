@@ -98,11 +98,7 @@ def equiv(sym, reverse):
               break
     return n
 
-def parse(path, debug=False):
-    tokens, status_code = lexer.lex(path)
-    if status_code != 0:
-       print("Compiler exited with status -1", file=sys.stderr)
-       return None, -1
+def parse(tokens, path, debug=False):
     reverse = dict(zip(lexer.regex.values(), lexer.regex.keys()))
     G, FNE, FLL, LL = LLT.LL(GRAMMAR_PATH)
     tab = {}
@@ -162,7 +158,7 @@ def parse(path, debug=False):
     if status_code == 0:
        remove_epsilon_productions(root)
        process_expressions(tree)
-    return root, status_code
+    return status_code, root
 
 def output(tokens, stack):
     if len(tokens) > 5:
