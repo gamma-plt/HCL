@@ -46,3 +46,4 @@ http://stackoverflow.com/questions/13159564/explain-this-implementation-of-mallo
 http://stackoverflow.com/questions/3479330/how-is-malloc-implemented-internally
 http://stackoverflow.com/questions/5422061/malloc-implementation
 http://g.oswego.edu/dl/html/malloc.html
+https://github.com/GracielaUSB
